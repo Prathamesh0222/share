@@ -54,7 +54,6 @@ userRouter.post("/signin", async (req, res) => {
         select: {
             id: true,
             email: true,
-            name: true,
             password: true,
         }
     })
