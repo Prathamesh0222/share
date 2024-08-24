@@ -1,24 +1,25 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ThemeProvider } from "@/components/theme-provider";
 
-import {  SIGNUP_URL } from "./constants/config";
+import {  BLOG_URL, SIGNIN_URL, SIGNUP_URL } from "./constants/config";
 import { Signup } from "./routes/Signup";
 import { Toaster } from "sonner";
+import { Signin } from "./routes/Signin";
+import { Blog } from "./routes/Blog";
+import { DotBackground } from "./components/dotBackground";
 
 function App() {
   return (
     <>
-      <div
-        className="absolute top-0 z-[-2] h-screen w-screen dark:bg-[#000000] dark:bg-[radial-gradient(#ffffff33_1px,#00091d_1px)]
-        dark:bg-[size:20px_20px] bg-[#ffffff] bg-[radial-gradient(#00000033_1px,#ffffff_1px)] bg-[size:20px_20px]"
-        aria-hidden="true"
-      />
+    <DotBackground/>
       <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
         <Toaster/>
         <div>
           <BrowserRouter>
             <Routes>
               <Route path={SIGNUP_URL} element={<Signup />} />
+              <Route path={SIGNIN_URL} element={<Signin />} />
+              <Route path={BLOG_URL} element={<Blog />} />
             </Routes>
           </BrowserRouter>
         </div>

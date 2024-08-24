@@ -1,5 +1,5 @@
 import { ModeToggle } from "@/components/mode-toggle";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -17,18 +17,28 @@ export const Auth = ({ type }: { type: "signup" | "signin" }) => {
     password: "",
   });
 
+  useEffect(()=>{
+    const token = localStorage.getItem("token");
+    if(token){
+      navigate(BLOG_URL);
+    }
+  })
+
   const togglePassword = () => {
     setShowPassword((prev) => !prev);
   };
 
   const handleSubmit = async () => {
-    if (!inputs.name || !inputs.email || !inputs.password) {
+    if (type === "signup" && (!inputs.name || !inputs.email || !inputs.password)) {
       toast("All fields are required.");
+      return;
+    } else if (type === "signin" && (!inputs.email || !inputs.password)) {
+      toast("Email and password are required.");
       return;
     }
     try {
       const res = await axios.post(
-        `${BACKEND_URL}/api/v1/${type === "signup" ? "signup" : "signin"}`,
+        `${BACKEND_URL}/api/v1/user/${type === "signup" ? "signup" : "signin"}`,
         inputs
       );
       const jwt = res.data;
@@ -55,36 +65,42 @@ export const Auth = ({ type }: { type: "signup" | "signin" }) => {
           <div className="flex justify-center">
             <div className="dark:bg-[#00091D] bg-white w-[50vh] items-center pb-7 pt-10 px-8 h-max text-center shadow-lg border rounded-xl">
               <span className="flex justify-center mb-8 text-4xl font-semibold">
-                Register
+                {type === "signin" ? "Login" : "Register"}
               </span>
               <div>
+                {type === "signup" ?
+                <div>
+                <span className="flex justify-start py-2 font-semibold">Username</span>
                 <Input
                   placeholder="John Doe"
                   type="text"
-                  className="mb-4"
+                  className="mb-4 font-semibold"
                   onChange={(e) =>
                     setInputs({ ...inputs, name: e.target.value })
                   }
                 />
+                </div>
+                 : null}
+                <span className="flex justify-start py-2 font-semibold">Email</span>
                 <Input
                   placeholder="name@example.com"
                   type="email"
-                  className="mb-4"
+                  className="mb-4 font-semibold"
                   onChange={(e) =>
                     setInputs({ ...inputs, email: e.target.value })
                   }
                 />
-
+                <span className="flex justify-start py-2 font-semibold">Password</span>
                 <Input
                   placeholder="********"
                   type={showPassword ? 'text' : 'password'}
-                  className="mb-4"
+                  className="mb-4 font-semibold"
                   onChange={(e) =>
                     setInputs({ ...inputs, password: e.target.value })
                   }
                 />
                 <button
-                  className="absolute px-4 text-gray-600 right-50"
+                  className="relative px-4 left-48 text-gray-600 bottom-[2.85rem]"
                   onClick={togglePassword}
                 >
                   {showPassword ? (
@@ -136,8 +152,10 @@ export const Auth = ({ type }: { type: "signup" | "signin" }) => {
                   <Link
                     className="underline"
                     to={type === "signin" ? "/signup" : "/signin"}
-                  ></Link>
-                  {type === "signin" ? "Sign up" : "Sign in"}
+                  >
+                    {type === "signin" ? "Sign up" : "Sign in"}
+                  </Link>
+                  
                 </span>
               </div>
             </div>
