@@ -42,10 +42,11 @@ export const Auth = ({ type }: { type: "signup" | "signin" }) => {
         inputs
       );
       const jwt = res.data;
-      localStorage.setItem("token", jwt);
+      localStorage.setItem("token",JSON.stringify(jwt));
       navigate(BLOG_URL);
       toast("Logged in successfully");
     } catch (error) {
+      console.error(error);
       toast("Invalid input. Please check your details and try again.");
     }
   };

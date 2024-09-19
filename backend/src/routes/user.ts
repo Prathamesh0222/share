@@ -71,9 +71,14 @@ userRouter.post("/signin", async (req, res) => {
         });
     }
 
+    const token = jwt.sign({
+        id: user.id,
+    }, process.env.JWT_SECRET!)
+
+
     return res.status(200).json({
-        message: "User signed in successfully",
-        user,
+        message: "Logged in successfully",
+        token,
     })
 
 })
