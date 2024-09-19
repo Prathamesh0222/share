@@ -1,42 +1,29 @@
-import { BlogCard } from "@/components/BlogCard"
-import { Header } from "@/components/Header"
+import { BlogCard } from "@/components/BlogCard";
+import { Header } from "@/components/Header";
+import { useBlog } from "@/hooks/useBlog";
 
-export const Blog = () => {
-    return (
-        <div>
-            <Header/>
-            <div className="flex justify-center">
-            <BlogCard
-            title="Blog Title"
-            content="lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
-            author="Author"
-            publishedDate="Published Date"
-            />
-            </div>
-            <div className="flex justify-center">
-            <BlogCard
-            title="Blog Title"
-            content="lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
-            author="Author"
-            publishedDate="Published Date"
-            />
-            </div>
-            <div className="flex justify-center">
-            <BlogCard
-            title="Blog Title"
-            content="lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
-            author="Author"
-            publishedDate="Published Date"
-            />
-            </div>
-            <div className="flex justify-center">
-            <BlogCard
-            title="Blog Title"
-            content="lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
-            author="Author"
-            publishedDate="Published Date"
-            />
-            </div>
-        </div>
-    )
-}
+const Blog = () => {
+  const { blogs, loading } = useBlog();
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  return (
+    <div>
+      <Header />
+      {blogs.map((blog) => (
+        <BlogCard
+          key={blog.id}
+          id={blog.id}
+          author={blog.author}
+          title={blog.title}
+          content={blog.content}
+          publishedDate={"2nd Feb 2024"}
+        />
+      ))}
+    </div>
+  );
+};
+
+export default Blog;
