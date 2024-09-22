@@ -12,16 +12,23 @@ const Blog = () => {
   return (
     <div>
       <Header />
-      {blogs.map((blog) => (
-        <BlogCard
-          key={blog.id}
-          id={blog.id}
-          author={blog.author}
-          title={blog.title}
-          content={blog.content}
-          publishedDate={"2nd Feb 2024"}
-        />
-      ))}
+      <div className="py-6 sm:px-0">
+        <h1 className="mb-6 text-3xl font-bold text-center text-gray-900 dark:text-white">
+          Latest Blogs
+        </h1>
+        <div className="space-y-4">
+          {blogs.map((blog) => (
+            <BlogCard
+              key={blog.id}
+              id={blog.id}
+              author={blog.author}
+              title={blog.title}
+              content={blog.content}
+              publishedDate={"2nd Feb 2024"}
+            />
+          ))}
+        </div>
+      </div>
     </div>
   );
 };

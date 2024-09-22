@@ -1,6 +1,7 @@
 import { SquarePen } from "lucide-react";
 import { Avatar } from "./Avatar";
 import { ModeToggle } from "./mode-toggle";
+import { Link } from "react-router-dom";
 
 export const Header = () => {
   return (
@@ -10,10 +11,13 @@ export const Header = () => {
           <ModeToggle />
         </div>
         <div className="flex items-center justify-end w-full gap-6 mx-8">
-          <span className="flex items-center gap-2 cursor-pointer">
-            <SquarePen size={17} />
-            Write
-          </span>
+          <Link to={"/publish"}>
+            {" "}
+            <span className="flex items-center gap-2 cursor-pointer hover:underline">
+              <SquarePen size={17} />
+              Write
+            </span>
+          </Link>
           <Avatar />
         </div>
       </div>
