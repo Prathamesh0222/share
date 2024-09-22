@@ -1,4 +1,4 @@
-import { Bookmark } from "lucide-react";
+import { BookmarkIcon } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
@@ -28,45 +28,43 @@ export const BlogCard = ({
   };
 
   return (
-    <Link to={`/blog/${id}`}>
-      <div className="container p-4 mx-auto">
-        <div className="max-w-4xl p-4 mx-auto bg-white rounded-lg shadow-md md:p-6 lg:p-8 dark:bg-gray-800">
-          <div className="flex">
-            <div className="flex flex-col justify-start">
-              <h2 className="mb-2 text-xl font-bold md:text-2xl">{title}</h2>
-              <p className="w-[80%] text-sm text-gray-700 md:text-base lg:text-lg dark:text-gray-300">
-                {content.slice(0, 100) + "..."}
-              </p>
-              <div className="mt-4">
-                <div className="flex items-center gap-2 mt-4 text-sm">
-                  <p className="text-sm dark:text-muted-foreground text-muted-foreground">
-                    By {author.name}
-                  </p>
-                  <p className="text-sm dark:text-muted-foreground text-muted-foreground">
-                    {publishedDate}
-                  </p>
-
-                  <Bookmark
-                    size={20}
-                    className={`ml-auto mr-4 cursor-pointer ${
-                      isBookmarked ? "fill-red-600" : "text-muted-foreground"
-                    }`}
-                    onClick={toggleBookmark}
-                  />
-                </div>
-              </div>
-            </div>
-            <div className="ml-auto">
-              <img
-                src="./images.jpeg"
-                className="flex"
-                width={200}
-                height={200}
+    <main className="p-4 mx-auto bg-white border dark:bg-slate-800 max-w-7xl sm:p-6 lg:p-8">
+      <div className="flex flex-col sm:flex-row">
+        <div className="flex justify-center mb-4 sm:mb-0 sm:mr-6 sm:w-1/3">
+          <img
+            src={`https://cdn.pixabay.com/photo/2024/02/28/07/42/european-shorthair-8601492_640.jpg`}
+            className="object-cover w-full h-48 rounded-lg sm:h-full sm:w-full"
+          />
+        </div>
+        <div className="flex-1">
+          <div className="flex justify-between mb-2">
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white hover:underline">
+              <Link to={`/blog/${id}`}>{title}</Link>
+            </h2>
+            <div className="mt-2">
+              <BookmarkIcon
+                onClick={toggleBookmark}
+                className={`w-6 h-6 cursor-pointer ${
+                  isBookmarked ? "fill-blue-500" : "text-gray-500"
+                }`}
               />
+            </div>
+          </div>
+          <p className="pr-12 mt-4 mb-4 text-justify text-gray-600">
+            {content.slice(0, 200) + "..."}
+          </p>
+          <div className="flex flex-col items-start space-y-2 sm:flex-row sm:items-center sm:space-x-4 sm:space-y-0">
+            <img
+              src={`https://p.kindpng.com/picc/s/24-248253_user-profile-default-image-png-clipart-png-download.png`}
+              className="object-cover w-10 h-10 rounded-full sm:h-12 sm:w-12"
+            />
+            <div className="flex flex-col sm:flex-row sm:space-x-4">
+              <span className="text-sm text-gray-700">{author.name}</span>
+              <span className="text-sm text-gray-600">{publishedDate}</span>
             </div>
           </div>
         </div>
       </div>
-    </Link>
+    </main>
   );
 };
