@@ -28,7 +28,7 @@ export const BlogCard = ({
   };
 
   return (
-    <main className="p-4 mx-auto bg-white border dark:bg-slate-800 max-w-7xl sm:p-6 lg:p-8">
+    <main className="p-4 mx-auto bg-white border rounded-xl dark:bg-slate-800 max-w-7xl sm:p-6 lg:p-8">
       <div className="flex flex-col sm:flex-row">
         <div className="flex justify-center mb-4 sm:mb-0 sm:mr-6 sm:w-1/3">
           <img

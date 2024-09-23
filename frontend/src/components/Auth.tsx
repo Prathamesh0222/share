@@ -17,19 +17,22 @@ export const Auth = ({ type }: { type: "signup" | "signin" }) => {
     password: "",
   });
 
-  useEffect(()=>{
+  useEffect(() => {
     const token = localStorage.getItem("token");
-    if(token){
+    if (token) {
       navigate(BLOG_URL);
     }
-  })
+  });
 
   const togglePassword = () => {
     setShowPassword((prev) => !prev);
   };
 
   const handleSubmit = async () => {
-    if (type === "signup" && (!inputs.name || !inputs.email || !inputs.password)) {
+    if (
+      type === "signup" &&
+      (!inputs.name || !inputs.email || !inputs.password)
+    ) {
       toast("All fields are required.");
       return;
     } else if (type === "signin" && (!inputs.email || !inputs.password)) {
@@ -42,7 +45,7 @@ export const Auth = ({ type }: { type: "signup" | "signin" }) => {
         inputs
       );
       const jwt = res.data;
-      localStorage.setItem("token",JSON.stringify(jwt));
+      localStorage.setItem("token", JSON.stringify(jwt));
       navigate(BLOG_URL);
       toast("Logged in successfully");
     } catch (error) {
@@ -69,20 +72,24 @@ export const Auth = ({ type }: { type: "signup" | "signin" }) => {
                 {type === "signin" ? "Login" : "Register"}
               </span>
               <div>
-                {type === "signup" ?
-                <div>
-                <span className="flex justify-start py-2 font-semibold">Username</span>
-                <Input
-                  placeholder="John Doe"
-                  type="text"
-                  className="mb-4 font-semibold"
-                  onChange={(e) =>
-                    setInputs({ ...inputs, name: e.target.value })
-                  }
-                />
-                </div>
-                 : null}
-                <span className="flex justify-start py-2 font-semibold">Email</span>
+                {type === "signup" ? (
+                  <div>
+                    <span className="flex justify-start py-2 font-semibold">
+                      Username
+                    </span>
+                    <Input
+                      placeholder="John Doe"
+                      type="text"
+                      className="mb-4 font-semibold"
+                      onChange={(e) =>
+                        setInputs({ ...inputs, name: e.target.value })
+                      }
+                    />
+                  </div>
+                ) : null}
+                <span className="flex justify-start py-2 font-semibold">
+                  Email
+                </span>
                 <Input
                   placeholder="name@example.com"
                   type="email"
@@ -91,10 +98,12 @@ export const Auth = ({ type }: { type: "signup" | "signin" }) => {
                     setInputs({ ...inputs, email: e.target.value })
                   }
                 />
-                <span className="flex justify-start py-2 font-semibold">Password</span>
+                <span className="flex justify-start py-2 font-semibold">
+                  Password
+                </span>
                 <Input
                   placeholder="********"
-                  type={showPassword ? 'text' : 'password'}
+                  type={showPassword ? "text" : "password"}
                   className="mb-4 font-semibold"
                   onChange={(e) =>
                     setInputs({ ...inputs, password: e.target.value })
@@ -156,7 +165,6 @@ export const Auth = ({ type }: { type: "signup" | "signin" }) => {
                   >
                     {type === "signin" ? "Sign up" : "Sign in"}
                   </Link>
-                  
                 </span>
               </div>
             </div>
