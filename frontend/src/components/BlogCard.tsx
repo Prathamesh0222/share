@@ -28,12 +28,12 @@ export const BlogCard = ({
   };
 
   return (
-    <main className="p-4 mx-auto bg-white border rounded-xl dark:bg-slate-800 max-w-7xl sm:p-6 lg:p-8">
+    <main className="p-4 mx-auto bg-white border rounded-xl dark:bg-slate-950 max-w-7xl sm:p-6 lg:p-8">
       <div className="flex flex-col sm:flex-row">
         <div className="flex justify-center mb-4 sm:mb-0 sm:mr-6 sm:w-1/3">
           <img
             src={`https://cdn.pixabay.com/photo/2024/02/28/07/42/european-shorthair-8601492_640.jpg`}
-            className="object-cover w-full h-48 rounded-lg sm:h-full sm:w-full"
+            className="object-cover w-full h-48 rounded-lg lg:h-48 md:h-full lg:w-full"
           />
         </div>
         <div className="flex-1">
@@ -50,9 +50,10 @@ export const BlogCard = ({
               />
             </div>
           </div>
-          <p className="pr-12 mt-4 mb-4 text-justify text-gray-600">
-            {content.slice(0, 200) + "..."}
-          </p>
+          <div
+            className="pr-12 mt-4 mb-4 text-justify text-gray-600"
+            dangerouslySetInnerHTML={{ __html: content.slice(0, 200) + "..." }}
+          />
           <div className="flex flex-col items-start space-y-2 sm:flex-row sm:items-center sm:space-x-4 sm:space-y-0">
             <img
               src={`https://p.kindpng.com/picc/s/24-248253_user-profile-default-image-png-clipart-png-download.png`}
