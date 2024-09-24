@@ -18,13 +18,10 @@ export const useBlog = () => {
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        const tokenString = localStorage.getItem("token");
-        if (!tokenString) {
+        const token = localStorage.getItem("token");
+        if (!token) {
           throw new Error("No token found");
         }
-
-        const token = JSON.parse(tokenString).token || tokenString;
-
         const response = await axios.get(`${BACKEND_URL}/api/v1/blog/bulk`, {
           headers: {
             Authorization: `Bearer ${token}`,
