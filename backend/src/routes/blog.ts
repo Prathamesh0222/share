@@ -62,6 +62,25 @@ blogRouter.put("/", async (req: CustomRequest, res: Response) => {
   });
 });
 
+blogRouter.get("/name", async (req: CustomRequest, res) => {
+  try {
+    const name = await prisma.user.findFirst({
+      where: {
+        id: req.userId
+      },
+      select: {
+        email: true,
+        name: true
+      }
+    });
+
+    res.status(200).json(name);
+  } catch (e) {
+    console.error("Error fetching user name:", e);
+    res.status(500).json({ error: "Failed to fetch user name" })
+  }
+})
+
 blogRouter.get("/bulk", async (req, res) => {
   const page = Number(req.query.page) || 1;
   const limit = Number(req.query.limit) || 10;
