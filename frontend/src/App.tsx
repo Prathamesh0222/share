@@ -5,6 +5,7 @@ import {
   BLOG_ID_URL,
   BLOG_URL,
   HOME_URL,
+  PROFILE_URL,
   PUBLISH_URL,
   SIGNIN_URL,
   SIGNUP_URL,
@@ -16,6 +17,7 @@ import Blog from "./routes/Blog";
 import { DotBackground } from "./components/dotBackground";
 import BlogPost from "./routes/BlogPost";
 import Publish from "./routes/Publish";
+import Profile from "./routes/Profile";
 
 function App() {
   return (
@@ -32,6 +34,7 @@ function App() {
               <Route path={BLOG_URL} element={<Blog />} />
               <Route path={BLOG_ID_URL} element={<BlogPost />} />
               <Route path={PUBLISH_URL} element={<Publish />} />
+              <Route path={PROFILE_URL} element={<Profile />} />
             </Routes>
           </BrowserRouter>
         </div>
