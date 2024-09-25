@@ -19,6 +19,7 @@ import {
   AlignLeft,
   AlignRight,
   Bold,
+  Code,
   Italic,
   Redo,
   Underline,
@@ -180,6 +181,14 @@ export default function ToolbarPlugin() {
         >
           <AlignJustify />
         </button>{" "}
+        <button
+          type="button"
+          onClick={() => editor.dispatchCommand(FORMAT_TEXT_COMMAND, "code")}
+          className="toolbar-item spaced"
+          aria-label="Inline Code"
+        >
+          <Code />
+        </button>
       </div>
     </div>
   );
