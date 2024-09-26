@@ -87,6 +87,35 @@ userRouter.put("/profile", authMiddleware, async (req: CustomRequest, res: Respo
   }
 });
 
+userRouter.get("/account", authMiddleware, async (req: CustomRequest, res: Response) => {
+  try {
+    const userId = req.userId;
+    const user = await prisma.user.findFirst({
+      where: {
+        id: userId,
+      },
+      select: {
+        email: true,
+        name: true,
+      },
+    })
+    if (!user) {
+      return res.status(404).json({
+        message: "User not found",
+      });
+    }
+    return res.status(200).json({
+      user,
+      message: "User found",
+    })
+  } catch (e) {
+    console.error("Error fetching user:", e);
+    res.status(500).json({
+      message: "Unable to fetch user",
+    });
+  }
+})
+
 userRouter.post("/signin", async (req, res) => {
   const { email, password } = req.body;
   const result = SigninSchema.safeParse(req.body);
