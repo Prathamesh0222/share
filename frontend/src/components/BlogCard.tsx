@@ -11,6 +11,7 @@ interface BlogCardProps {
   content: string;
   publishedDate: string;
   id: string;
+  imgUrl: string;
 }
 
 export const BlogCard = ({
@@ -18,6 +19,7 @@ export const BlogCard = ({
   title,
   author,
   content,
+  imgUrl,
   publishedDate,
 }: BlogCardProps) => {
   const [isBookmarked, setIsBookmarked] = useState(false);
@@ -32,7 +34,7 @@ export const BlogCard = ({
       <div className="flex flex-col sm:flex-row">
         <div className="flex justify-center mb-4 sm:mb-0 sm:mr-6 sm:w-1/3">
           <img
-            src={`https://cdn.pixabay.com/photo/2024/02/28/07/42/european-shorthair-8601492_640.jpg`}
+            src={imgUrl}
             className="object-cover w-full h-48 rounded-lg lg:h-48 md:h-full lg:w-full"
           />
         </div>

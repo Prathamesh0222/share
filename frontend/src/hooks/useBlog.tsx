@@ -9,6 +9,7 @@ export interface Blog {
   author: {
     name: string;
   };
+  imgUrl: string;
 }
 
 export const useBlog = () => {

@@ -20,6 +20,7 @@ const Blog = () => {
           {blogs.map((blog) => (
             <BlogCard
               key={blog.id}
+              imgUrl={blog.imgUrl}
               id={blog.id}
               author={blog.author}
               title={blog.title}
