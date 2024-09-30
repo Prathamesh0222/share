@@ -3,7 +3,7 @@ import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
 import { ContentEditable } from "@lexical/react/LexicalContentEditable";
 import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
 import { OnChangePlugin } from "@lexical/react/LexicalOnChangePlugin";
-import { FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import { $getRoot, $getSelection, EditorState } from "lexical";
 import { $generateHtmlFromNodes } from "@lexical/html";
 import axios from "axios";
@@ -19,6 +19,7 @@ const CreateBlog = () => {
   const navigate = useNavigate();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const [image, setImage] = useState<File | null>(null);
 
   const editorConfig = {
     namespace: "MyEditor",
@@ -37,16 +38,21 @@ const CreateBlog = () => {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const formData = new FormData();
+    formData.append("title", title);
+    formData.append("content", content);
+    if(image){
+      formData.append("image",image);
+    }
+
     try {
       const response = await axios.post(
         "http://localhost:3000/api/v1/blog",
-        {
-          title,
-          content,
-        },
+        formData,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
+            'Content-Type': 'multipart/form-data',
           },
         }
       );
@@ -61,6 +67,12 @@ const CreateBlog = () => {
       toast.error("Failed to create blog");
     }
   };
+
+  const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if(e.target.files && e.target.files.length > 0){
+      setImage(e.target.files[0]);
+    }
+  }
 
   return (
     <div className="container flex flex-col justify-center h-screen">
@@ -96,6 +108,9 @@ const CreateBlog = () => {
               />
               <HistoryPlugin />
             </LexicalComposer>
+          </div>
+          <div className="flex justify-center">
+          <Input type="file" onChange={handleImageChange} className="mt-4 w-1/3 cursor-pointer" />
           </div>
           <Button type="submit" className="mt-4">
             Create Blog

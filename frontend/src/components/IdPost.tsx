@@ -8,6 +8,7 @@ interface Blog {
   author: {
     name: string;
   };
+  imgUrl: string;
 }
 
 export const IdPost = ({ blog }: { blog: Blog }) => {
@@ -21,10 +22,9 @@ export const IdPost = ({ blog }: { blog: Blog }) => {
               {blog.title}
             </h1>
           </header>
-          <img
-            src="https://cdn.pixabay.com/photo/2024/02/28/07/42/european-shorthair-8601492_640.jpg"
-            className="w-full px-8 mx-auto"
-          />
+          <div className="flex justify-center">
+          <img width={410} src={blog.imgUrl}/>
+          </div>
           <div className="mt-8 dark:border-cyan-200">
             <div className="px-8 text-gray-500 dark:text-slate-300 text-start">
               <div className="flex justify-between">
