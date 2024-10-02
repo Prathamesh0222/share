@@ -1,11 +1,9 @@
 import {
   Card,
   CardContent,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { useBlog } from "@/hooks/useBlog";
 import {
   Dialog,
   DialogContent,
@@ -16,6 +14,9 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "./ui/button";
 import { Delete } from "lucide-react";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { BACKEND_URL } from "@/constants/config";
 
 interface Blog {
   id: string;
@@ -24,10 +25,43 @@ interface Blog {
   author: {
     name: string;
   };
+  imgUrl: string;
 }
 
 const IdBlog = () => {
-  const { blogs, loading } = useBlog();
+  const [blogs, setBlogs] = useState<Blog[]>([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const fetchBlog = async () => {
+      const token = localStorage.getItem("token");
+
+      if (!token) {
+        console.error("No token found");
+        return;
+      }
+
+      try {
+        setLoading(true);
+        const response = await axios.get(`${BACKEND_URL}/api/v1/blog/id`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setBlogs(response.data.response);
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          console.error("Axios error:", error.response?.data);
+        } else {
+          console.error("Unexpected error:", error);
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchBlog();
+  }, []);
+
   return (
     <div>
       <div className="flex justify-center mt-24 mb-8 text-3xl">My Blogs</div>
@@ -39,7 +73,7 @@ const IdBlog = () => {
                 <CardHeader>
                   <CardHeader>
                     <img
-                      src="https://cdn.pixabay.com/photo/2024/02/28/07/42/european-shorthair-8601492_640.jpg"
+                      src={blog.imgUrl}
                       className="object-cover w-full h-48"
                     />
                   </CardHeader>
@@ -53,9 +87,6 @@ const IdBlog = () => {
                   />
                 </CardContent>
                 <div className="flex items-center justify-between">
-                  <CardFooter>
-                    <p>Author: {blog.author.name}</p>
-                  </CardFooter>
                   <Dialog>
                     <DialogTrigger className="p-8 mb-4">
                       <Button variant={"destructive"}>
