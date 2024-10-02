@@ -25,6 +25,7 @@ model Post {
   author    User       @relation(fields: [authorId], references: [id])
   authorId  String
   Bookmark  Bookmark[]
+  PostTag   PostTag[]
 }
 
 model Bookmark {
@@ -35,4 +36,19 @@ model Bookmark {
   post   Post   @relation(fields: [postId], references: [id])
 
   @@unique([userId, postId])
+}
+
+model Tag {
+  id   String    @id @default(uuid())
+  name String    @unique
+  post PostTag[]
+}
+
+model PostTag {
+  post   Post   @relation(fields: [postId], references: [id])
+  postId String
+  tag    Tag    @relation(fields: [tagId], references: [id])
+  tagId  String
+
+  @@unique([postId, tagId])
 }
