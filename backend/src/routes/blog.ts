@@ -18,7 +18,7 @@ blogRouter.post(
   "/",
   upload.single("image"),
   async (req: CustomRequest, res: Response) => {
-    const { title, content } = req.body;
+    const { title, content, tags } = req.body;
     const result = PostSchema.safeParse(req.body);
     const userId = req.userId ?? "";
     if (!result.success) {
@@ -36,8 +36,15 @@ blogRouter.post(
 
       let imgUrl = null;
       if (req.file) {
-        imgUrl = await uploadImg(req.file?.path ?? null);
-        fs.unlinkSync(req.file.path);
+        try {
+          imgUrl = await uploadImg(req.file.path ?? null);
+          await fs.unlinkSync(req.file.path); 
+        } catch (error) {
+          console.error("Error uploading image or deleting file:", error);
+          return res.status(500).json({
+            message: "Error uploading image or deleting file",
+          });
+        }
       }
 
       const blog = await prisma.post.create({
@@ -48,6 +55,30 @@ blogRouter.post(
           imgUrl: imgUrl ?? "",
         },
       });
+
+      if(tags && Array.isArray(tags)){
+        for(const tagName of tags){
+          let tag = await prisma.tag.findUnique({
+            where: {
+              name : tagName
+            }
+          })
+          if(!tag){
+            tag = await prisma.tag.create({
+              data: {
+                name: tagName
+              }
+            })
+          }
+          await prisma.postTag.create({
+            data: {
+              postId: blog.id,
+              tagId: tag.id
+            }
+          })
+        }
+      }
+
       return res.status(201).json({
         id: blog.id,
       });
@@ -60,9 +91,9 @@ blogRouter.post(
 
 blogRouter.get("/id", async (req: CustomRequest, res: Response) => {
   const userId = req.userId ?? "";
-  const response = await prisma.post.findFirst({
+  const response = await prisma.post.findMany({
     where: {
-      id: userId,
+      authorId: userId,
     },
     select: {
       title: true,
@@ -82,9 +113,10 @@ blogRouter.get("/id", async (req: CustomRequest, res: Response) => {
   }
 });
 
-blogRouter.put("/", async (req: CustomRequest, res: Response) => {
+blogRouter.put("/", upload.single("image"), async (req: CustomRequest, res: Response) => {
   const body = req.body;
   const userId = req.userId ?? "";
+  const imgUrl = req.file ? await uploadImg(req.file.path) : null;
   await prisma.post.update({
     where: {
       id: body.id,
@@ -93,6 +125,7 @@ blogRouter.put("/", async (req: CustomRequest, res: Response) => {
     data: {
       title: body.title,
       content: body.content,
+      imgUrl: body.imgUrl,
     },
   });
   return res.status(200).json({
@@ -134,6 +167,15 @@ blogRouter.get("/bulk", async (req, res) => {
         },
       },
       imgUrl: true,
+      PostTag: {
+        select: {
+          tag: {
+            select: {
+              name: true
+            }
+          }
+        }
+      }
     },
     take: limit,
     skip: offset,
