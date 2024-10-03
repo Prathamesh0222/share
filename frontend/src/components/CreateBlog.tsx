@@ -20,6 +20,7 @@ const CreateBlog = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [image, setImage] = useState<File | null>(null);
+  const [tags, setTags] = useState<string[]>([]);
 
   const editorConfig = {
     namespace: "MyEditor",
@@ -109,6 +110,12 @@ const CreateBlog = () => {
               <HistoryPlugin />
             </LexicalComposer>
           </div>
+          <Input
+          type="text"
+          placeholder="Tags"
+          value={tags}
+          onChange={(e) => setTags(e.target.value.split(',').map(tag => tag.trim()))}
+          />
           <div className="flex justify-center">
           <Input type="file" onChange={handleImageChange} className="mt-4 w-1/3 cursor-pointer" />
           </div>

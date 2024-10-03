@@ -10,6 +10,8 @@ export interface Blog {
     name: string;
   };
   imgUrl: string;
+  tags: {name:string}[];
+  PostTag: { tag: { name: string } }[];
 }
 
 export const useBlog = () => {
@@ -28,10 +30,15 @@ export const useBlog = () => {
             Authorization: `Bearer ${token}`,
           },
         });
-        setBlogs(response.data);
-      } catch (error: any) {
+        const blogsData = response.data.map((blog: Blog) => ({
+          ...blog,
+          tags: blog.PostTag.map((postTag: { tag: { name: string } }) => postTag.tag)
+        }));
+        setBlogs(blogsData);
+        console.log("Fetched blogs:", blogsData);
+      } catch (error) {
         console.error("Error fetching blogs:", error);
-        if (error.response) {
+        if (axios.isAxiosError(error) && error.response) {
           console.error("Response data:", error.response.data);
           console.error("Response status:", error.response.status);
           console.error("Response headers:", error.response.headers);

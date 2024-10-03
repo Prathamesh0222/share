@@ -2,6 +2,7 @@ import { BookmarkIcon } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
+import { Badge } from "./ui/badge";
 
 interface BlogCardProps {
   title: string;
@@ -12,6 +13,7 @@ interface BlogCardProps {
   publishedDate: string;
   id: string;
   imgUrl: string;
+  tags:{name:string}[];
 }
 
 export const BlogCard = ({
@@ -20,6 +22,7 @@ export const BlogCard = ({
   author,
   content,
   imgUrl,
+  tags,
   publishedDate,
 }: BlogCardProps) => {
   const [isBookmarked, setIsBookmarked] = useState(false);
@@ -66,6 +69,11 @@ export const BlogCard = ({
               <span className="text-sm text-gray-600">{publishedDate}</span>
             </div>
           </div>
+          <div className="mt-6 space-x-3">
+            {tags.map((tag)=> {
+              return <Badge variant={"secondary"}>{tag.name}</Badge>
+            })}
+            </div>
         </div>
       </div>
     </main>
