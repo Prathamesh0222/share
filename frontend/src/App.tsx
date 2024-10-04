@@ -18,6 +18,7 @@ import { DotBackground } from "./components/dotBackground";
 import BlogPost from "./routes/BlogPost";
 import Publish from "./routes/Publish";
 import Profile from "./routes/Profile";
+import { Landing } from "./routes/Landing";
 
 function App() {
   return (
@@ -28,7 +29,7 @@ function App() {
         <div>
           <BrowserRouter>
             <Routes>
-              <Route path={HOME_URL} element={<Signup />} />
+              <Route path={HOME_URL} element={<Landing />} />
               <Route path={SIGNUP_URL} element={<Signup />} />
               <Route path={SIGNIN_URL} element={<Signin />} />
               <Route path={BLOG_URL} element={<Blog />} />
