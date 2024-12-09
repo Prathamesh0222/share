@@ -1,8 +1,12 @@
 import { motion } from "framer-motion";
 import { Signature, Wand } from "lucide-react";
 import { Button } from "./ui/button";
+import { useNavigate } from "react-router-dom";
+import { SIGNIN_URL, SIGNUP_URL } from "@/constants/config";
 
 export const LandingNavbar = () => {
+  const navigate = useNavigate();
+
   return (
     <motion.div
       initial={{ opacity: 0, y: -50 }}
@@ -20,8 +24,19 @@ export const LandingNavbar = () => {
         <div className="text-xl font-bold">BlogInk</div>
       </div>
       <div className="flex space-x-6 mr-4">
-        <Button>Login</Button>
-        <Button className="bg-gradient-to-b from-blue-300 via-blue-400 to-blue-500 text-white">
+        <Button
+          onClick={() => {
+            navigate(SIGNIN_URL);
+          }}
+        >
+          Login
+        </Button>
+        <Button
+          onClick={() => {
+            navigate(SIGNUP_URL);
+          }}
+          className="bg-gradient-to-b from-blue-300 via-blue-400 to-blue-500 text-white"
+        >
           <Wand /> <span className="ml-2">Join Now</span>
         </Button>
       </div>
