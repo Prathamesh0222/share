@@ -12,6 +12,7 @@ import {
   UNDO_COMMAND,
 } from "lexical";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { ElementFormatType } from "lexical";
 import "../styles.css";
 import {
   AlignCenter,
@@ -84,6 +85,11 @@ export default function ToolbarPlugin() {
     );
   }, [editor, $updateToolbar]);
 
+  const formatHeading = (headingLevel: number) => {
+    const headingFormat = `h${headingLevel}` as ElementFormatType;
+    editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, headingFormat);
+  };
+
   return (
     <div className="mr-12">
       <div className="toolbar dark:bg-slate-900" ref={toolbarRef}>
@@ -109,6 +115,15 @@ export default function ToolbarPlugin() {
         >
           <Redo />
         </button>
+        <div className="toolbar">
+          <button
+            onClick={() => formatHeading(1)}
+            className="toolbar-item"
+            aria-label="Format Heading 1"
+          >
+            H1
+          </button>
+        </div>
         <Divider />
         <button
           type="button"
