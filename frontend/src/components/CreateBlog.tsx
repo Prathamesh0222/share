@@ -37,14 +37,23 @@ const CreateBlog = () => {
     },
   };
 
+  const handleTagsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const inputTags = e.target.value
+      .split(",")
+      .map((tag) => tag.trim())
+      .filter((tag) => tag !== "");
+    setTags(inputTags);
+  };
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData();
     formData.append("title", title);
     formData.append("content", content);
-    if(image){
-      formData.append("image",image);
+    if (image) {
+      formData.append("image", image);
     }
+    formData.append("tags", tags.join(","));
 
     try {
       const response = await axios.post(
@@ -53,7 +62,7 @@ const CreateBlog = () => {
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
-            'Content-Type': 'multipart/form-data',
+            "Content-Type": "multipart/form-data",
           },
         }
       );
@@ -70,10 +79,10 @@ const CreateBlog = () => {
   };
 
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if(e.target.files && e.target.files.length > 0){
+    if (e.target.files && e.target.files.length > 0) {
       setImage(e.target.files[0]);
     }
-  }
+  };
 
   return (
     <div className="container flex flex-col justify-center h-screen">
@@ -111,13 +120,17 @@ const CreateBlog = () => {
             </LexicalComposer>
           </div>
           <Input
-          type="text"
-          placeholder="Tags"
-          value={tags}
-          onChange={(e) => setTags(e.target.value.split(',').map(tag => tag.trim()))}
+            type="text"
+            placeholder="Tags"
+            value={tags}
+            onChange={handleTagsChange}
           />
           <div className="flex justify-center">
-          <Input type="file" onChange={handleImageChange} className="mt-4 w-1/3 cursor-pointer" />
+            <Input
+              type="file"
+              onChange={handleImageChange}
+              className="mt-4 w-1/3 cursor-pointer"
+            />
           </div>
           <Button type="submit" className="mt-4">
             Create Blog
