@@ -10,10 +10,10 @@ interface BlogCardProps {
     name: string;
   };
   content: string;
-  publishedDate: string;
+  published: string;
   id: string;
   imgUrl: string;
-  tags:{name:string}[];
+  tags: { name: string }[];
 }
 
 export const BlogCard = ({
@@ -23,7 +23,7 @@ export const BlogCard = ({
   content,
   imgUrl,
   tags,
-  publishedDate,
+  published,
 }: BlogCardProps) => {
   const [isBookmarked, setIsBookmarked] = useState(false);
 
@@ -31,6 +31,8 @@ export const BlogCard = ({
     setIsBookmarked(!isBookmarked);
     toast(isBookmarked ? "Removed from bookmarks" : "Added to bookmarks");
   };
+
+  const formattedDate = new Date(published).toLocaleDateString();
 
   return (
     <main className="p-4 mx-auto bg-white border rounded-xl dark:bg-slate-950 max-w-7xl sm:p-6 lg:p-8">
@@ -66,14 +68,14 @@ export const BlogCard = ({
             />
             <div className="flex flex-col sm:flex-row sm:space-x-4">
               <span className="text-sm text-gray-700">{author.name}</span>
-              <span className="text-sm text-gray-600">{publishedDate}</span>
+              <span className="text-sm text-gray-600">{formattedDate}</span>
             </div>
           </div>
           <div className="mt-6 space-x-3">
-            {tags.map((tag)=> {
-              return <Badge variant={"secondary"}>{tag.name}</Badge>
+            {tags.map((tag) => {
+              return <Badge variant={"secondary"}>{tag.name}</Badge>;
             })}
-            </div>
+          </div>
         </div>
       </div>
     </main>
