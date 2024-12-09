@@ -76,7 +76,7 @@ const Blog = () => {
                   title={blog.title}
                   content={blog.content}
                   tags={blog.tags}
-                  publishedDate={"2nd Feb 2024"}
+                  published={blog.published}
                 />
               </motion.div>
             ))}

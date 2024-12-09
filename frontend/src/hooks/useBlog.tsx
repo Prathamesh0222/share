@@ -10,8 +10,9 @@ export interface Blog {
     name: string;
   };
   imgUrl: string;
-  tags: {name:string}[];
+  tags: { name: string }[];
   PostTag: { tag: { name: string } }[];
+  published: string;
 }
 
 export const useBlog = () => {
@@ -32,7 +33,9 @@ export const useBlog = () => {
         });
         const blogsData = response.data.map((blog: Blog) => ({
           ...blog,
-          tags: blog.PostTag.map((postTag: { tag: { name: string } }) => postTag.tag)
+          tags: blog.PostTag.map(
+            (postTag: { tag: { name: string } }) => postTag.tag
+          ),
         }));
         setBlogs(blogsData);
         console.log("Fetched blogs:", blogsData);
