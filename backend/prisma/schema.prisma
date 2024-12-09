@@ -21,7 +21,7 @@ model Post {
   title     String
   content   String
   imgUrl    String
-  published Boolean    @default(false)
+  published DateTime   @default(now())
   author    User       @relation(fields: [authorId], references: [id])
   authorId  String
   Bookmark  Bookmark[]
