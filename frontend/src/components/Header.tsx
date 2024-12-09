@@ -2,11 +2,19 @@ import { SquarePen } from "lucide-react";
 import { Avatar } from "./Avatar";
 import { ModeToggle } from "./mode-toggle";
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 
 export const Header = () => {
-
   return (
-    <div>
+    <motion.div
+      initial={{ opacity: 0, y: -50 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{
+        duration: 1,
+        delay: 0.3,
+        type: "spring",
+      }}
+    >
       <div className="p-4 border-b-2 dark:border-b shadow-xl dark:bg-[#00091D] bg-white flex">
         <div className="flex w-full items-center">
           <Link to={"/blog"}>
@@ -27,6 +35,6 @@ export const Header = () => {
           <Avatar />
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
