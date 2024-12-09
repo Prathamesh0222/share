@@ -38,12 +38,25 @@ blogRouter.post(
       if (req.file) {
         try {
           imgUrl = await uploadImg(req.file.path ?? null);
-          await fs.unlinkSync(req.file.path); 
+          await fs.unlinkSync(req.file.path);
         } catch (error) {
           console.error("Error uploading image or deleting file:", error);
           return res.status(500).json({
             message: "Error uploading image or deleting file",
           });
+        }
+      }
+
+      let parsedTags: string[] = [];
+      if (tags) {
+        try {
+          parsedTags = tags
+            .split(",")
+            .map((tag: string) => tag.trim())
+            .filter((tag: string) => tag !== "");
+        } catch (error) {
+          console.error("Error parsing tags:", error);
+          return res.status(400).json({ error: "Invalid tags format" });
         }
       }
 
@@ -53,29 +66,40 @@ blogRouter.post(
           content,
           authorId: userId,
           imgUrl: imgUrl ?? "",
+          published: new Date(),
         },
       });
 
-      if(tags && Array.isArray(tags)){
-        for(const tagName of tags){
+      if (parsedTags.length > 0) {
+        for (const tagName of parsedTags) {
           let tag = await prisma.tag.findUnique({
             where: {
-              name : tagName
-            }
-          })
-          if(!tag){
+              name: tagName,
+            },
+          });
+          if (!tag) {
             tag = await prisma.tag.create({
               data: {
-                name: tagName
-              }
-            })
+                name: tagName,
+              },
+            });
           }
-          await prisma.postTag.create({
-            data: {
-              postId: blog.id,
-              tagId: tag.id
-            }
-          })
+          const existingPostTag = await prisma.postTag.findUnique({
+            where: {
+              postId_tagId: {
+                postId: blog.id,
+                tagId: tag.id,
+              },
+            },
+          });
+          if (!existingPostTag) {
+            await prisma.postTag.create({
+              data: {
+                postId: blog.id,
+                tagId: tag.id,
+              },
+            });
+          }
         }
       }
 
@@ -86,7 +110,7 @@ blogRouter.post(
       console.error("Error creating post:", error);
       return res.status(500).json({ error: "Failed to create post" });
     }
-  },
+  }
 );
 
 blogRouter.get("/id", async (req: CustomRequest, res: Response) => {
@@ -99,6 +123,7 @@ blogRouter.get("/id", async (req: CustomRequest, res: Response) => {
       title: true,
       content: true,
       imgUrl: true,
+      published: true,
     },
   });
   if (!response) {
@@ -113,25 +138,28 @@ blogRouter.get("/id", async (req: CustomRequest, res: Response) => {
   }
 });
 
-blogRouter.put("/", upload.single("image"), async (req: CustomRequest, res: Response) => {
-  const body = req.body;
-  const userId = req.userId ?? "";
-  const imgUrl = req.file ? await uploadImg(req.file.path) : null;
-  await prisma.post.update({
-    where: {
-      id: body.id,
-      authorId: userId,
-    },
-    data: {
-      title: body.title,
-      content: body.content,
-      imgUrl: body.imgUrl,
-    },
-  });
-  return res.status(200).json({
-    message: "Updated Post",
-  });
-});
+blogRouter.put(
+  "/",
+  upload.single("image"),
+  async (req: CustomRequest, res: Response) => {
+    const body = req.body;
+    const userId = req.userId ?? "";
+    await prisma.post.update({
+      where: {
+        id: body.id,
+        authorId: userId,
+      },
+      data: {
+        title: body.title,
+        content: body.content,
+        imgUrl: body.imgUrl,
+      },
+    });
+    return res.status(200).json({
+      message: "Updated Post",
+    });
+  }
+);
 
 blogRouter.get("/name", async (req: CustomRequest, res) => {
   try {
@@ -153,9 +181,9 @@ blogRouter.get("/name", async (req: CustomRequest, res) => {
 });
 
 blogRouter.get("/bulk", async (req, res) => {
-  const page = Number(req.query.page) || 1;
-  const limit = Number(req.query.limit) || 10;
-  const offset = (page - 1) * limit;
+  // const page = Number(req.query.page) || 1;
+  // const limit = Number(req.query.limit) || 10;
+  // const offset = (page - 1) * limit;
   const posts = await prisma.post.findMany({
     select: {
       id: true,
@@ -166,19 +194,23 @@ blogRouter.get("/bulk", async (req, res) => {
           name: true,
         },
       },
+      published: true,
       imgUrl: true,
       PostTag: {
         select: {
           tag: {
             select: {
-              name: true
-            }
-          }
-        }
-      }
+              name: true,
+            },
+          },
+        },
+      },
     },
-    take: limit,
-    skip: offset,
+    orderBy: {
+      published: "desc",
+    },
+    // take: limit,
+    // skip: offset,
   });
   return res.status(200).json(posts);
 });
