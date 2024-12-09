@@ -14,7 +14,6 @@ import { Signup } from "./routes/Signup";
 import { Toaster } from "sonner";
 import { Signin } from "./routes/Signin";
 import Blog from "./routes/Blog";
-import { DotBackground } from "./components/dotBackground";
 import BlogPost from "./routes/BlogPost";
 import Publish from "./routes/Publish";
 import Profile from "./routes/Profile";
@@ -23,8 +22,7 @@ import { Landing } from "./routes/Landing";
 function App() {
   return (
     <>
-      <DotBackground />
-      <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
+      <ThemeProvider>
         <Toaster />
         <div>
           <BrowserRouter>
