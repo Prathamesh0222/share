@@ -113,8 +113,104 @@ blogRouter.post(
   }
 );
 
+blogRouter.post("/bookmark", async (req: CustomRequest, res: Response) => {
+  const userId = req.userId ?? "";
+  const postId = req.body.postId;
+
+  try {
+    const bookmark = await prisma.bookmark.create({
+      data: {
+        userId,
+        postId,
+      },
+    });
+    return res.status(201).json(bookmark);
+  } catch (error) {
+    console.error("Error while creating bookmark: ", error);
+    return res.status(500).json({ error: "Failed to create bookmark" });
+  }
+});
+
+blogRouter.delete("/bookmark", async (req: CustomRequest, res: Response) => {
+  const userId = req.userId ?? "";
+  const postId = req.body.postId;
+
+  try {
+    await prisma.bookmark.delete({
+      where: {
+        userId_postId: {
+          userId,
+          postId,
+        },
+      },
+    });
+    return res.status(200).json({ message: "Bookmark removed" });
+  } catch (error) {
+    console.error("Error removing bookmark", error);
+    return res.status(500).json({
+      error: "Failed to remove bookmark",
+    });
+  }
+});
+
+blogRouter.get("/bookmarks", async (req: CustomRequest, res: Response) => {
+  const userId = req.userId;
+  if (!userId) {
+    return res.status(401).json({
+      error: "Unauthorizted",
+    });
+  }
+
+  try {
+    const bookmarkedPost = await prisma.bookmark.findMany({
+      where: {
+        userId,
+      },
+      select: {
+        post: {
+          select: {
+            id: true,
+            title: true,
+            content: true,
+            imgUrl: true,
+            published: true,
+            author: {
+              select: {
+                name: true,
+              },
+            },
+            PostTag: {
+              select: {
+                tag: {
+                  select: {
+                    name: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    });
+
+    return res.status(200).json(bookmarkedPost);
+  } catch (error) {
+    console.error("Error while fetching bookmark: ", error);
+    return res.status(500).json({
+      error: "Failed to fetch bookmarks",
+    });
+  }
+});
+
 blogRouter.get("/id", async (req: CustomRequest, res: Response) => {
   const userId = req.userId ?? "";
+
+  if (!userId) {
+    return res.status(402).json({
+      error: "Unauthorized",
+    });
+  }
+
   const response = await prisma.post.findMany({
     where: {
       authorId: userId,
@@ -124,8 +220,21 @@ blogRouter.get("/id", async (req: CustomRequest, res: Response) => {
       content: true,
       imgUrl: true,
       published: true,
+      PostTag: {
+        select: {
+          tag: {
+            select: {
+              name: true,
+            },
+          },
+        },
+      },
+    },
+    orderBy: {
+      published: "desc",
     },
   });
+
   if (!response) {
     return res.status(401).json({
       message: "Unable to fetch the details for the user",
@@ -180,7 +289,8 @@ blogRouter.get("/name", async (req: CustomRequest, res) => {
   }
 });
 
-blogRouter.get("/bulk", async (req, res) => {
+blogRouter.get("/bulk", async (req: CustomRequest, res: Response) => {
+  const userId = req.userId;
   // const page = Number(req.query.page) || 1;
   // const limit = Number(req.query.limit) || 10;
   // const offset = (page - 1) * limit;
@@ -205,6 +315,16 @@ blogRouter.get("/bulk", async (req, res) => {
           },
         },
       },
+      Bookmark: userId
+        ? {
+            where: {
+              userId: userId,
+            },
+            select: {
+              id: true,
+            },
+          }
+        : false,
     },
     orderBy: {
       published: "desc",
@@ -246,5 +366,34 @@ blogRouter.get("/:id", async (req, res) => {
   } catch (error) {
     console.error("Error fetching post:", error);
     return res.status(500).json({ error: "Failed to fetch post" });
+  }
+});
+
+blogRouter.delete("/:id", async (req: CustomRequest, res: Response) => {
+  const postId = req.params.postId;
+  const userId = req.userId;
+
+  if (!userId) {
+    return res.status(401).json({
+      error: "Unauthorized",
+    });
+  }
+
+  try {
+    await prisma.post.delete({
+      where: {
+        id: postId,
+        authorId: userId,
+      },
+    });
+
+    return res.status(200).json({
+      message: "Deleted post successful",
+    });
+  } catch (error) {
+    console.error("Error deleting post: ", error);
+    return res.status(500).json({
+      error: "Error while deleting post",
+    });
   }
 });
