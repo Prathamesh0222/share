@@ -33,7 +33,7 @@ model Bookmark {
   userId String
   postId String
   user   User   @relation(fields: [userId], references: [id])
-  post   Post   @relation(fields: [postId], references: [id])
+  post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
 
   @@unique([userId, postId])
 }
@@ -45,7 +45,7 @@ model Tag {
 }
 
 model PostTag {
-  post   Post   @relation(fields: [postId], references: [id])
+  post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
   postId String
   tag    Tag    @relation(fields: [tagId], references: [id])
   tagId  String
