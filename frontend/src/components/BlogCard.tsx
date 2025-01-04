@@ -1,8 +1,9 @@
 import { BookmarkIcon } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
 import { Badge } from "./ui/badge";
+import { useBookmark } from "@/hooks/useBookmark";
 
 interface BlogCardProps {
   title: string;
@@ -25,11 +26,27 @@ export const BlogCard = ({
   tags,
   published,
 }: BlogCardProps) => {
+  const { removeBookmark, getBookmarks, addBookmark, bookmarks } =
+    useBookmark();
   const [isBookmarked, setIsBookmarked] = useState(false);
 
-  const toggleBookmark = () => {
+  useEffect(() => {
+    getBookmarks();
+  }, []);
+
+  useEffect(() => {
+    setIsBookmarked(bookmarks.includes(id));
+  }, []);
+
+  const toggleBookmark = async () => {
+    if (isBookmarked) {
+      await removeBookmark(id);
+      toast("Removed from bookmarks");
+    } else {
+      await addBookmark(id);
+      toast("Added to bookmarks");
+    }
     setIsBookmarked(!isBookmarked);
-    toast(isBookmarked ? "Removed from bookmarks" : "Added to bookmarks");
   };
 
   const formattedDate = new Date(published).toLocaleDateString();
