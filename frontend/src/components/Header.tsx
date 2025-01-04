@@ -4,7 +4,11 @@ import { ModeToggle } from "./mode-toggle";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 
-export const Header = () => {
+export const Header = ({
+  onBookmarkClick,
+}: {
+  onBookmarkClick: () => void;
+}) => {
   return (
     <motion.div
       initial={{ opacity: 0, y: -50 }}
@@ -25,6 +29,12 @@ export const Header = () => {
           </div>
         </div>
         <div className="flex items-center justify-end w-full gap-6 mx-8">
+          <button
+            onClick={onBookmarkClick}
+            className="px-4 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-600"
+          >
+            Bookmarked Posts
+          </button>
           <Link to={"/publish"}>
             {" "}
             <span className="flex items-center gap-2 cursor-pointer hover:underline">
