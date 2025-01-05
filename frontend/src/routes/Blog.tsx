@@ -6,7 +6,6 @@ import { useBlog } from "@/hooks/useBlog";
 import { useDebounce } from "@/hooks/useDebounce";
 import { useState } from "react";
 import { motion } from "framer-motion";
-import BookmarkedPosts from "@/components/BookmarkedPosts";
 
 const containerVarient = {
   hidden: { opacity: 0 },
@@ -33,7 +32,6 @@ const itemVarient = {
 const Blog = () => {
   const { blogs, loading } = useBlog();
   const [searchQuery, setSearchQuery] = useState("");
-  const [showBookmarkPosts, setShowBookmarkedPosts] = useState(false);
   const debouncedSearchQuery = useDebounce(searchQuery, 300);
 
   const filteredBlogs = blogs.filter(
@@ -44,13 +42,9 @@ const Blog = () => {
       )
   );
 
-  const handleBookmarkClick = () => {
-    setShowBookmarkedPosts((prev) => !prev);
-  };
-
   return (
     <div>
-      <Header onBookmarkClick={handleBookmarkClick} />
+      <Header />
       <div className="py-6 sm:px-0">
         <div className="flex justify-center mx-12 md:mx-32 lg:w-1/2 lg:mx-auto mb-8 mt-4">
           <Input
@@ -88,7 +82,6 @@ const Blog = () => {
             ))}
           </motion.div>
         )}
-        {showBookmarkPosts && <BookmarkedPosts />}
       </div>
     </div>
   );

@@ -38,7 +38,6 @@ export const useBlog = () => {
           ),
         }));
         setBlogs(blogsData);
-        console.log("Fetched blogs:", blogsData);
       } catch (error) {
         console.error("Error fetching blogs:", error);
         if (axios.isAxiosError(error) && error.response) {
