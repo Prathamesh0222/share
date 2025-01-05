@@ -6,7 +6,8 @@ interface CustomRequest extends Request {
 }
 
 export const authMiddleware = (req: CustomRequest, res: Response, next: NextFunction) => {
-    const authHeader = req.headers.authorization;
+    const authHeader = req.headers.authorization as string;
+
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
         console.error("Authorization header missing or not in Bearer format");
         return res.status(401).json({ message: "Unauthorized" });

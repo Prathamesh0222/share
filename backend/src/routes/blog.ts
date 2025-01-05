@@ -117,6 +117,16 @@ blogRouter.post("/bookmark", async (req: CustomRequest, res: Response) => {
   const userId = req.userId ?? "";
   const postId = req.body.postId;
 
+  if (!userId) {
+    return res.status(401).json({
+      error: "Unauthorized",
+    });
+  }
+
+  if (!postId) {
+    return res.status(400).json({ error: "Post ID is required" });
+  }
+
   try {
     const bookmark = await prisma.bookmark.create({
       data: {
@@ -134,6 +144,17 @@ blogRouter.post("/bookmark", async (req: CustomRequest, res: Response) => {
 blogRouter.delete("/bookmark", async (req: CustomRequest, res: Response) => {
   const userId = req.userId ?? "";
   const postId = req.body.postId;
+
+  if (!userId) {
+    return res.status(401).json({
+      error: "Unauthorized",
+    });
+  }
+
+  if (!postId) {
+    return res.status(400).json({ error: "Post ID is required" });
+  }
+
 
   try {
     await prisma.bookmark.delete({
@@ -155,6 +176,7 @@ blogRouter.delete("/bookmark", async (req: CustomRequest, res: Response) => {
 
 blogRouter.get("/bookmarks", async (req: CustomRequest, res: Response) => {
   const userId = req.userId;
+
   if (!userId) {
     return res.status(401).json({
       error: "Unauthorizted",
