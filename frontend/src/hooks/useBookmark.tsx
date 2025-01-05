@@ -1,6 +1,8 @@
-import { BACKEND_URL, BOOKMARK_URL, FETCH_BOOKMARK_URL } from "@/constants/config";
+import { BACKEND_URL } from "@/constants/config";
 import axios from "axios";
 import { useState } from "react";
+
+
 
 export const useBookmark = () => {
   const [bookmarks, setBookmarks] = useState<string[]>([]);
@@ -14,7 +16,7 @@ export const useBookmark = () => {
       }
 
       const response = await axios.get(
-        `${BACKEND_URL}/api/v1/${FETCH_BOOKMARK_URL}`,
+        `${BACKEND_URL}/api/v1/blog/bookmarks`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -23,7 +25,7 @@ export const useBookmark = () => {
       );
 
       const bookmarkIds = response.data.map(
-        (bookmark: any) => bookmark.bookmark.id
+        (bookmark: any) => bookmark.post.id
       );
       setBookmarks(bookmarkIds);
       setBookmarkedPosts(response.data.map((bookmark: any) => bookmark.post));
@@ -39,12 +41,13 @@ export const useBookmark = () => {
         throw new Error("No Token found!!");
       }
 
-      await axios.delete(`${BACKEND_URL}/api/v1/${BOOKMARK_URL}`, {
+      await axios.delete(`${BACKEND_URL}/api/v1/blog/bookmark`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
         data: { postId },
       });
+      
       setBookmarks((prev) => prev.filter((id) => id !== postId));
       setBookmarkedPosts((prev) => prev.filter((post) => post.id !== postId));
     } catch (error) {
@@ -59,12 +62,15 @@ export const useBookmark = () => {
         throw new Error("No Token found!!!");
       }
 
-      await axios.post(`${BACKEND_URL}/api/v1/${BOOKMARK_URL}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        postId,
-      });
+      await axios.post(
+        `${BACKEND_URL}/api/v1/blog/bookmark`,
+        { postId }, 
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       setBookmarks((prev) => [...prev, postId]);
     } catch (error) {
