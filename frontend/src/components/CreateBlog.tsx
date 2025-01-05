@@ -42,7 +42,7 @@ const CreateBlog = () => {
       .split(",")
       .map((tag) => tag.trim())
       .filter((tag) => tag !== "");
-    setTags(inputTags);
+    setTags((prevTags) => [...prevTags, ...inputTags]);
   };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {

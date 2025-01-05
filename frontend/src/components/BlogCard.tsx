@@ -36,7 +36,7 @@ export const BlogCard = ({
 
   useEffect(() => {
     setIsBookmarked(bookmarks.includes(id));
-  }, []);
+  }, [bookmarks, id]);
 
   const toggleBookmark = async () => {
     if (isBookmarked) {
@@ -90,7 +90,7 @@ export const BlogCard = ({
           </div>
           <div className="mt-6 space-x-3">
             {tags.map((tag) => {
-              return <Badge variant={"secondary"}>{tag.name}</Badge>;
+              return <Badge key={tag.name} variant={"secondary"}>{tag.name}</Badge>;
             })}
           </div>
         </div>

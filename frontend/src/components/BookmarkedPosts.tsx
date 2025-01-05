@@ -10,11 +10,11 @@ const BookmarkedPosts = () => {
   }, []);
 
   return (
-    <section className="p-4 mx-auto bg-white border rounded-xl dark:bg-slate-950 max-w-7xl sm:p-6 lg:p-8">
+    <section className="p-4 mx-auto bg-white dark:bg-slate-950 max-w-7xl sm:p-6 lg:p-8">
       <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
         Bookmarked Posts
       </h2>
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="space-y-5">
         {bookmarkedPosts.map((post) => (
           <BlogCard
             key={post.id}
@@ -23,7 +23,7 @@ const BookmarkedPosts = () => {
             author={post.author}
             content={post.content}
             imgUrl={post.imgUrl}
-            tags={post.PostTag.map((postTag) => postTag.tag)}
+            tags={post.PostTag.map((postTag: any) => postTag.tag)}
             published={post.published}
           />
         ))}
