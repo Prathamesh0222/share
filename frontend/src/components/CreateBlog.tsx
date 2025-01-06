@@ -20,6 +20,7 @@ const CreateBlog = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [image, setImage] = useState<File | null>(null);
+  const [tagInput, setTagInput] = useState("");
   const [tags, setTags] = useState<string[]>([]);
 
   const editorConfig = {
@@ -38,11 +39,17 @@ const CreateBlog = () => {
   };
 
   const handleTagsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const inputTags = e.target.value
-      .split(",")
-      .map((tag) => tag.trim())
-      .filter((tag) => tag !== "");
-    setTags((prevTags) => [...prevTags, ...inputTags]);
+    const inputTags = e.target.value;
+    setTagInput(inputTags);
+
+    if (inputTags.endsWith(",")) {
+      const newTags = inputTags
+        .split(",")
+        .map((tag) => tag.trim())
+        .filter((tag) => tag !== "");
+
+      setTags(newTags);
+    }
   };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -122,7 +129,7 @@ const CreateBlog = () => {
           <Input
             type="text"
             placeholder="Tags"
-            value={tags}
+            value={tagInput}
             onChange={handleTagsChange}
           />
           <div className="flex justify-center">

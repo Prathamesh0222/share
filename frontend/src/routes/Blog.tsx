@@ -6,6 +6,8 @@ import { useBlog } from "@/hooks/useBlog";
 import { useDebounce } from "@/hooks/useDebounce";
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
+import { SIGNIN_URL } from "@/constants/config";
 
 const containerVarient = {
   hidden: { opacity: 0 },
@@ -33,6 +35,11 @@ const Blog = () => {
   const { blogs, loading } = useBlog();
   const [searchQuery, setSearchQuery] = useState("");
   const debouncedSearchQuery = useDebounce(searchQuery, 300);
+  const navigate = useNavigate();
+  const token = localStorage.getItem("token");
+  if (!token) {
+    navigate(SIGNIN_URL);
+  }
 
   const filteredBlogs = blogs.filter(
     (blog) =>
