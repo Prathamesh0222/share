@@ -155,7 +155,6 @@ blogRouter.delete("/bookmark", async (req: CustomRequest, res: Response) => {
     return res.status(400).json({ error: "Post ID is required" });
   }
 
-
   try {
     await prisma.bookmark.delete({
       where: {
@@ -199,6 +198,11 @@ blogRouter.get("/bookmarks", async (req: CustomRequest, res: Response) => {
             author: {
               select: {
                 name: true,
+              },
+            },
+            Comment: {
+              select: {
+                content: true,
               },
             },
             PostTag: {
@@ -378,6 +382,11 @@ blogRouter.get("/:id", async (req, res) => {
             name: true,
           },
         },
+        Comment: {
+          select: {
+            content: true,
+          },
+        },
       },
     });
     if (!post) {
@@ -416,6 +425,40 @@ blogRouter.delete("/:id", async (req: CustomRequest, res: Response) => {
     console.error("Error deleting post: ", error);
     return res.status(500).json({
       error: "Error while deleting post",
+    });
+  }
+});
+
+blogRouter.post("/comment", async (req: CustomRequest, res: Response) => {
+  const userId = req.userId;
+  const { content, postId } = req.body;
+
+  if (!userId) {
+    return res.status(401).json({ error: "Unauthorized" });
+  }
+
+  try {
+    const comment = await prisma.comment.create({
+      data: {
+        content,
+        userId,
+        postId,
+      },
+      include: {
+        user: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
+      },
+    });
+
+    return res.status(201).json(comment);
+  } catch (error) {
+    console.error("Error while adding comment", error);
+    return res.status(500).json({
+      error: "Internal Server Error",
     });
   }
 });
