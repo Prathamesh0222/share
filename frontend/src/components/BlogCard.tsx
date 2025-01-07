@@ -52,7 +52,7 @@ export const BlogCard = ({
   const formattedDate = new Date(published).toLocaleDateString();
 
   return (
-    <main className="p-4 mx-auto bg-white border rounded-xl dark:bg-slate-950 max-w-7xl sm:p-6 lg:p-8">
+    <main className="p-4 mx-auto bg-white border rounded-xl dark:bg-zinc-950 max-w-7xl sm:p-6 lg:p-8">
       <div className="flex flex-col sm:flex-row">
         <div className="flex justify-center mb-4 sm:mb-0 sm:mr-6 sm:w-1/3">
           <img
@@ -62,7 +62,7 @@ export const BlogCard = ({
         </div>
         <div className="flex-1">
           <div className="flex justify-between mb-2">
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white hover:underline">
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white hover:underline mr-2">
               <Link to={`/blog/${id}`}>{title}</Link>
             </h2>
             <div className="mt-2">
@@ -90,7 +90,11 @@ export const BlogCard = ({
           </div>
           <div className="mt-6 space-x-3">
             {tags.map((tag) => {
-              return <Badge key={tag.name} variant={"secondary"}>{tag.name}</Badge>;
+              return (
+                <Badge key={tag.name} variant={"default"}>
+                  {tag.name}
+                </Badge>
+              );
             })}
           </div>
         </div>
