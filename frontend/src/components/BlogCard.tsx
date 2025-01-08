@@ -79,10 +79,9 @@ export const BlogCard = ({
             dangerouslySetInnerHTML={{ __html: content.slice(0, 200) + "..." }}
           />
           <div className="flex flex-col items-start space-y-2 sm:flex-row sm:items-center sm:space-x-4 sm:space-y-0">
-            <img
-              src={`https://p.kindpng.com/picc/s/24-248253_user-profile-default-image-png-clipart-png-download.png`}
-              className="object-cover w-10 h-10 rounded-full sm:h-12 sm:w-12"
-            />
+            <span className="rounded-full w-10 h-10 bg-primary text-primary-foreground flex items-center justify-center">
+              {author.name ? author.name[0].toUpperCase() : "?"}
+            </span>
             <div className="flex flex-col sm:flex-row sm:space-x-4">
               <span className="text-sm text-gray-700">{author.name}</span>
               <span className="text-sm text-gray-600">{formattedDate}</span>
