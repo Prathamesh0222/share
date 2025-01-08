@@ -341,6 +341,18 @@ blogRouter.get("/bulk", async (req: CustomRequest, res: Response) => {
           },
         },
       },
+      Comment: {
+        select: {
+          content: true,
+          addedAt: true,
+          user: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
+        },
+      },
       Bookmark: userId
         ? {
             where: {
@@ -385,6 +397,12 @@ blogRouter.get("/:id", async (req, res) => {
         Comment: {
           select: {
             content: true,
+            user: {
+              select: {
+                id: true,
+                name: true,
+              },
+            },
           },
         },
       },
