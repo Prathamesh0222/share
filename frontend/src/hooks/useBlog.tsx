@@ -13,6 +13,13 @@ export interface Blog {
   tags: { name: string }[];
   PostTag: { tag: { name: string } }[];
   published: string;
+  Comment: {
+    content: string;
+    user: {
+      name: string;
+    };
+    addedAt: string;
+  }[];
 }
 
 export const useBlog = () => {

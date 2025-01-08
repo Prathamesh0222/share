@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 
 const useUser = () => {
   const [user, setUser] = useState({ name: "", email: "" });
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -15,17 +14,17 @@ const useUser = () => {
           },
         });
         setUser(response.data.user);
+        console.log(response.data.user);
       } catch (err) {
         console.error("Error fetching user:", err);
       } finally {
-        setLoading(false);
       }
     };
 
     fetchUser();
   }, []);
 
-  return { user, loading };
+  return { user };
 };
 
 export default useUser;
