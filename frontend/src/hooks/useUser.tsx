@@ -14,7 +14,6 @@ const useUser = () => {
           },
         });
         setUser(response.data.user);
-        console.log(response.data.user);
       } catch (err) {
         console.error("Error fetching user:", err);
       } finally {
