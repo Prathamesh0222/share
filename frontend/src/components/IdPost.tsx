@@ -2,6 +2,11 @@ import { Header } from "./Header";
 import { BookmarkIcon } from "lucide-react";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { motion } from "framer-motion";
+import { Input } from "./ui/input";
+import { useState } from "react";
+import axios from "axios";
+import { BACKEND_URL } from "@/constants/config";
+import { toast } from "sonner";
 
 interface Blog {
   id: string;
@@ -12,12 +17,49 @@ interface Blog {
   };
   imgUrl: string;
   published: string;
+  Comment: {
+    content: string;
+    user: {
+      name: string;
+    };
+    addedAt: string;
+  }[];
 }
 
 export const IdPost = ({ blog }: { blog: Blog }) => {
+  const [commentInput, setCommentInput] = useState("");
+  const [comments, setComments] = useState<Blog["Comment"]>(
+    [...blog.Comment].reverse()
+  );
+
   const formattedDate = blog.published
     ? new Date(blog.published).toLocaleString()
     : "Not available";
+
+  const postComment = async () => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      throw new Error("Unauthorized");
+    }
+
+    const response = await axios.post(
+      `${BACKEND_URL}/api/v1/blog/comment`,
+      {
+        postId: blog.id,
+        content: commentInput,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    setComments([response.data, ...comments]);
+    toast("Comment added successfully");
+    setCommentInput("");
+  };
+
   return (
     <div>
       <Header />
@@ -100,6 +142,38 @@ export const IdPost = ({ blog }: { blog: Blog }) => {
             className="px-8 text-lg leading-8 text-justify text-foreground"
           >
             <div dangerouslySetInnerHTML={{ __html: blog.content }} />
+            <div className="mt-12 border-t">
+              <h1 className="font-semibold text-2xl my-5">Comments</h1>
+              <Input
+                placeholder="Write a comment..."
+                onChange={(e) => setCommentInput(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    postComment();
+                  }
+                }}
+                value={commentInput}
+              />
+              {comments.map((comment, index) => (
+                <div
+                  className="mt-12 text-sm flex gap-3 items-center"
+                  key={index}
+                >
+                  <div className="w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center">
+                    {comment.user.name[0].toUpperCase()}
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <span className="font-bold">{comment.user.name}</span>
+                      <span className="text-gray-500 text-xs">
+                        {new Date(comment.addedAt).toLocaleString()}
+                      </span>
+                    </div>
+                    <div className="mt-1">{comment.content}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
           </motion.div>
         </div>
       </div>

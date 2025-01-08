@@ -16,7 +16,7 @@ const UserProfile = () => {
     email: "",
   });
 
-  const { user, loading } = useUser();
+  const { user } = useUser();
 
   const handleSubmit = async () => {
     try {
@@ -45,14 +45,12 @@ const UserProfile = () => {
     }));
   };
 
-  if (loading) return <div>Loading...</div>;
-
   return (
     <div>
       <Header />
       <div className="flex flex-col h-screen p-4 mt-24">
         <div className="flex justify-center w-full">
-          <div className="w-full max-w-lg p-8 bg-white border dark:bg-slate-900 rounded-xl">
+          <div className="w-full max-w-lg p-8 border rounded-xl shadow-xl">
             <div className="mb-8 text-2xl font-bold text-center">
               <div>Edit Profile</div>
             </div>
@@ -64,11 +62,9 @@ const UserProfile = () => {
                 height={150}
               />
               <div className="mx-auto text-xl">
+                <div className="mt-4 font-semibold">{"Name: " + user.name}</div>
                 <div className="mt-4 font-semibold">
-                  {loading ? "Loading..." : "Name: " + user.name}
-                </div>
-                <div className="mt-4 font-semibold">
-                  {loading ? "Loading..." : "Email: " + user.email}
+                  {"Email: " + user.email}
                 </div>
               </div>
             </div>
