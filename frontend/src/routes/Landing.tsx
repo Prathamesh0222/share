@@ -1,7 +1,10 @@
 import { LandingFooter } from "@/components/LandingFooter";
 import { LandingNavbar } from "@/components/LandingNavbar";
+import { Button } from "@/components/ui/button";
 import { InfiniteMovingCards } from "@/components/ui/infinite-moving-cards";
 import { motion } from "framer-motion";
+import landingImage from "../assets/landing_page_ss.jpg";
+import { MouseIcon } from "lucide-react";
 
 const testimonials = [
   {
@@ -37,12 +40,12 @@ const testimonials = [
 
 export const Landing = () => {
   return (
-    <div className="min-h-screen overflow-hidden flex flex-col bg-gradient-to-br from-gray-900 via-gray-800 to-blue-900">
+    <div className="min-h-screen overflow-hidden flex flex-col ">
       <LandingNavbar />
       <div className="flex-grow mt-32 items-center">
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, y: 50, filter: "blur(10px)" }}
+          animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
           transition={{
             duration: 1,
             delay: 0.3,
@@ -50,14 +53,14 @@ export const Landing = () => {
           }}
           className="text-7xl text-center font-bold"
         >
-          <span className="text-cyan-200">Welcome to</span>{" "}
+          <span>Welcome to</span>{" "}
           <span className="bg-clip-text text-transparent bg-gradient-to-br from-blue-200 via-blue-500 to-blue-400 text-center">
             BlogInk
           </span>
         </motion.div>
         <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, y: 40, filter: "blur(10px)" }}
+          animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
           transition={{
             duration: 1,
             delay: 0.5,
@@ -67,10 +70,34 @@ export const Landing = () => {
         >
           Your go-to platform for sharing stories, ideas, and insights through
           blogs.
+          <div className="mt-5 sm:space-x-2 gap-2 flex flex-col md:flex-row md:justify-center">
+            <Button variant={"outline"}>Get Started</Button>
+            <Button variant={"default"}>Features</Button>
+          </div>
+          <div className="flex justify-center mt-12 relative">
+            <div className="absolute -top-10 inset-x-96 h-[110%] -z-10">
+              <div className="w-full h-full bg-gradient-to-b from-blue-600/30 via-blue-600/20 to-transparent blur-2xl" />
+            </div>
+
+            <div className="relative">
+              <img
+                src={landingImage}
+                alt="Landing page illustration"
+                className="max-w-[1000px] border h-auto rounded-lg relative shadow-lg hover:shadow-2xl transition-all duration-300"
+              />
+              <div className="absolute bottom-0 left-0 right-0 h-72 bg-gradient-to-b from-transparent via-background/70 to-background" />
+            </div>
+          </div>
         </motion.div>
+        <div className="2xl:hidden flex justify-center mt-32 animate-bounce">
+          <MouseIcon />
+        </div>
+        <div className="min-h-screen flex flex-col items-center mt-32">
+          <h1 className="text-5xl font-bold">Features</h1>
+        </div>
         <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, y: 40, filter: "blur(10px)" }}
+          animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
           transition={{
             duration: 1,
             delay: 0.7,
