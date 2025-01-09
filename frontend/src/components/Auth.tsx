@@ -67,7 +67,7 @@ export const Auth = ({ type }: { type: "signup" | "signin" }) => {
       >
         <div className="relative flex flex-col justify-center h-screen">
           <div className="flex justify-center">
-            <div className="dark:bg-[#00091D] bg-white w-[50vh] items-center pb-7 pt-10 px-8 h-max text-center shadow-lg border rounded-xl">
+            <div className="w-[50vh] items-center pb-7 pt-10 px-8 h-max text-center shadow-lg border rounded-xl">
               <span className="flex justify-center mb-8 text-4xl font-semibold">
                 {type === "signin" ? "Login" : "Register"}
               </span>
@@ -155,7 +155,7 @@ export const Auth = ({ type }: { type: "signup" | "signin" }) => {
                 </Button>
               </div>
               <div className="font-semibold">
-                <span className="flex justify-center mt-2">
+                <span className="flex justify-center mt-2 gap-2">
                   {type === "signin"
                     ? "Don't have an account?"
                     : "Already have an account?"}

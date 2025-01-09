@@ -32,10 +32,7 @@ userRouter.post("/signup", async (req, res) => {
       {
         id: user.id,
       },
-      process.env.JWT_SECRET!,
-      {
-        expiresIn: "1d",
-      },
+      process.env.JWT_SECRET!
     );
 
     return res.status(201).json({
@@ -54,67 +51,75 @@ interface CustomRequest extends Request {
   userId?: string;
 }
 
-userRouter.put("/profile", authMiddleware, async (req: CustomRequest, res: Response) => {
-  const { email, name } = req.body;
-  const userId = req.userId;
-
-  if (!email || !name) {
-    return res.status(400).json({
-      message: "Missing required fields",
-    });
-  }
-
-  try {
-    const result = await prisma.user.update({
-      where: {
-        id: userId,
-      },
-      data: {
-        email,
-        name,
-      },
-    });
-
-    res.status(200).json({
-      result,
-      message: "User updated successfully",
-    });
-  } catch (error) {
-    console.error("Error updating user:", error);
-    res.status(500).json({
-      message: "Unable to update user",
-    });
-  }
-});
-
-userRouter.get("/account", authMiddleware, async (req: CustomRequest, res: Response) => {
-  try {
+userRouter.put(
+  "/profile",
+  authMiddleware,
+  async (req: CustomRequest, res: Response) => {
+    const { email, name } = req.body;
     const userId = req.userId;
-    const user = await prisma.user.findFirst({
-      where: {
-        id: userId,
-      },
-      select: {
-        email: true,
-        name: true,
-      },
-    })
-    if (!user) {
-      return res.status(404).json({
-        message: "User not found",
+
+    if (!email || !name) {
+      return res.status(400).json({
+        message: "Missing required fields",
       });
     }
-    return res.status(200).json({
-      user,
-      message: "User found",
-    })
-  } catch (e) {
-    console.error("Error fetching user:", e);
-    res.status(500).json({
-      message: "Unable to fetch user",
-    });
+
+    try {
+      const result = await prisma.user.update({
+        where: {
+          id: userId,
+        },
+        data: {
+          email,
+          name,
+        },
+      });
+
+      res.status(200).json({
+        result,
+        message: "User updated successfully",
+      });
+    } catch (error) {
+      console.error("Error updating user:", error);
+      res.status(500).json({
+        message: "Unable to update user",
+      });
+    }
   }
-})
+);
+
+userRouter.get(
+  "/account",
+  authMiddleware,
+  async (req: CustomRequest, res: Response) => {
+    try {
+      const userId = req.userId;
+      const user = await prisma.user.findFirst({
+        where: {
+          id: userId,
+        },
+        select: {
+          email: true,
+          name: true,
+        },
+      });
+      if (!user) {
+        return res.status(404).json({
+          message: "User not found",
+        });
+      }
+      return res.status(200).json({
+        user,
+        message: "User found",
+      });
+    } catch (e) {
+      console.error("Error fetching user:", e);
+      res.status(500).json({
+        message: "Unable to fetch user",
+      });
+    }
+  }
+);
 
 userRouter.post("/signin", async (req, res) => {
   const { email, password } = req.body;
@@ -153,7 +158,7 @@ userRouter.post("/signin", async (req, res) => {
     {
       id: user.id,
     },
-    process.env.JWT_SECRET!,
+    process.env.JWT_SECRET!
   );
 
   return res.status(200).json({
@@ -161,4 +166,3 @@ userRouter.post("/signin", async (req, res) => {
     token,
   });
 });
-
