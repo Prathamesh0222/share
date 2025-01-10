@@ -17,28 +17,30 @@ export const LandingNavbar = () => {
         type: "spring",
         stiffness: 100,
       }}
-      className="container p-4 flex items-center text-white justify-between"
+      className="fixed top-0 left-0 right-0 z-50 backdrop-blur-md border-b border-white/10 shadow-lg"
     >
-      <div className="flex gap-2 items-center">
-        <Signature />
-        <div className="text-xl font-bold">BlogInk</div>
-      </div>
-      <div className="flex space-x-6 mr-4">
-        <Button
-          onClick={() => {
-            navigate(SIGNIN_URL);
-          }}
-        >
-          Login
-        </Button>
-        <Button
-          onClick={() => {
-            navigate(SIGNUP_URL);
-          }}
-          className="bg-gradient-to-b from-blue-300 via-blue-400 to-blue-500 text-white"
-        >
-          <Wand /> <span className="ml-2">Join Now</span>
-        </Button>
+      <div className="container p-4 flex items-center text-white justify-between">
+        <div className="flex gap-2 items-center">
+          <Signature />
+          <div className="text-xl font-bold">BlogInk</div>
+        </div>
+        <div className="flex space-x-3 mr-4">
+          <Button
+            onClick={() => {
+              navigate(SIGNIN_URL);
+            }}
+          >
+            Login
+          </Button>
+          <Button
+            onClick={() => {
+              navigate(SIGNUP_URL);
+            }}
+            className="bg-gradient-to-b from-blue-500 via-blue-600 to-blue-700 text-white"
+          >
+            <Wand /> <span className="ml-2">Join Now</span>
+          </Button>
+        </div>
       </div>
     </motion.div>
   );
