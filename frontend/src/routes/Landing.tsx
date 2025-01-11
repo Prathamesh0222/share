@@ -2,15 +2,34 @@ import { LandingFooter } from "@/components/LandingFooter";
 import { LandingNavbar } from "@/components/LandingNavbar";
 import { Button } from "@/components/ui/button";
 import { InfiniteMovingCards } from "@/components/ui/infinite-moving-cards";
-import { motion } from "framer-motion";
-import landingImage from "../assets/landing_page_ss.jpg";
+import { motion, useInView } from "framer-motion";
 import { GridSmallBackgroundDemo } from "@/components/ui/grid-background";
 import { features } from "@/constants/Features";
 import { testimonials } from "@/constants/testimonials";
 import { useRef } from "react";
+import ResponsiveImage from "@/components/ResponsiveImage";
+import landingImageSm from "../assets/landing_page_ss_sm.jpg";
+import landingImageMd from "../assets/landing_page_ss_md.jpg";
+import landingImageLg from "../assets/landing_page_ss.jpg";
+import FeaturedPosts from "@/components/FeaturedPost";
 
 export const Landing = () => {
+  const featureVariants = {
+    hidden: {
+      opacity: 0,
+      y: 50,
+      filter: "blur(10px)",
+    },
+    visible: {
+      opacity: 1,
+      y: 0,
+      filter: "blur(0px)",
+    },
+  };
+
   const featuresRef = useRef<HTMLDivElement>(null);
+  const isInView = useInView(featuresRef, { once: true });
+
   return (
     <div className="min-h-screen flex flex-col overflow-hidden">
       <LandingNavbar />
@@ -18,7 +37,7 @@ export const Landing = () => {
         <div className="absolute inset-0">
           <GridSmallBackgroundDemo />
         </div>
-        <div className="relative mt-32 items-center">
+        <div className="relative mt-48 items-center">
           <motion.div
             initial={{ opacity: 0, y: 50, filter: "blur(10px)" }}
             animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
@@ -61,7 +80,6 @@ export const Landing = () => {
               <div className="absolute -top-10 inset-x-0 md:inset-x-0 lg:inset-x-0 xl:inset-x-0 2xl:inset-x-48 h-[110%] -z-10">
                 <div className="w-full h-full bg-gradient-to-b from-blue-600/30 via-blue-600/20 to-transparent blur-2xl" />
               </div>
-
               <div className="relative">
                 <div className="relative mx-auto border-gray-800 dark:border-gray-800 bg-gray-800 border-[14px] rounded-[2.5rem] h-[807px] max-w-[1366px] shadow-xl">
                   <div className="h-[32px] w-[3px] bg-gray-800 dark:bg-gray-800 absolute -left-[17px] top-[72px] rounded-l-lg"></div>
@@ -69,10 +87,10 @@ export const Landing = () => {
                   <div className="h-[46px] w-[3px] bg-gray-800 dark:bg-gray-800 absolute -left-[17px] top-[178px] rounded-l-lg"></div>
                   <div className="h-[64px] w-[3px] bg-gray-800 dark:bg-gray-800 absolute -right-[17px] top-[142px] rounded-r-lg"></div>
                   <div className="rounded-[2rem] overflow-hidden h-[770px] bg-white dark:bg-gray-800">
-                    <img
-                      src={landingImage}
-                      alt="Landing page illustration"
-                      className="w-full h-full object-cover"
+                    <ResponsiveImage
+                      landingImageSm={landingImageSm}
+                      landingImageMd={landingImageMd}
+                      landingImage={landingImageLg}
                     />
                   </div>
                 </div>
@@ -80,11 +98,42 @@ export const Landing = () => {
               </div>
             </div>
           </motion.div>
-          <div
+          <motion.div
+            initial={{ opacity: 0, y: 50, filter: "blur(10px)" }}
+            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            transition={{
+              duration: 1,
+              delay: 0.6,
+              type: "spring",
+            }}
+            variants={featureVariants}
+            className="max-w-7xl mx-auto"
+          >
+            <h1 className="mt-32 text-5xl text-center mb-20 font-bold decoration-blue-500 underline underline-offset-8">
+              Featured Blogs
+            </h1>
+            <FeaturedPosts />
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 40, filter: "blur(10px)" }}
+            animate={isInView ? "visible" : "hidden"}
+            variants={featureVariants}
+            transition={{
+              duration: 1,
+              delay: 0.3,
+              type: "spring",
+            }}
             ref={featuresRef}
             className="min-h-screen max-w-7xl mx-auto flex flex-col mt-28"
           >
             <div className="mx-auto mt-16">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 1000 100"
+                fill="blue"
+              >
+                <path d="M1000 0H0v52C62.5 28 125 4 250 4c250 0 250 96 500 96 125 0 187.5-24 250-48V0Z"></path>
+              </svg>
               <h1 className="text-xl text-center text-blue-500 font-bold">
                 Features
               </h1>
@@ -106,7 +155,27 @@ export const Landing = () => {
                 </div>
               ))}
             </div>
-          </div>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 40, filter: "blur(10px)" }}
+            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            transition={{
+              duration: 1,
+              delay: 0.6,
+              type: "spring",
+            }}
+            className="max-w-7xl mx-auto flex flex-col"
+          >
+            <div className="mx-auto">
+              <h1 className="text-xl text-center text-blue-500 font-bold">
+                Across the internet
+              </h1>
+              <h1 className="text-center text-5xl font-bold decoration-blue-500 underline underline-offset-8">
+                Reviews
+              </h1>
+            </div>
+          </motion.div>
+
           <motion.div
             initial={{ opacity: 0, y: 40, filter: "blur(10px)" }}
             animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
@@ -124,7 +193,9 @@ export const Landing = () => {
             />
           </motion.div>
         </div>
-        <LandingFooter />
+        <div className="relative">
+          <LandingFooter />
+        </div>
       </div>
     </div>
   );
