@@ -229,7 +229,7 @@ blogRouter.get("/bookmarks", async (req: CustomRequest, res: Response) => {
 });
 
 blogRouter.get("/id", async (req: CustomRequest, res: Response) => {
-  const userId = req.userId ?? "";
+  const userId = req.userId;
 
   if (!userId) {
     return res.status(402).json({
@@ -242,6 +242,7 @@ blogRouter.get("/id", async (req: CustomRequest, res: Response) => {
       authorId: userId,
     },
     select: {
+      id: true,
       title: true,
       content: true,
       imgUrl: true,
@@ -272,6 +273,36 @@ blogRouter.get("/id", async (req: CustomRequest, res: Response) => {
     });
   }
 });
+
+blogRouter.delete(
+  "/:id",
+  authMiddleware,
+  async (req: CustomRequest, res: Response) => {
+    const postId = req.params.id;
+
+    if (!postId) {
+      return res.status(401).json({
+        error: "Unauthorized",
+      });
+    }
+
+    try {
+      await prisma.post.delete({
+        where: {
+          id: postId,
+        },
+      });
+
+      return res.status(200).json({
+        message: "Deleted post successfully",
+      });
+    } catch (error) {
+      return res.status(500).json({
+        error: "An error occurred while deleting the post",
+      });
+    }
+  }
+);
 
 blogRouter.put(
   "/",

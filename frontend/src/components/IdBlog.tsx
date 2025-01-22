@@ -26,6 +26,33 @@ interface Blog {
 const IdBlog = () => {
   const [blogs, setBlogs] = useState<Blog[]>([]);
   const [loading, setLoading] = useState(false);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [selectedBlogId, setSelectedBlogId] = useState<string | null>(null);
+
+  const handleDelete = async (id: string) => {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      console.error("No token found");
+      return;
+    }
+
+    try {
+      await axios.delete(`${BACKEND_URL}/api/v1/blog/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setBlogs(blogs.filter((blog) => blog.id !== id));
+      setIsDialogOpen(false);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.error("Axios error:", error.response?.data);
+      } else {
+        console.error("Unexpected error:", error);
+      }
+    }
+  };
 
   useEffect(() => {
     const fetchBlog = async () => {
@@ -44,6 +71,7 @@ const IdBlog = () => {
           },
         });
         setBlogs(response.data.response);
+        console.log(response.data);
       } catch (error) {
         if (axios.isAxiosError(error)) {
           console.error("Axios error:", error.response?.data);
@@ -62,9 +90,9 @@ const IdBlog = () => {
       <div className="flex justify-center mt-24 mb-8 text-3xl">My Blogs</div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
         {!loading ? (
-          blogs.map((blog: Blog) => (
+          blogs.map((blog: Blog, idx) => (
             <div className="px-6 py-6">
-              <Card key={blog.id}>
+              <Card key={idx}>
                 <CardHeader>
                   <CardHeader>
                     <img
@@ -82,8 +110,14 @@ const IdBlog = () => {
                   />
                 </CardContent>
                 <div className="flex items-center justify-between">
-                  <Dialog>
-                    <DialogTrigger className="p-8 mb-4">
+                  <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+                    <DialogTrigger
+                      className="p-8 mb-4"
+                      onClick={() => {
+                        setSelectedBlogId(blog.id);
+                        setIsDialogOpen(true);
+                      }}
+                    >
                       <Button variant={"destructive"}>
                         <Delete size={20} />{" "}
                         <span className="ml-2">Delete</span>
@@ -96,10 +130,18 @@ const IdBlog = () => {
                           This action cannot be undone. This will permanently
                           delete your blog and remove it from our servers.
                           <div className="flex justify-center md:justify-end lg:justify-end items-center space-x-2 mt-4">
-                            <Button variant={"destructive"}>
+                            <Button
+                              onClick={() => handleDelete(selectedBlogId!)}
+                              variant={"destructive"}
+                            >
                               <span>Delete</span>
                             </Button>
-                            <Button variant={"default"}>
+                            <Button
+                              onClick={() => {
+                                setIsDialogOpen(false);
+                              }}
+                              variant={"default"}
+                            >
                               <span>Cancel</span>
                             </Button>
                           </div>

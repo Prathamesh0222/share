@@ -1,5 +1,4 @@
 import { Header } from "./Header";
-import { BookmarkIcon } from "lucide-react";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { motion } from "framer-motion";
 import { Input } from "./ui/input";
@@ -125,7 +124,6 @@ export const IdPost = ({ blog }: { blog: Blog }) => {
                   By <span className="underline">{blog.author.name}</span> •{" "}
                   <time>{formattedDate}</time>
                 </div>
-                <BookmarkIcon className="w-5 h-5 mx-2" />
               </div>
             </div>
           </motion.div>
