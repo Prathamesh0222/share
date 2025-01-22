@@ -13,7 +13,6 @@ export const uploadImg = async (localFilePath: string) => {
     const response = await cloudinary.uploader.upload(localFilePath, {
       resource_type: "auto",
     });
-    console.log("File uploaded to Cloudinary", response.secure_url);
     return response.secure_url;
   } catch (error) {
     fs.unlinkSync(localFilePath);
