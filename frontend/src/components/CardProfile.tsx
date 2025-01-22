@@ -26,7 +26,7 @@ const CardProfile = () => {
   }, []);
 
   return (
-    <div className="flex flex-col justify-center p-8 mb-4 bg-white border rounded-lg dark:bg-slate-900 sm:w-full md:w-2/3 lg:w-1/2 xl:w-1/3">
+    <div className="flex flex-col justify-center p-8 mb-4 rounded-lg sm:w-full md:w-2/3 lg:w-1/2 xl:w-1/3">
       <div className="mb-4 text-2xl font-bold text-center">Author</div>
       <div className="flex flex-col items-center sm:flex-row">
         <img

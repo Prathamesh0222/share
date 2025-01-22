@@ -1,19 +1,14 @@
-import { LexicalComposer } from "@lexical/react/LexicalComposer";
-import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
-import { ContentEditable } from "@lexical/react/LexicalContentEditable";
-import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
-import { OnChangePlugin } from "@lexical/react/LexicalOnChangePlugin";
 import { ChangeEvent, FormEvent, useState } from "react";
-import { $getRoot, $getSelection, EditorState } from "lexical";
-import { $generateHtmlFromNodes } from "@lexical/html";
+import { useEditor, EditorContent } from "@tiptap/react";
+import StarterKit from "@tiptap/starter-kit";
 import axios from "axios";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
-import ToolbarPlugin from "./ToolbarPlugin";
+// import ToolbarPlugin from "./ToolbarPlugin";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
 import { BLOG_URL } from "@/constants/config";
-import CardProfile from "./CardProfile";
+import { Toolbar } from "./Toolbar";
 
 const CreateBlog = () => {
   const navigate = useNavigate();
@@ -23,33 +18,16 @@ const CreateBlog = () => {
   const [tagInput, setTagInput] = useState("");
   const [tags, setTags] = useState<string[]>([]);
 
-  const editorConfig = {
-    namespace: "MyEditor",
-    theme: {},
-    onChange(editorState: EditorState) {
-      editorState.read(() => {
-        const root = $getRoot();
-        const selection = $getSelection();
-        console.log(root, selection);
-      });
-    },
-    onError(error: Error) {
-      console.error("Lexical Editor Error:", error);
-    },
-  };
-
   const handleTagsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputTags = e.target.value;
     setTagInput(inputTags);
 
-    if (inputTags.endsWith(",")) {
-      const newTags = inputTags
-        .split(",")
-        .map((tag) => tag.trim())
-        .filter((tag) => tag !== "");
+    const newTags = inputTags
+      .split(",")
+      .map((tag) => tag.trim())
+      .filter((tag) => tag !== "");
 
-      setTags(newTags);
-    }
+    setTags(newTags);
   };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -90,12 +68,22 @@ const CreateBlog = () => {
       setImage(e.target.files[0]);
     }
   };
+  const extensions = [StarterKit];
+  const contents = "<p>Hello World!</p>";
+
+  const editor = useEditor({
+    extensions,
+    content: contents,
+    onUpdate: ({ editor }) => {
+      const html = editor.getHTML();
+      setContent(html);
+    },
+  });
 
   return (
-    <div className="container flex flex-col justify-center h-screen">
-      <CardProfile />
+    <div className="max-w-7xl mx-auto flex flex-col justify-center h-screen">
       <form onSubmit={handleSubmit}>
-        <div className="p-8 bg-white border rounded-lg shadow-lg dark:bg-slate-900">
+        <div className="p-8 border rounded-lg shadow-lg ">
           <div className="mb-4">
             <label className="font-semibold">Title</label>
             <Input
@@ -106,7 +94,12 @@ const CreateBlog = () => {
           </div>
           <div>
             <label className="font-semibold">Content</label>
-            <LexicalComposer initialConfig={editorConfig}>
+            <Toolbar editor={editor} />
+            <div className="border rounded-md mt-3">
+              <EditorContent editor={editor} />
+            </div>
+
+            {/* <LexicalComposer initialConfig={editorConfig}>
               <ToolbarPlugin />
               <RichTextPlugin
                 contentEditable={
@@ -124,13 +117,14 @@ const CreateBlog = () => {
                 }}
               />
               <HistoryPlugin />
-            </LexicalComposer>
+            </LexicalComposer> */}
           </div>
           <Input
             type="text"
             placeholder="Tags"
             value={tagInput}
             onChange={handleTagsChange}
+            className="mt-4"
           />
           <div className="flex justify-center">
             <Input
