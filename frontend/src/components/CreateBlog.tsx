@@ -97,26 +97,6 @@ const CreateBlog = () => {
             <div className="border rounded-md mt-3">
               <EditorContent editor={editor} />
             </div>
-
-            {/* <LexicalComposer initialConfig={editorConfig}>
-              <ToolbarPlugin />
-              <RichTextPlugin
-                contentEditable={
-                  <ContentEditable className="w-full p-4 mt-2 border border-gray-300 rounded-md shadow-sm text- focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
-                }
-                placeholder={null}
-                ErrorBoundary={({ children }) => <div>{children}</div>}
-              />
-              <OnChangePlugin
-                onChange={(editorState, editor) => {
-                  editor.update(() => {
-                    const htmlString = $generateHtmlFromNodes(editor);
-                    setContent(htmlString);
-                  });
-                }}
-              />
-              <HistoryPlugin />
-            </LexicalComposer> */}
           </div>
           <Input
             type="text"
