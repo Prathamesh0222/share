@@ -12,6 +12,7 @@ import { Delete } from "lucide-react";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { BACKEND_URL } from "@/constants/config";
+import { useNavigate } from "react-router-dom";
 
 interface Blog {
   id: string;
@@ -28,6 +29,7 @@ const IdBlog = () => {
   const [loading, setLoading] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedBlogId, setSelectedBlogId] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   const handleDelete = async (id: string) => {
     const token = localStorage.getItem("token");
@@ -87,7 +89,7 @@ const IdBlog = () => {
 
   return (
     <div>
-      <div className="flex justify-center mt-24 mb-8 text-3xl">My Blogs</div>
+      <div className="flex justify-center mt-12 mb-8 text-3xl">My Blogs</div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
         {!loading ? (
           blogs.map((blog: Blog, idx) => (
@@ -100,7 +102,12 @@ const IdBlog = () => {
                       className="object-cover w-full h-48"
                     />
                   </CardHeader>
-                  <CardTitle>{blog.title}</CardTitle>
+                  <CardTitle
+                    onClick={() => navigate(`/blog/${blog.id}`)}
+                    className="hover:underline cursor-pointer"
+                  >
+                    {blog.title}
+                  </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div

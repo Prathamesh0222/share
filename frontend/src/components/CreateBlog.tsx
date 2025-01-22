@@ -68,11 +68,9 @@ const CreateBlog = () => {
     }
   };
   const extensions = [StarterKit];
-  const contents = "<p>Hello World!</p>";
 
   const editor = useEditor({
     extensions,
-    content: contents,
     onUpdate: ({ editor }) => {
       const html = editor.getHTML();
       setContent(html);
@@ -89,13 +87,14 @@ const CreateBlog = () => {
               type="text"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
+              required
             />
           </div>
           <div>
             <label className="font-semibold">Content</label>
             <Toolbar editor={editor} />
             <div className="border rounded-md mt-3">
-              <EditorContent editor={editor} />
+              <EditorContent editor={editor} required />
             </div>
           </div>
           <Input
@@ -104,12 +103,14 @@ const CreateBlog = () => {
             value={tagInput}
             onChange={handleTagsChange}
             className="mt-4"
+            required
           />
           <div className="flex justify-center">
             <Input
               type="file"
               onChange={handleImageChange}
               className="mt-4 w-1/3 cursor-pointer"
+              required
             />
           </div>
           <Button type="submit" className="mt-4">

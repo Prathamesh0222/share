@@ -6,6 +6,9 @@ import { useState } from "react";
 import axios from "axios";
 import { BACKEND_URL } from "@/constants/config";
 import { toast } from "sonner";
+import { useNavigate } from "react-router-dom";
+import { Button } from "./ui/button";
+import { ArrowLeft } from "lucide-react";
 
 interface Blog {
   id: string;
@@ -27,6 +30,7 @@ interface Blog {
 
 export const IdPost = ({ blog }: { blog: Blog }) => {
   const [commentInput, setCommentInput] = useState("");
+  const navigate = useNavigate();
   const [comments, setComments] = useState<Blog["Comment"]>(
     [...blog.Comment].reverse()
   );
@@ -140,7 +144,12 @@ export const IdPost = ({ blog }: { blog: Blog }) => {
             className="px-8 text-lg leading-8 text-justify text-foreground"
           >
             <div dangerouslySetInnerHTML={{ __html: blog.content }} />
-            <div className="mt-12 border-t">
+            <div className="mt-4">
+              <Button variant={"ghost"} onClick={() => navigate(`/blog`)}>
+                <ArrowLeft /> Back
+              </Button>
+            </div>
+            <div className="mt-4 border-t">
               <h1 className="font-semibold text-2xl my-5">Comments</h1>
               <Input
                 placeholder="Write a comment..."
@@ -160,6 +169,7 @@ export const IdPost = ({ blog }: { blog: Blog }) => {
                   <div className="w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center">
                     {comment.user.name[0].toUpperCase()}
                   </div>
+
                   <div>
                     <div className="flex items-center gap-2">
                       <span className="font-bold">{comment.user.name}</span>
