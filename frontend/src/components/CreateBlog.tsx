@@ -4,7 +4,6 @@ import StarterKit from "@tiptap/starter-kit";
 import axios from "axios";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
-// import ToolbarPlugin from "./ToolbarPlugin";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
 import { BLOG_URL } from "@/constants/config";
