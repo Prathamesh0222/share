@@ -6,7 +6,7 @@ import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
-import { BLOG_URL } from "@/constants/config";
+import { BACKEND_URL, BLOG_URL } from "@/constants/config";
 import { Toolbar } from "./Toolbar";
 
 const CreateBlog = () => {
@@ -41,7 +41,7 @@ const CreateBlog = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/v1/blog",
+        `${BACKEND_URL}/api/v1/blog`,
         formData,
         {
           headers: {
