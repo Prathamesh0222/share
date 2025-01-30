@@ -12,7 +12,6 @@ export const Toolbar = ({ editor }: any) => {
   if (!editor) {
     return null;
   }
-  console.log(editor.isActive("bold"));
   return (
     <div className="space-x-2">
       <button
