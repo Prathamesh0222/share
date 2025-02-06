@@ -12,6 +12,7 @@ import landingImageSm from "../assets/landing_page_ss_sm.jpg";
 import landingImageMd from "../assets/landing_page_ss_md.jpg";
 import landingImageLg from "../assets/landing_page_ss.jpg";
 import FeaturedPosts from "@/components/FeaturedPost";
+import { useNavigate } from "react-router-dom";
 
 export const Landing = () => {
   const featureVariants = {
@@ -29,6 +30,7 @@ export const Landing = () => {
 
   const featuresRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(featuresRef, { once: true });
+  const navigate = useNavigate();
 
   return (
     <div className="min-h-screen flex flex-col overflow-hidden">
@@ -66,7 +68,9 @@ export const Landing = () => {
             Your go-to platform for sharing stories, ideas, and insights through
             blogs.
             <div className="mt-5 sm:space-x-2 gap-2 flex flex-col md:flex-row md:justify-center">
-              <Button variant={"outline"}>Get Started</Button>
+              <Button onClick={() => navigate("/signin")} variant={"outline"}>
+                Get Started
+              </Button>
               <Button
                 variant={"default"}
                 onClick={() =>

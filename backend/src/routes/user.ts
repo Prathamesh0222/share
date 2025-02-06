@@ -11,14 +11,23 @@ userRouter.use(express.json());
 
 userRouter.post("/signup", async (req, res) => {
   try {
-    const { email, password, name } = req.body;
-    const result = SignupSchema.safeParse(req.body);
-    const hashedPassword = await bcrypt.hash(password, 10);
-    if (!result.success) {
-      return res.status(411).json({
-        message: "Email already taken/Incorrect inputs",
-      });
+    const parsedData = SignupSchema.safeParse(req.body);
+    if (!parsedData.success) {
+      return res.status(400).json({ message: "Invalid input data" });
     }
+    const { email, password, name } = parsedData.data;
+
+    const existingUser = await prisma.user.findUnique({
+      where: {
+        email,
+      },
+    });
+
+    if (existingUser) {
+      return res.status(409).json({ message: "Email already taken" });
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
 
     const user = await prisma.user.create({
       data: {
@@ -32,7 +41,8 @@ userRouter.post("/signup", async (req, res) => {
       {
         id: user.id,
       },
-      process.env.JWT_SECRET!
+      process.env.JWT_SECRET!,
+      { expiresIn: "1h" }
     );
 
     return res.status(201).json({
@@ -122,13 +132,14 @@ userRouter.get(
 );
 
 userRouter.post("/signin", async (req, res) => {
-  const { email, password } = req.body;
   const result = SigninSchema.safeParse(req.body);
   if (!result.success) {
     return res.status(411).json({
       message: "Incorrect inputs",
     });
   }
+
+  const { email, password } = result.data;
 
   const user = await prisma.user.findUnique({
     where: {
@@ -158,7 +169,8 @@ userRouter.post("/signin", async (req, res) => {
     {
       id: user.id,
     },
-    process.env.JWT_SECRET!
+    process.env.JWT_SECRET!,
+    { expiresIn: "1h" }
   );
 
   return res.status(200).json({

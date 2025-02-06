@@ -22,7 +22,7 @@ export const Auth = ({ type }: { type: "signup" | "signin" }) => {
     if (token) {
       navigate(BLOG_URL);
     }
-  });
+  }, []);
 
   const togglePassword = () => {
     setShowPassword((prev) => !prev);
