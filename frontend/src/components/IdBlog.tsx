@@ -13,6 +13,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { BACKEND_URL } from "@/constants/config";
 import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 interface Blog {
   id: string;
@@ -46,10 +47,12 @@ const IdBlog = () => {
         },
       });
       setBlogs(blogs.filter((blog) => blog.id !== id));
+      toast.success("Blog deleted successfully");
       setIsDialogOpen(false);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         console.error("Axios error:", error.response?.data);
+        toast.error("Error while deleting blog");
       } else {
         console.error("Unexpected error:", error);
       }
@@ -89,10 +92,10 @@ const IdBlog = () => {
   return (
     <div>
       <div className="flex justify-center mt-24 mb-8 text-3xl">My Blogs</div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-4xl mx-auto">
         {!loading ? (
           blogs.map((blog: Blog, idx) => (
-            <div className="px-6 py-6">
+            <div>
               <Card key={idx}>
                 <CardHeader>
                   <CardHeader>

@@ -52,52 +52,68 @@ export const BlogCard = ({
   const formattedDate = new Date(published).toLocaleDateString();
 
   return (
-    <main className="p-4 mx-auto bg-white border rounded-xl dark:bg-zinc-950 max-w-7xl sm:p-6 lg:p-8">
-      <div className="flex flex-col sm:flex-row">
-        <div className="flex justify-center mb-4 sm:mb-0 sm:mr-6 sm:w-1/3">
+    <article className="max-w-4xl overflow-hidden bg-white border rounded-xl shadow-sm dark:bg-zinc-950 hover:shadow-md transition-shadow duration-300">
+      <div className="flex flex-col h-[560px]">
+        <div className="relative md:h-60 h-64">
           <img
             src={imgUrl}
-            className="object-cover w-full h-48 rounded-lg lg:h-48 md:h-full lg:w-full"
+            alt={title}
+            className="object-cover w-full h-full"
           />
+          <button
+            onClick={toggleBookmark}
+            className="absolute top-3 right-3 p-2 bg-white/80 dark:bg-black/50 rounded-full shadow-sm hover:bg-white dark:hover:bg-black transition-colors"
+            aria-label={
+              isBookmarked ? "Remove from bookmarks" : "Add to bookmarks"
+            }
+          >
+            <BookmarkIcon
+              className={`w-5 h-5 ${
+                isBookmarked ? "fill-blue-500 text-blue-500" : "text-gray-500"
+              }`}
+            />
+          </button>
         </div>
-        <div className="flex-1">
-          <div className="flex justify-between mb-2">
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white hover:underline mr-2">
-              <Link to={`/blog/${id}`}>{title}</Link>
-            </h2>
-            <div className="mt-2">
-              <BookmarkIcon
-                onClick={toggleBookmark}
-                className={`w-6 h-6 cursor-pointer ${
-                  isBookmarked ? "fill-blue-500" : "text-gray-500"
-                }`}
-              />
-            </div>
-          </div>
-          <div
-            className="pr-12 mt-4 mb-4 text-justify text-gray-600"
-            dangerouslySetInnerHTML={{ __html: content.slice(0, 200) + "..." }}
-          />
-          <div className="flex flex-col items-start space-y-2 sm:flex-row sm:items-center sm:space-x-4 sm:space-y-0">
-            <span className="rounded-full w-10 h-10 bg-primary text-primary-foreground flex items-center justify-center">
-              {author.name ? author.name[0].toUpperCase() : "?"}
-            </span>
-            <div className="flex flex-col sm:flex-row sm:space-x-4">
-              <span className="text-sm text-gray-700">{author.name}</span>
-              <span className="text-sm text-gray-600">{formattedDate}</span>
-            </div>
-          </div>
-          <div className="mt-6 space-x-3">
-            {tags.map((tag) => {
-              return (
-                <Badge key={tag.name} variant={"default"}>
+
+        <div className="flex flex-col flex-1 p-5">
+          <div className="mb-3 space-y-1">
+            <div className="flex flex-wrap gap-2 mb-2">
+              {tags.map((tag) => (
+                <Badge key={tag.name} variant="secondary" className="text-xs">
                   {tag.name}
                 </Badge>
-              );
-            })}
+              ))}
+            </div>
+            <h2 className="text-xl font-bold leading-tight text-gray-900 dark:text-white">
+              <Link
+                to={`/blog/${id}`}
+                className="hover:underline focus:outline-none focus:underline"
+              >
+                {title}
+              </Link>
+            </h2>
+          </div>
+
+          <div
+            className="mb-4 text-sm text-gray-600 dark:text-gray-400 line-clamp-3"
+            dangerouslySetInnerHTML={{ __html: content.slice(0, 200) + "..." }}
+          />
+
+          <div className="flex items-center mt-auto pt-4 border-t border-gray-100 dark:border-gray-800">
+            <span className="flex-shrink-0 w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-sm font-medium">
+              {author.name ? author.name[0].toUpperCase() : "?"}
+            </span>
+            <div className="ml-3">
+              <p className="text-sm font-medium text-gray-900 dark:text-gray-200">
+                {author.name}
+              </p>
+              <p className="text-xs text-gray-500 dark:text-gray-400">
+                {formattedDate}
+              </p>
+            </div>
           </div>
         </div>
       </div>
-    </main>
+    </article>
   );
 };
