@@ -111,7 +111,7 @@ const IdBlog = () => {
       </motion.div>
 
       {blogs.length === 0 && !loading ? (
-        <div className="flex flex-col items-center justify-center text-center w-full p-12 bg-gray-50 dark:bg-gray-800 rounded-lg shadow-sm max-w-2xl mx-auto">
+        <div className="flex flex-col items-center justify-center text-center w-full p-12 rounded-lg shadow-sm max-w-2xl mx-auto">
           <svg
             className="w-16 h-16 text-gray-400 mb-4"
             fill="none"
@@ -132,7 +132,7 @@ const IdBlog = () => {
           <p className="text-gray-500 dark:text-gray-400 mb-6">
             Share your thoughts with the world by creating your first blog
           </p>
-          <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-200 flex items-center">
+          <Button className="rounded-lg flex items-center">
             <span className="mr-2">Create New Blog</span>
             <svg
               className="w-4 h-4"
@@ -148,7 +148,7 @@ const IdBlog = () => {
                 d="M12 4v16m8-8H4"
               ></path>
             </svg>
-          </button>
+          </Button>
         </div>
       ) : (
         <>
