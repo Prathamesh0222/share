@@ -92,12 +92,23 @@ const IdBlog = () => {
 
   return (
     <div className="min-h-screen py-12 px-4 sm:px-6">
-      <div className="flex flex-col items-center mb-12">
+      <motion.div
+        initial={{ opacity: 0, y: -50, scale: 0.95 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        transition={{
+          duration: 0.3,
+          delay: 0.1,
+          type: "spring",
+          stiffness: 100,
+          damping: 10,
+        }}
+        className="flex flex-col items-center mb-12"
+      >
         <h1 className="text-4xl font-bold text-gray-800 dark:text-white mb-2">
           My Blogs
         </h1>
         <div className="h-1 w-20 bg-blue-500 rounded"></div>
-      </div>
+      </motion.div>
 
       {blogs.length === 0 && !loading ? (
         <div className="flex flex-col items-center justify-center text-center w-full p-12 bg-gray-50 dark:bg-gray-800 rounded-lg shadow-sm max-w-2xl mx-auto">
