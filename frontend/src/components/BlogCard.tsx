@@ -53,12 +53,12 @@ export const BlogCard = ({
 
   return (
     <article className="max-w-4xl overflow-hidden bg-white border rounded-xl shadow-sm dark:bg-zinc-950 hover:shadow-md transition-shadow duration-300">
-      <div className="flex flex-col h-[560px]">
+      <div className="flex flex-col h-[600px] md:h-[560px]">
         <div className="relative md:h-60 h-64">
           <img
             src={imgUrl}
             alt={title}
-            className="object-cover w-full h-full"
+            className="object-cover w-full h-full duration-500 hover:scale-110"
           />
           <button
             onClick={toggleBookmark}
@@ -79,7 +79,11 @@ export const BlogCard = ({
           <div className="mb-3 space-y-1">
             <div className="flex flex-wrap gap-2 mb-2">
               {tags.map((tag) => (
-                <Badge key={tag.name} variant="secondary" className="text-xs">
+                <Badge
+                  key={tag.name}
+                  variant={"secondary"}
+                  className="dark:text-blue-300 text-blue-600"
+                >
                   {tag.name}
                 </Badge>
               ))}
@@ -87,7 +91,7 @@ export const BlogCard = ({
             <h2 className="text-xl font-bold leading-tight text-gray-900 dark:text-white">
               <Link
                 to={`/blog/${id}`}
-                className="hover:underline focus:outline-none focus:underline"
+                className="hover:text-blue-600 dark:hover:text-blue-400 cursor-pointer transition-colors duration-200"
               >
                 {title}
               </Link>

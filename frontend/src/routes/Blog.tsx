@@ -8,6 +8,7 @@ import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { SIGNIN_URL } from "@/constants/config";
 import BlogCardSkeleton from "@/components/BlogCardSkeleton";
+import { SearchIcon } from "lucide-react";
 
 const containerVarient = {
   hidden: { opacity: 0 },
@@ -53,11 +54,15 @@ const Blog = () => {
     <div>
       <Header />
       <div className="py-6 sm:px-0 mt-24">
-        <div className="flex justify-center mx-12 md:mx-32 lg:w-1/3 lg:mx-auto mb-8 mt-4">
+        <div className="relative justify-center mx-12 md:mx-32 lg:w-1/3 lg:mx-auto mb-8 mt-4">
+          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <SearchIcon className="h-5 w-5 text-gray-400" />
+          </div>
           <Input
             placeholder="Search for blogs"
             onChange={(e) => setSearchQuery(e.target.value)}
             value={searchQuery}
+            className="pl-10"
           />
         </div>
         {loading ? (
@@ -73,20 +78,35 @@ const Blog = () => {
             animate="show"
             className="grid md:grid-cols-2 grid-cols-1 gap-3 max-w-6xl items-center xl:mx-auto mx-4"
           >
-            {filteredBlogs.map((blog) => (
-              <motion.div key={blog.id} variants={itemVarient}>
-                <BlogCard
-                  key={blog.id}
-                  imgUrl={blog.imgUrl}
-                  id={blog.id}
-                  author={blog.author}
-                  title={blog.title}
-                  content={blog.content}
-                  tags={blog.tags}
-                  published={blog.published}
-                />
-              </motion.div>
-            ))}
+            {filteredBlogs.length > 0 ? (
+              filteredBlogs.map((blog) => (
+                <motion.div key={blog.id} variants={itemVarient}>
+                  <BlogCard
+                    key={blog.id}
+                    imgUrl={blog.imgUrl}
+                    id={blog.id}
+                    author={blog.author}
+                    title={blog.title}
+                    content={blog.content}
+                    tags={blog.tags}
+                    published={blog.published}
+                  />
+                </motion.div>
+              ))
+            ) : (
+              <div className="col-span-full">
+                <div className="flex flex-col items-center justify-center h-96 gap-4">
+                  <SearchIcon className="w-12 h-12 text-gray-400" />
+                  <h3 className="text-2xl font-semibold text-gray-800 dark:text-gray-200">
+                    No Blogs Found
+                  </h3>
+                  <p className="text-gray-500 dark:text-gray-400 text-center">
+                    We couldn't find any blogs matching your search. <br />
+                    Try different keywords or check back later!
+                  </p>
+                </div>
+              </div>
+            )}
           </motion.div>
         )}
       </div>
