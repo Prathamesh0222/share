@@ -8,46 +8,62 @@ import { Button } from "./ui/button";
 
 export const Header = () => {
   return (
-    <div className="fixed top-0 w-full p-4 backdrop-blur-md z-10">
+    <div className="fixed top-0 w-full z-20 bg-white/80 dark:bg-zinc-950/80 backdrop-blur-md">
       <motion.div
         initial={{ opacity: 0, y: -50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{
-          duration: 1,
-          delay: 0.3,
+          duration: 0.8,
+          delay: 0.2,
           type: "spring",
+          stiffness: 100,
         }}
       >
-        <div className="max-w-7xl mx-auto flex items-center">
-          <Link to={"/blog"}>
-            <div className="flex gap-2 text-xl font-bold cursor-pointer mx-2">
-              <span className="mt-1">
-                <Signature />
-              </span>
-              BlogInk
+        <div className="max-w-6xl mx-auto py-4 md:px-4 px-6 flex items-center justify-between">
+          <div className="flex items-center">
+            <Link to={"/blog"}>
+              <div className="flex items-center gap-2 text-xl font-bold cursor-pointer hover:scale-105 duration-300">
+                <span className="rounded-lg">
+                  <Signature />
+                </span>
+                <span className="text-black dark:text-white">BlogInk</span>
+              </div>
+            </Link>
+            <div className="ml-2 md:ml-6 hidden md:block">
+              <ModeToggle />
             </div>
-          </Link>
-          <div className="mx-3">
-            <ModeToggle />
           </div>
-          <div className="flex items-center justify-end w-full gap-5 mx-2">
+
+          <div className="flex items-center gap-2">
             <div className="md:block hidden">
               <Link to={BOOKMARK_URL}>
-                <Button variant={"outline"}>
-                  <span>
-                    <BookmarkCheck size={20} />
-                  </span>
-                  <span className="hidden md:block">View Bookmarked Posts</span>
+                <Button
+                  variant={"outline"}
+                  className="rounded-full px-4 py-2 border-blue-200 dark:border-blue-900 hover:bg-blue-50 dark:hover:bg-blue-950 transition-all"
+                >
+                  <BookmarkCheck
+                    size={18}
+                    className="text-blue-600 dark:text-blue-400 mr-2"
+                  />
+                  <span className="hidden md:block font-medium">Bookmarks</span>
                 </Button>
               </Link>
             </div>
             <Link to={"/publish"}>
-              <span className="flex items-center gap-2 cursor-pointer hover:underline">
-                <SquarePen size={17} />
-                Write
-              </span>
+              <Button
+                variant="ghost"
+                className="rounded-full flex items-center gap-2 hover:bg-blue-50 dark:hover:bg-blue-950 transition-all"
+              >
+                <SquarePen
+                  size={18}
+                  className="text-blue-600 dark:text-blue-400"
+                />
+                <span className="font-medium">Write</span>
+              </Button>
             </Link>
-            <Avatar />
+            <div className="ml-2">
+              <Avatar />
+            </div>
           </div>
         </div>
       </motion.div>
