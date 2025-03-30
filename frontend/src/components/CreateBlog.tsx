@@ -10,6 +10,7 @@ import { BACKEND_URL, BLOG_URL } from "@/constants/config";
 import { Toolbar } from "./Toolbar";
 import { Badge } from "./ui/badge";
 import { ArrowDown, ImagePlus, Trash, X } from "lucide-react";
+import { motion } from "framer-motion";
 
 const CreateBlog = () => {
   const navigate = useNavigate();
@@ -89,7 +90,19 @@ const CreateBlog = () => {
   });
 
   return (
-    <div className="max-w-4xl mx-auto flex flex-col justify-center min-h-screen mt-12 mb-12 md:mb-0 px-4 md:px-6 lg:px-8">
+    <motion.div
+      initial={{ opacity: 0, scale: 0.8 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{
+        duration: 0.4,
+        delay: 0.2,
+        ease: "easeOut",
+        type: "spring",
+        stiffness: 100,
+        damping: 10,
+      }}
+      className="max-w-4xl mx-auto flex flex-col justify-center min-h-screen mt-16 mb-12 md:mb-0 px-4 md:px-6 lg:px-8"
+    >
       <form onSubmit={handleSubmit} className="space-y-8">
         <div className="bg-background p-8 border rounded-xl shadow-xl backdrop-blur-sm bg-opacity-80">
           <div className="space-y-6">
@@ -206,7 +219,7 @@ const CreateBlog = () => {
             <div className="pt-6">
               <Button
                 type="submit"
-                className="w-full bg-primary hover:bg-primary/90 text-white font-semibold py-3"
+                className="w-full bg-primary hover:bg-primary/90 text-white dark:text-black font-semibold py-3"
               >
                 Create Blog
               </Button>
@@ -214,7 +227,7 @@ const CreateBlog = () => {
           </div>
         </div>
       </form>
-    </div>
+    </motion.div>
   );
 };
 
