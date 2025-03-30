@@ -1,5 +1,4 @@
 import { BlogCard } from "@/components/BlogCard";
-import BlogCardSkeleton from "@/components/BlogCardSkeleton";
 import { Header } from "@/components/Header";
 import { Input } from "@/components/ui/input";
 import { useBlog } from "@/hooks/useBlog";
@@ -8,6 +7,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { SIGNIN_URL } from "@/constants/config";
+import BlogCardSkeleton from "@/components/BlogCardSkeleton";
 
 const containerVarient = {
   hidden: { opacity: 0 },
@@ -53,7 +53,7 @@ const Blog = () => {
     <div>
       <Header />
       <div className="py-6 sm:px-0 mt-24">
-        <div className="flex justify-center mx-12 md:mx-32 lg:w-1/2 lg:mx-auto mb-8 mt-4">
+        <div className="flex justify-center mx-12 md:mx-32 lg:w-1/3 lg:mx-auto mb-8 mt-4">
           <Input
             placeholder="Search for blogs"
             onChange={(e) => setSearchQuery(e.target.value)}
@@ -61,17 +61,17 @@ const Blog = () => {
           />
         </div>
         {loading ? (
-          Array.from({ length: 5 }).map((_, index) => (
-            <motion.div key={index} variants={itemVarient}>
-              <BlogCardSkeleton />
-            </motion.div>
-          ))
+          <div className="grid md:grid-cols-2 grid-cols-1 gap-3 max-w-6xl items-center xl:mx-auto mx-4">
+            {[...Array(4)].map((_, i) => (
+              <BlogCardSkeleton key={i} />
+            ))}
+          </div>
         ) : (
           <motion.div
             variants={containerVarient}
             initial="hidden"
             animate="show"
-            className="space-y-4"
+            className="grid md:grid-cols-2 grid-cols-1 gap-3 max-w-6xl items-center xl:mx-auto mx-4"
           >
             {filteredBlogs.map((blog) => (
               <motion.div key={blog.id} variants={itemVarient}>
