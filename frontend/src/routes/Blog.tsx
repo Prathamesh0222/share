@@ -52,7 +52,7 @@ const Blog = () => {
   return (
     <div>
       <Header />
-      <div className="py-6 sm:px-0">
+      <div className="py-6 sm:px-0 mt-24">
         <div className="flex justify-center mx-12 md:mx-32 lg:w-1/2 lg:mx-auto mb-8 mt-4">
           <Input
             placeholder="Search for blogs"

@@ -88,7 +88,7 @@ const IdBlog = () => {
 
   return (
     <div>
-      <div className="flex justify-center mt-12 mb-8 text-3xl">My Blogs</div>
+      <div className="flex justify-center mt-24 mb-8 text-3xl">My Blogs</div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
         {!loading ? (
           blogs.map((blog: Blog, idx) => (
