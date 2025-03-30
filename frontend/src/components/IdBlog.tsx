@@ -166,6 +166,16 @@ const IdBlog = () => {
           <div>Loading...</div>
         )}
       </div>
+      {blogs.length === 0 && (
+        <div className="flex flex-col items-center justify-center text-center w-full">
+          <h1 className="text-2xl font-semibold text-gray-600 dark:text-gray-400 mb-2">
+            No Blogs Found
+          </h1>
+          <p className="text-gray-500 dark:text-gray-500">
+            Start creating Blogs
+          </p>
+        </div>
+      )}
     </div>
   );
 };
