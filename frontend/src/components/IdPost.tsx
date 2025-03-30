@@ -66,7 +66,7 @@ export const IdPost = ({ blog }: { blog: Blog }) => {
   return (
     <div>
       <Header />
-      <div className="mt-3 text-center">
+      <div className="mt-12 text-center">
         <div className="lg:max-w-5xl px-4 py-12 mx-auto ">
           <div>
             <motion.h1

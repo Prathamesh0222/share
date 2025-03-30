@@ -1,31 +1,29 @@
 const BlogCardSkeleton = () => {
   return (
-    <main className="p-4 mx-auto bg-white border rounded-xl dark:bg-zinc-950 max-w-7xl sm:p-6 lg:p-8 animate-pulse">
-      <div className="flex flex-col sm:flex-row">
-        <div className="flex justify-center mb-4 sm:mb-0 sm:mr-6 sm:w-1/3">
-          <div className="object-cover w-full h-48 rounded-lg bg-zinc-300 dark:bg-zinc-700 lg:h-48 md:h-full lg:w-full"></div>
-        </div>
-        <div className="flex-1">
-          <div className="flex justify-between mb-2">
-            <div className="h-8 bg-zinc-300 dark:bg-zinc-700 rounded w-3/4"></div>
-            <div className="mt-2 w-6 h-6 bg-zinc-300 dark:bg-zinc-700 rounded-full"></div>
+    <div className="overflow-hidden bg-white border rounded-xl dark:bg-zinc-950 animate-pulse">
+      <div className="flex flex-col h-full">
+        <div className="aspect-video bg-zinc-300 dark:bg-zinc-700"></div>
+        <div className="flex flex-col flex-1 p-5">
+          <div className="flex gap-2 mb-3">
+            <div className="h-6 bg-zinc-300 dark:bg-zinc-700 rounded w-16"></div>
+            <div className="h-6 bg-zinc-300 dark:bg-zinc-700 rounded w-16"></div>
           </div>
-          <div className="pr-12 mt-4 mb-4 text-justify bg-zinc-300 dark:bg-zinc-700 h-24 rounded"></div>
-          <div className="flex flex-col items-start space-y-2 sm:flex-row sm:items-center sm:space-x-4 sm:space-y-0">
-            <div className="object-cover w-10 h-10 rounded-full bg-zinc-300 dark:bg-zinc-700 sm:h-12 sm:w-12"></div>
-            <div className="flex flex-col sm:flex-row sm:space-x-4">
-              <div className="h-4 bg-zinc-300 dark:bg-zinc-700 rounded w-24"></div>
-              <div className="h-4 bg-zinc-300 dark:bg-zinc-700 rounded w-16"></div>
+          <div className="h-7 bg-zinc-300 dark:bg-zinc-700 rounded mb-3 w-3/4"></div>
+          <div className="space-y-2 mb-4">
+            <div className="h-4 bg-zinc-300 dark:bg-zinc-700 rounded w-full"></div>
+            <div className="h-4 bg-zinc-300 dark:bg-zinc-700 rounded w-5/6"></div>
+            <div className="h-4 bg-zinc-300 dark:bg-zinc-700 rounded w-4/6"></div>
+          </div>
+          <div className="flex items-center mt-auto pt-4 border-t border-gray-100 dark:border-gray-800">
+            <div className="w-8 h-8 rounded-full bg-zinc-300 dark:bg-zinc-700"></div>
+            <div className="ml-3 space-y-1">
+              <div className="h-3 bg-zinc-300 dark:bg-zinc-700 rounded w-20"></div>
+              <div className="h-2 bg-zinc-300 dark:bg-zinc-700 rounded w-16"></div>
             </div>
-          </div>
-          <div className="mt-6 space-x-3">
-            <div className="inline-block h-6 bg-zinc-300 dark:bg-zinc-700 rounded w-16"></div>
-            <div className="inline-block h-6 bg-zinc-300 dark:bg-zinc-700 rounded w-16"></div>
-            <div className="inline-block h-6 bg-zinc-300 dark:bg-zinc-700 rounded w-16"></div>
           </div>
         </div>
       </div>
-    </main>
+    </div>
   );
 };
 

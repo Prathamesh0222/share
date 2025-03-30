@@ -6,13 +6,19 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { BookmarkIcon, LogOut, UserPen } from "lucide-react";
+import { BookmarkIcon, LogOut, Moon, Sun, UserPen } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import useUser from "@/hooks/useUser";
+import { useTheme } from "next-themes";
 
 export const Avatar = () => {
   const { user } = useUser();
   const navigate = useNavigate();
+  const { theme, setTheme } = useTheme();
+
+  const toggleTheme = () => {
+    setTheme(theme === "dark" ? "light" : "dark");
+  };
 
   const Logout = () => {
     console.log("Logout");
@@ -51,6 +57,10 @@ export const Avatar = () => {
           <DropdownMenuItem className="cursor-pointer" onClick={Bookmark}>
             <BookmarkIcon size={18} />
             <span className="pl-1">Bookmark</span>
+          </DropdownMenuItem>
+          <DropdownMenuItem className="cursor-pointer" onClick={toggleTheme}>
+            {theme === "dark" ? <Moon size={18} /> : <Sun size={18} />}
+            <span className="pl-1">Theme</span>
           </DropdownMenuItem>
           <DropdownMenuItem className="cursor-pointer" onClick={Logout}>
             <LogOut className="ml-1" size={18} />

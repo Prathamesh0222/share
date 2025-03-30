@@ -5,7 +5,30 @@
 @tailwind utilities;
 
 .tiptap {
-  padding: 1rem;
+  padding: 1.5rem;
+  padding-top: 4rem;
+  min-height: 300px;
+}
+
+.editor-container {
+  height: 300px;
+  display: flex;
+  flex-direction: column;
+}
+
+.scrollbar::-webkit-scrollbar {
+  scrollbar-width: thin;
+  width: 8px;
+  scroll-behavior: smooth;
+}
+
+.scrollbar::-webkit-scrollbar-thumb {
+  background: hsl(var(--muted-foreground));
+  border-radius: 4px;
+}
+
+.scrollbar::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--primary));
 }
 
 ul {
