@@ -53,8 +53,19 @@ const Blog = () => {
   return (
     <div>
       <Header />
-      <div className="py-6 sm:px-0 mt-24">
-        <div className="relative justify-center mx-12 md:mx-32 lg:w-1/3 lg:mx-auto mb-8 mt-4">
+      <div className="md:py-6 px-0 mt-24">
+        <motion.div
+          initial={{ opacity: 0, y: -50, scale: 0.95 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{
+            duration: 0.4,
+            delay: 0.2,
+            type: "spring",
+            stiffness: 100,
+            damping: 10,
+          }}
+          className="relative justify-center mx-12 md:mx-32 lg:w-1/3 lg:mx-auto mb-8 mt-4"
+        >
           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
             <SearchIcon className="h-5 w-5 text-gray-400" />
           </div>
@@ -64,7 +75,7 @@ const Blog = () => {
             value={searchQuery}
             className="pl-10"
           />
-        </div>
+        </motion.div>
         {loading ? (
           <div className="grid md:grid-cols-2 grid-cols-1 gap-3 max-w-6xl items-center xl:mx-auto mx-4">
             {[...Array(4)].map((_, i) => (

@@ -111,7 +111,18 @@ const IdBlog = () => {
       </motion.div>
 
       {blogs.length === 0 && !loading ? (
-        <div className="flex flex-col items-center justify-center text-center w-full p-12 rounded-lg shadow-sm max-w-2xl mx-auto">
+        <motion.div
+          initial={{ opacity: 0, y: -50, scale: 0.95 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{
+            duration: 0.4,
+            delay: 0.2,
+            type: "spring",
+            stiffness: 100,
+            damping: 10,
+          }}
+          className="flex flex-col items-center justify-center text-center w-full p-12 rounded-lg shadow-sm max-w-2xl mx-auto"
+        >
           <svg
             className="w-16 h-16 text-gray-400 mb-4"
             fill="none"
@@ -149,7 +160,7 @@ const IdBlog = () => {
               ></path>
             </svg>
           </Button>
-        </div>
+        </motion.div>
       ) : (
         <>
           {loading ? (
