@@ -55,15 +55,22 @@ export const Auth = ({ type }: { type: "signup" | "signin" }) => {
   };
 
   return (
-    <div>
+    <div className="overflow-hidden">
       <div className="absolute z-10 right-4 top-5">
         <ModeToggle />
       </div>
 
       <motion.div
-        initial={{ opacity: 0, scale: 0.5 }}
+        initial={{ opacity: 0, scale: 0.8 }}
         animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.6, delay: 0.2, ease: "easeInOut" }}
+        transition={{
+          duration: 0.4,
+          delay: 0.2,
+          ease: "easeOut",
+          type: "spring",
+          stiffness: 100,
+          damping: 10,
+        }}
       >
         <div className="relative flex flex-col justify-center h-screen">
           <div className="flex justify-center">
