@@ -11,6 +11,7 @@ import { Toolbar } from "./Toolbar";
 import { Badge } from "./ui/badge";
 import { ArrowDown, ImagePlus, Trash, X } from "lucide-react";
 import { motion } from "framer-motion";
+import Image from "@tiptap/extension-image";
 
 const CreateBlog = () => {
   const navigate = useNavigate();
@@ -78,7 +79,16 @@ const CreateBlog = () => {
       setImagePreview(URL.createObjectURL(file));
     }
   };
-  const extensions = [StarterKit];
+  const extensions = [
+    StarterKit,
+    Image.configure({
+      allowBase64: true,
+      inline: true,
+      HTMLAttributes: {
+        class: "my-custom-class",
+      },
+    }),
+  ];
 
   const editor = useEditor({
     extensions,
