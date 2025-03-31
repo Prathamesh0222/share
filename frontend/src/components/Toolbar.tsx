@@ -3,12 +3,34 @@ import {
   Heading1,
   Heading2,
   Heading3,
+  ImageIcon,
   Italic,
   List,
   TextQuote,
 } from "lucide-react";
+import { useRef } from "react";
 
 export const Toolbar = ({ editor }: any) => {
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files?.length || !editor) {
+      return;
+    }
+    const file = e.target.files[0];
+    const reader = new FileReader();
+
+    reader.onload = (e) => {
+      if (typeof e.target?.result === "string") {
+        editor.chain().focus().setImage({ src: e.target.result }).run();
+      }
+    };
+
+    reader.readAsDataURL(file);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+  };
+
   if (!editor) {
     return null;
   }
@@ -23,7 +45,7 @@ export const Toolbar = ({ editor }: any) => {
             : "py-1.5 px-2.5 rounded"
         }
       >
-        <Bold size={20} />
+        <Bold size={16} />
       </button>
       <button
         type="button"
@@ -34,7 +56,7 @@ export const Toolbar = ({ editor }: any) => {
             : "py-1.5 px-2.5 rounded"
         }
       >
-        <Italic size={20} />
+        <Italic size={16} />
       </button>
       <button
         type="button"
@@ -45,7 +67,7 @@ export const Toolbar = ({ editor }: any) => {
             : "py-1.5 px-2.5 rounded"
         }
       >
-        <Heading1 size={20} />
+        <Heading1 size={16} />
       </button>
       <button
         type="button"
@@ -56,7 +78,7 @@ export const Toolbar = ({ editor }: any) => {
             : "py-1.5 px-2.5 rounded"
         }
       >
-        <Heading2 size={20} />
+        <Heading2 size={16} />
       </button>
       <button
         type="button"
@@ -67,7 +89,7 @@ export const Toolbar = ({ editor }: any) => {
             : "py-1.5 px-2.5 rounded"
         }
       >
-        <Heading3 size={20} />
+        <Heading3 size={16} />
       </button>
       <button
         type="button"
@@ -78,7 +100,7 @@ export const Toolbar = ({ editor }: any) => {
             : "py-1.5 px-2.5 rounded"
         }
       >
-        <List size={20} />
+        <List size={16} />
       </button>
       <button
         type="button"
@@ -89,7 +111,21 @@ export const Toolbar = ({ editor }: any) => {
             : "py-1.5 px-2.5 rounded"
         }
       >
-        <TextQuote size={20} />
+        <TextQuote size={16} />
+      </button>
+      <input
+        type="file"
+        ref={fileInputRef}
+        onChange={handleImageUpload}
+        accept="image/*"
+        className="hidden"
+      />
+      <button
+        type="button"
+        onClick={() => fileInputRef.current?.click()}
+        className={"py-1.5 px-2.5 rounded"}
+      >
+        <ImageIcon size={16} />
       </button>
     </div>
   );

@@ -3,28 +3,25 @@ import { LandingNavbar } from "@/components/LandingNavbar";
 import { Button } from "@/components/ui/button";
 import { InfiniteMovingCards } from "@/components/ui/infinite-moving-cards";
 import { motion, useInView } from "framer-motion";
-import { GridSmallBackgroundDemo } from "@/components/ui/grid-background";
 import { features } from "@/constants/Features";
 import { testimonials } from "@/constants/testimonials";
 import { useRef } from "react";
-import ResponsiveImage from "@/components/ResponsiveImage";
-import landingImageSm from "../assets/landing_page_ss_sm.jpg";
-import landingImageMd from "../assets/landing_page_ss_md.jpg";
-import landingImageLg from "../assets/landing_page_ss.jpg";
-import FeaturedPosts from "@/components/FeaturedPost";
 import { useNavigate } from "react-router-dom";
+import { ContainerScroll } from "@/components/ui/container-scroll-animation";
+import desktopBlogInk from "@/assets/desktop_BlogInk.png";
+import iPadBlogInk from "@/assets/ipad_BlogInk.png";
+import iPhoneBlogInk from "@/assets/iphone_BlogInk.png";
+import { data, Gallery4 } from "@/components/gallery4";
 
 export const Landing = () => {
   const featureVariants = {
     hidden: {
       opacity: 0,
       y: 50,
-      filter: "blur(10px)",
     },
     visible: {
       opacity: 1,
       y: 0,
-      filter: "blur(0px)",
     },
   };
 
@@ -33,78 +30,91 @@ export const Landing = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen flex flex-col overflow-hidden">
+    <div className="min-h-screen flex flex-col scollbar">
       <LandingNavbar />
       <div className="relative flex-grow">
-        <div className="absolute inset-0">
-          <GridSmallBackgroundDemo />
-        </div>
+        <div className="absolute inset-0"></div>
         <div className="relative mt-48 items-center">
-          <motion.div
-            initial={{ opacity: 0, y: 50, filter: "blur(10px)" }}
-            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-            transition={{
-              duration: 1,
-              delay: 0.3,
-              type: "spring",
-            }}
-            className="text-7xl text-center font-bold tracking-tight"
-          >
-            <span>Welcome to</span>{" "}
-            <span className="bg-clip-text text-transparent bg-gradient-to-br from-blue-500 via-blue-500 to-blue-400 text-center">
-              BlogInk
-            </span>
-          </motion.div>
-          <motion.div
-            initial={{ opacity: 0, y: 40, filter: "blur(10px)" }}
-            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-            transition={{
-              duration: 1,
-              delay: 0.5,
-              type: "spring",
-            }}
-            className="text-center text-xl text-white mt-4 mx-12"
-          >
-            Your go-to platform for sharing stories, ideas, and insights through
-            blogs.
-            <div className="mt-5 sm:space-x-2 gap-2 flex flex-col md:flex-row md:justify-center">
-              <Button onClick={() => navigate("/signin")} variant={"outline"}>
-                Get Started
-              </Button>
-              <Button
-                variant={"default"}
-                onClick={() =>
-                  featuresRef.current?.scrollIntoView({ behavior: "smooth" })
-                }
-              >
-                Features
-              </Button>
-            </div>
-            <div className="flex justify-center mt-12 relative">
-              <div className="absolute -top-10 inset-x-0 md:inset-x-0 lg:inset-x-0 xl:inset-x-0 2xl:inset-x-48 h-[110%] -z-10">
-                <div className="w-full h-full bg-gradient-to-b from-blue-600/30 via-blue-600/20 to-transparent blur-2xl" />
+          <div className="h-[600px] flex flex-col justify-center">
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{
+                duration: 1,
+                delay: 0.3,
+                type: "spring",
+              }}
+              className="text-6xl md:text-7xl text-center tracking-tight"
+            >
+              <span className="font-bold">Discover</span>{" "}
+              <span className="font-bold bg-clip-text text-transparent bg-gradient-to-br from-blue-500 via-blue-500 to-blue-400 text-center">
+                BlogInk
+              </span>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{
+                duration: 1,
+                delay: 0.5,
+                type: "spring",
+              }}
+              className="text-center text-xl mt-4 mx-12"
+            >
+              <p className="font-normal text-white/85">
+                Your go-to platform for sharing stories, ideas, and insights
+                through beautiful blogs.
+              </p>
+              <div className="mt-5 gap-2 flex flex-col md:flex-row justify-center items-center max-w-xl mx-auto">
+                <Button
+                  className="w-full"
+                  onClick={() => navigate("/signin")}
+                  variant={"outline"}
+                >
+                  Get Started
+                </Button>
+                <Button
+                  className="w-full"
+                  variant={"default"}
+                  onClick={() =>
+                    featuresRef.current?.scrollIntoView({ behavior: "smooth" })
+                  }
+                >
+                  Features
+                </Button>
               </div>
-              <div className="relative">
-                <div className="relative mx-auto border-gray-800 dark:border-gray-800 bg-gray-800 border-[14px] rounded-[2.5rem] h-[807px] max-w-[1366px] shadow-xl">
-                  <div className="h-[32px] w-[3px] bg-gray-800 dark:bg-gray-800 absolute -left-[17px] top-[72px] rounded-l-lg"></div>
-                  <div className="h-[46px] w-[3px] bg-gray-800 dark:bg-gray-800 absolute -left-[17px] top-[124px] rounded-l-lg"></div>
-                  <div className="h-[46px] w-[3px] bg-gray-800 dark:bg-gray-800 absolute -left-[17px] top-[178px] rounded-l-lg"></div>
-                  <div className="h-[64px] w-[3px] bg-gray-800 dark:bg-gray-800 absolute -right-[17px] top-[142px] rounded-r-lg"></div>
-                  <div className="rounded-[2rem] overflow-hidden h-[770px] bg-white dark:bg-gray-800">
-                    <ResponsiveImage
-                      landingImageSm={landingImageSm}
-                      landingImageMd={landingImageMd}
-                      landingImage={landingImageLg}
-                    />
-                  </div>
-                </div>
-                <div className="absolute bottom-0 left-0 right-0 h-72 bg-gradient-to-b from-transparent via-background/70 to-background" />
-              </div>
-            </div>
-          </motion.div>
+            </motion.div>
+          </div>
+
+          <ContainerScroll
+            titleComponent={
+              <h1 className="text-4xl font-semibold text-black dark:text-white">
+                Unleash your creativity with <br />
+                <span className="text-4xl md:text-[6rem] font-bold mt-1 leading-none">
+                  Engaging Content
+                </span>
+              </h1>
+            }
+          >
+            <img
+              src={desktopBlogInk}
+              className="hidden lg:block object-cover w-full rounded-xl min-h-full"
+              alt="BlogInk Desktop preview"
+            />
+            <img
+              src={iPadBlogInk}
+              className="md:block hidden object-cover min-w-full rounded-xl min-h-full"
+              alt="BlogInk iPad preview"
+            />
+            <img
+              src={iPhoneBlogInk}
+              className="block md:hidden object-cover w-full rounded-xl"
+              alt="BlogInk iPhone preview"
+            />
+          </ContainerScroll>
           <motion.div
-            initial={{ opacity: 0, y: 50, filter: "blur(10px)" }}
-            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{
               duration: 1,
               delay: 0.6,
@@ -113,13 +123,11 @@ export const Landing = () => {
             variants={featureVariants}
             className="max-w-7xl mx-auto"
           >
-            <h1 className="mt-32 text-5xl text-center mb-20 font-bold decoration-blue-500 underline underline-offset-8">
-              Featured Blogs
-            </h1>
-            <FeaturedPosts />
+            <Gallery4 items={data} />
           </motion.div>
+
           <motion.div
-            initial={{ opacity: 0, y: 40, filter: "blur(10px)" }}
+            initial={{ opacity: 0, y: 40 }}
             animate={isInView ? "visible" : "hidden"}
             variants={featureVariants}
             transition={{
@@ -128,73 +136,100 @@ export const Landing = () => {
               type: "spring",
             }}
             ref={featuresRef}
-            className="min-h-screen max-w-7xl mx-auto flex flex-col mt-28"
+            className="min-h-screen max-w-7xl mx-auto flex flex-col mt-28 md:px-4 px-6 lg:px-8"
           >
-            <div className="mx-auto mt-16">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 1000 100"
-                fill="blue"
-              >
-                <path d="M1000 0H0v52C62.5 28 125 4 250 4c250 0 250 96 500 96 125 0 187.5-24 250-48V0Z"></path>
-              </svg>
-              <h1 className="text-xl text-center text-blue-500 font-bold">
-                Features
-              </h1>
-              <h1 className="text-5xl font-bold decoration-blue-500 underline underline-offset-8">
-                Why BlogInk?
-              </h1>
+            <div className="relative">
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-purple-500/20 blur-3xl opacity-30 rounded-3xl -z-10"></div>
+              <div className="text-center space-y-4 mb-16">
+                <span className="inline-block px-4 py-1.5 bg-blue-900/30 text-blue-300 font-medium rounded-full text-sm">
+                  Features
+                </span>
+                <h2 className="text-4xl md:text-5xl font-bold">
+                  <span className="bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400 text-transparent bg-clip-text">
+                    Why Choose BlogInk?
+                  </span>
+                </h2>
+                <p className="max-w-2xl mx-auto text-gray-500 dark:text-gray-400 text-lg">
+                  Discover the powerful features that make BlogInk the perfect
+                  platform for your content creation journey
+                </p>
+              </div>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-4 sm:px-6 lg:px-8 mt-16">
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-8">
               {features.map((feature, index) => (
-                <div
+                <motion.div
                   key={index}
-                  className="flex flex-col items-center p-6 rounded-2xl hover:bg-blue-500/15 transition-colors duration-200 hover:scale-105"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  viewport={{ once: true }}
+                  className="bg-black backdrop-blur-sm border border-gray-200 dark:border-gray-700/50 rounded-xl shadow-lg overflow-hidden group hover:shadow-xl transition-all duration-300"
                 >
-                  <div className="flex flex-col space-y-5">
-                    <span className="text-blue-500">{feature.icon}</span>
-                    <h2 className="text-2xl font-semibold">{feature.title}</h2>
-                    <p className="text-gray-400">{feature.description}</p>
+                  <div className="p-6">
+                    <div className="w-12 h-12 rounded-lg  flex items-center justify-center mb-5 text-blue-600 dark:text-blue-400 group-hover:bg-blue-600 group-hover:text-white transition-colors duration-300">
+                      {feature.icon}
+                    </div>
+                    <video
+                      className="rounded-xl"
+                      loop
+                      autoPlay
+                      muted
+                      preload="auto"
+                    >
+                      <source src={feature.video} type="video/mp4" />
+                    </video>
+                    <h3 className="text-xl font-bold mb-3 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300">
+                      {feature.title}
+                    </h3>
+                    <p className="text-gray-600 dark:text-gray-300">
+                      {feature.description}
+                    </p>
                   </div>
-                </div>
+                  <div className="h-1.5 w-full bg-gradient-to-r from-blue-600 to-purple-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
+                </motion.div>
               ))}
             </div>
           </motion.div>
           <motion.div
-            initial={{ opacity: 0, y: 40, filter: "blur(10px)" }}
-            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{
               duration: 1,
               delay: 0.6,
               type: "spring",
             }}
-            className="max-w-7xl mx-auto flex flex-col"
+            className=" max-w-7xl mx-auto flex flex-col mt-28 md:px-4 px-6 lg:px-8"
           >
-            <div className="mx-auto">
-              <h1 className="text-xl text-center text-blue-500 font-bold">
-                Across the internet
-              </h1>
-              <h1 className="text-center text-5xl font-bold decoration-blue-500 underline underline-offset-8">
-                Reviews
-              </h1>
+            <div className="relative">
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-purple-500/20 blur-3xl opacity-30 rounded-3xl -z-10"></div>
+              <div className="text-center space-y-4 mb-16">
+                <span className="inline-block px-4 py-1.5 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-300 font-medium rounded-full text-sm">
+                  Testimonials
+                </span>
+                <h2 className="text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400">
+                  Reviews
+                </h2>
+                <p className="max-w-2xl mx-auto text-gray-500 dark:text-gray-400 text-lg">
+                  See what our users are saying about their experience with
+                  BlogInk across the internet
+                </p>
+              </div>
             </div>
-          </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 40, filter: "blur(10px)" }}
-            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-            transition={{
-              duration: 1,
-              delay: 0.7,
-              type: "spring",
-            }}
-            className="mt-12 flex justify-center"
-          >
-            <InfiniteMovingCards
-              items={testimonials}
-              direction="right"
-              speed="slow"
-            />
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              viewport={{ once: true }}
+              className="mt-8 flex justify-center"
+            >
+              <InfiniteMovingCards
+                items={testimonials}
+                direction="right"
+                speed="slow"
+              />
+            </motion.div>
           </motion.div>
         </div>
         <div className="relative">

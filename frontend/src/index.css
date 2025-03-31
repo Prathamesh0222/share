@@ -10,6 +10,16 @@
   min-height: 300px;
 }
 
+.my-custom-class {
+  display: block;
+  margin: 0 auto;
+  max-width: 90%;
+  height: auto;
+  border-radius: 12px;
+  margin-top: 12px;
+  margin-bottom: 12px;
+}
+
 .editor-container {
   height: 300px;
   display: flex;
