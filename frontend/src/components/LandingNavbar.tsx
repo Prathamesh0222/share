@@ -17,9 +17,9 @@ export const LandingNavbar = () => {
         type: "spring",
         stiffness: 100,
       }}
-      className="fixed top-0 left-0 right-0 z-50 backdrop-blur-md border-b border-white/10 shadow-lg"
+      className="fixed top-0 left-0 right-0 z-50 backdrop-blur-md"
     >
-      <div className="container p-4 flex items-center text-white justify-between">
+      <div className="max-w-7xl container p-4 flex items-center text-white justify-between">
         <div className="flex gap-2 items-center">
           <Signature />
           <div className="text-xl font-bold">BlogInk</div>

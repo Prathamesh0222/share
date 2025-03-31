@@ -10,9 +10,11 @@ export const LandingFooter = () => {
         duration: 0.8,
         delay: 0.3,
       }}
-      className="max-w-7xl mx-auto flex justify-between w-full p-5 mt-2 text-white text-center"
+      className="max-w-7xl mx-auto flex justify-between w-full p-5 text-white text-center"
     >
-      <p>&copy; {new Date().getFullYear()} BlogInk. All rights reserved.</p>
+      <p className="text-muted-foreground">
+        Designed and Developed by Prathamesh
+      </p>
       <div className="flex gap-2">
         <a
           href="https://github.com/Prathamesh0222"
