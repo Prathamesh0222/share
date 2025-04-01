@@ -1,15 +1,27 @@
-import { motion } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import { Github, Linkedin } from "lucide-react";
+import { useRef } from "react";
 
 export const LandingFooter = () => {
+  const footerRef = useRef<HTMLDivElement>(null);
+  const featureInView = useInView(footerRef, { once: false });
   return (
-    <motion.footer
-      initial={{ opacity: 0, y: 50 }}
-      animate={{ opacity: 1, y: 0 }}
+    <motion.div
+      initial={{ opacity: 0, y: -50, scale: 0.9 }}
+      animate={
+        featureInView
+          ? { opacity: 1, y: 0, scale: 1 }
+          : { opacity: 0, y: -50, scale: 0.9 }
+      }
       transition={{
         duration: 0.8,
-        delay: 0.3,
+        delay: 0.5,
+        type: "spring",
+        ease: "easeOut",
+        stiffness: 100,
+        damping: 10,
       }}
+      ref={footerRef}
       className="max-w-7xl mx-auto flex justify-between w-full p-5 text-white text-center"
     >
       <p className="text-muted-foreground">
@@ -31,6 +43,6 @@ export const LandingFooter = () => {
           <Linkedin />
         </a>
       </div>
-    </motion.footer>
+    </motion.div>
   );
 };
