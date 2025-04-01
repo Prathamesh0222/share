@@ -86,6 +86,12 @@ module.exports = {
         scroll:
         "scroll var(--animation-duration, 40s) var(--animation-direction, forwards) linear infinite",
       },
+      backgroundImage: {
+        'dot-pattern': "radial-gradient(circle, #ffffff 0.1px, transparent 0.8px)",
+      },
+      backgroundSize: {
+        'dot-pattern': '10px 10px',
+      }
     },
   },
   plugins: [require("tailwindcss-animate"), function ({ matchUtilities, theme }: any) {

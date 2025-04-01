@@ -10,11 +10,6 @@ import {
   CarouselContent,
   CarouselItem,
 } from "@/components/ui/carousel";
-import TypescriptSample from "@/assets/samples/typescript_sample.png";
-import BunSample2 from "@/assets/samples/bun_sample2.png";
-import socialSample from "@/assets/samples/social_sample.png";
-import ClaudeSample from "@/assets/samples/Claude_AI.png";
-import AISample from "@/assets/samples/AI.png";
 
 export interface Gallery4Item {
   id: string;
@@ -30,6 +25,12 @@ export interface Gallery4Props {
   items: Gallery4Item[];
 }
 
+const TypescriptSample = import.meta.env.VITE_TYPESCRIPT_SAMPLE;
+const BunSample = import.meta.env.VITE_BUN_SAMPLE;
+const ShadcnSample = import.meta.env.VITE_SHADCN_SAMPLE;
+const AISample = import.meta.env.VITE_AI_SAMPLE;
+const ClaudeSample = import.meta.env.VITE_CLAUDE_SAMPLE;
+
 export const data = [
   {
     id: "ai",
@@ -37,7 +38,7 @@ export const data = [
       "Microsoft's TypeScript Compiler Rewritten in Go: A Leap Towards 10x Performance",
     description:
       "In a groundbreaking move, Microsoft has announced the complete rewrite of the TypeScript compiler and its tooling using the Go programming language. This decision comes as part of an effort to significantly improve compilation speed, optimize memory usage, and enhance overall developer experience. By leveraging Go’s highly efficient concurrency model and fast execution capabilities, the new TypeScript compiler is expected to achieve up to a tenfold increase in performance compared to its predecessor, which was written in JavaScript.",
-    href: "https://ui.shadcn.com",
+    href: "/signin",
     image: TypescriptSample,
   },
   {
@@ -45,16 +46,16 @@ export const data = [
     title: "Bun – The Lightning-Fast JavaScript Runtime for Modern Development",
     description:
       "Bun is a high-performance JavaScript runtime built for speed, efficiency, and ease of use. Developed in Zig, it is designed to be an all-in-one toolkit that significantly improves developer productivity by integrating a runtime, package manager, test runner, and bundler into a single, lightweight system. With a focus on lightning-fast startup times and optimized memory usage, Bun offers a compelling alternative to Node.js and Deno.",
-    href: "https://tailwindcss.com",
-    image: BunSample2,
+    href: "/signin",
+    image: BunSample,
   },
   {
     id: "shadcn",
     title: "Mastering ShadCN: A Comprehensive Guide to Modern UI Components",
     description:
       "ShadCN is a modern, highly customizable UI component library that enhances the developer experience by combining the flexibility of Tailwind CSS with the accessibility and robustness of Radix UI. Unlike traditional UI libraries that impose predefined styles and rigid structures, ShadCN empowers developers by allowing them to import only the components they need while maintaining full control over design, functionality, and customization.",
-    href: "https://astro.build",
-    image: socialSample,
+    href: "/signin",
+    image: ShadcnSample,
   },
   {
     id: "claude",
@@ -62,15 +63,15 @@ export const data = [
       "Claude 3.7 Sonnet: The Next Evolution in AI Reasoning and Multimodal Intelligence",
     description:
       "Claude 3.7 Sonnet is the latest breakthrough in AI development, pushing the boundaries of reasoning, multimodal understanding, and user-controlled AI interactions. With a significant leap in both performance and adaptability, this model introduces hybrid reasoning, allowing users to fine-tune the AI’s thought process depending on the complexity of the task.",
-    href: "https://react.dev",
+    href: "/signin",
     image: ClaudeSample,
   },
   {
-    id: "nextjs",
+    id: "ai",
     title: "The Rise of AI in Web Development: How It's Changing the Industry",
     description:
       "In recent years, Artificial Intelligence (AI) has significantly impacted the web development industry, transforming how websites are designed, built, and maintained. From automated code generation to intelligent design tools, AI is reshaping the traditional development workflow, making it more efficient and accessible to a broader audience.",
-    href: "https://nextjs.org",
+    href: "/signin",
     image: AISample,
   },
 ];
@@ -103,40 +104,17 @@ const Gallery4 = ({ items = data }: Gallery4Props) => {
         <div className="mb-8 flex items-end justify-between md:mb-14 lg:mb-16">
           <div className="relative flex justify-center w-full mb-12">
             <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-purple-500/20 blur-3xl opacity-30 rounded-3xl -z-10"></div>
-            <div className="text-center space-y-4 mb-16">
-              <span className="inline-block px-4 py-1.5 bg-blue-900/30 text-blue-300 font-medium rounded-full text-sm">
+            <div className="text-center space-y-3 mb-2">
+              <span className="inline-block px-4 py-1.5 bg-white text-black font-medium rounded-full text-sm">
                 {items.length} Featured Articles
               </span>
               <h2 className="text-4xl md:text-5xl font-bold ">
-                <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400">
-                  Latest Tech Insights
-                </span>
+                <span>Latest Tech Insights</span>
               </h2>
+              <p className="max-w-2xl mx-auto text-lg text-gray-600 dark:text-gray-300">
+                Dive into the latest tech trends and updates.
+              </p>
             </div>
-          </div>
-          <div className="hidden shrink-0 gap-2 md:flex">
-            <Button
-              size="icon"
-              variant="ghost"
-              onClick={() => {
-                carouselApi?.scrollPrev();
-              }}
-              disabled={!canScrollPrev}
-              className="disabled:pointer-events-auto"
-            >
-              <ArrowLeft className="size-5" />
-            </Button>
-            <Button
-              size="icon"
-              variant="ghost"
-              onClick={() => {
-                carouselApi?.scrollNext();
-              }}
-              disabled={!canScrollNext}
-              className="disabled:pointer-events-auto"
-            >
-              <ArrowRight className="size-5" />
-            </Button>
           </div>
         </div>
       </div>
@@ -194,6 +172,30 @@ const Gallery4 = ({ items = data }: Gallery4Props) => {
               aria-label={`Go to slide ${index + 1}`}
             />
           ))}
+        </div>
+        <div className="hidden shrink-0 gap-2 md:flex">
+          <Button
+            size="icon"
+            variant="ghost"
+            onClick={() => {
+              carouselApi?.scrollPrev();
+            }}
+            disabled={!canScrollPrev}
+            className="disabled:pointer-events-auto"
+          >
+            <ArrowLeft className="size-5" />
+          </Button>
+          <Button
+            size="icon"
+            variant="ghost"
+            onClick={() => {
+              carouselApi?.scrollNext();
+            }}
+            disabled={!canScrollNext}
+            className="disabled:pointer-events-auto"
+          >
+            <ArrowRight className="size-5" />
+          </Button>
         </div>
       </div>
     </section>
