@@ -66,7 +66,7 @@ export const data = [
     image: ClaudeSample,
   },
   {
-    id: "nextjs",
+    id: "ai",
     title: "The Rise of AI in Web Development: How It's Changing the Industry",
     description:
       "In recent years, Artificial Intelligence (AI) has significantly impacted the web development industry, transforming how websites are designed, built, and maintained. From automated code generation to intelligent design tools, AI is reshaping the traditional development workflow, making it more efficient and accessible to a broader audience.",
@@ -103,40 +103,17 @@ const Gallery4 = ({ items = data }: Gallery4Props) => {
         <div className="mb-8 flex items-end justify-between md:mb-14 lg:mb-16">
           <div className="relative flex justify-center w-full mb-12">
             <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-purple-500/20 blur-3xl opacity-30 rounded-3xl -z-10"></div>
-            <div className="text-center space-y-4 mb-16">
-              <span className="inline-block px-4 py-1.5 bg-blue-900/30 text-blue-300 font-medium rounded-full text-sm">
+            <div className="text-center space-y-3 mb-2">
+              <span className="inline-block px-4 py-1.5 bg-white text-black font-medium rounded-full text-sm">
                 {items.length} Featured Articles
               </span>
               <h2 className="text-4xl md:text-5xl font-bold ">
-                <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400">
-                  Latest Tech Insights
-                </span>
+                <span>Latest Tech Insights</span>
               </h2>
+              <p className="max-w-2xl mx-auto text-lg text-gray-600 dark:text-gray-300">
+                Dive into the latest tech trends and updates.
+              </p>
             </div>
-          </div>
-          <div className="hidden shrink-0 gap-2 md:flex">
-            <Button
-              size="icon"
-              variant="ghost"
-              onClick={() => {
-                carouselApi?.scrollPrev();
-              }}
-              disabled={!canScrollPrev}
-              className="disabled:pointer-events-auto"
-            >
-              <ArrowLeft className="size-5" />
-            </Button>
-            <Button
-              size="icon"
-              variant="ghost"
-              onClick={() => {
-                carouselApi?.scrollNext();
-              }}
-              disabled={!canScrollNext}
-              className="disabled:pointer-events-auto"
-            >
-              <ArrowRight className="size-5" />
-            </Button>
           </div>
         </div>
       </div>
@@ -194,6 +171,30 @@ const Gallery4 = ({ items = data }: Gallery4Props) => {
               aria-label={`Go to slide ${index + 1}`}
             />
           ))}
+        </div>
+        <div className="hidden shrink-0 gap-2 md:flex">
+          <Button
+            size="icon"
+            variant="ghost"
+            onClick={() => {
+              carouselApi?.scrollPrev();
+            }}
+            disabled={!canScrollPrev}
+            className="disabled:pointer-events-auto"
+          >
+            <ArrowLeft className="size-5" />
+          </Button>
+          <Button
+            size="icon"
+            variant="ghost"
+            onClick={() => {
+              carouselApi?.scrollNext();
+            }}
+            disabled={!canScrollNext}
+            className="disabled:pointer-events-auto"
+          >
+            <ArrowRight className="size-5" />
+          </Button>
         </div>
       </div>
     </section>
