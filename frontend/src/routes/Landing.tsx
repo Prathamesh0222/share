@@ -14,19 +14,12 @@ import iPhoneBlogInk from "@/assets/iphone_BlogInk.png";
 import { data, Gallery4 } from "@/components/gallery4";
 
 export const Landing = () => {
-  const featureVariants = {
-    hidden: {
-      opacity: 0,
-      y: 50,
-    },
-    visible: {
-      opacity: 1,
-      y: 0,
-    },
-  };
-
   const featuresRef = useRef<HTMLDivElement>(null);
-  const isInView = useInView(featuresRef, { once: true });
+  const FeaturedPostRef = useRef(null);
+
+  const isInView = useInView(featuresRef, { once: false, margin: "-30px 0px" });
+  const FeaturedPostInView = useInView(FeaturedPostRef, {});
+
   const navigate = useNavigate();
 
   return (
@@ -37,12 +30,14 @@ export const Landing = () => {
         <div className="relative mt-48 items-center">
           <div className="h-[600px] flex flex-col justify-center">
             <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              animate={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, y: 50, scale: 0.9 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
               transition={{
                 duration: 1,
                 delay: 0.3,
                 type: "spring",
+                stiffness: 100,
+                damping: 10,
               }}
               className="text-6xl md:text-7xl text-center tracking-tight"
             >
@@ -88,12 +83,23 @@ export const Landing = () => {
 
           <ContainerScroll
             titleComponent={
-              <h1 className="text-4xl font-semibold text-black dark:text-white">
+              <motion.h1
+                initial={{ opacity: 0, y: 50 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{
+                  duration: 0.6,
+                  delay: 0.5,
+                  type: "spring",
+                  stiffness: 100,
+                  damping: 10,
+                }}
+                className="text-4xl font-semibold text-black dark:text-white"
+              >
                 Unleash your creativity with <br />
                 <span className="text-4xl md:text-[6rem] font-bold mt-1 leading-none">
                   Engaging Content
                 </span>
-              </h1>
+              </motion.h1>
             }
           >
             <img
@@ -113,41 +119,56 @@ export const Landing = () => {
             />
           </ContainerScroll>
           <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
+            ref={FeaturedPostRef}
+            initial={{ opacity: 0, y: 50, scale: 0.9 }}
+            animate={
+              FeaturedPostInView
+                ? { opacity: 1, y: 0, scale: 1 }
+                : {
+                    opacity: 0,
+                    y: -50,
+                    scale: 0.9,
+                  }
+            }
             transition={{
-              duration: 1,
-              delay: 0.6,
+              duration: 0.5,
+              delay: 0.3,
               type: "spring",
+              stiffness: 100,
+              damping: 10,
+              ease: "easeOut",
             }}
-            variants={featureVariants}
             className="max-w-7xl mx-auto"
           >
             <Gallery4 items={data} />
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            animate={isInView ? "visible" : "hidden"}
-            variants={featureVariants}
+            initial={{ opacity: 0, y: 40, scale: 0.95 }}
+            animate={
+              isInView
+                ? { opacity: 1, y: 0, scale: 1 }
+                : { opacity: 0, y: -40, scale: 0.95 }
+            }
             transition={{
-              duration: 1,
+              duration: 0.5,
               delay: 0.3,
               type: "spring",
+              stiffness: 100,
+              damping: 10,
+              ease: "easeOut",
             }}
             ref={featuresRef}
             className="min-h-screen max-w-7xl mx-auto flex flex-col mt-28 md:px-4 px-6 lg:px-8"
           >
             <div className="relative">
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-purple-500/20 blur-3xl opacity-30 rounded-3xl -z-10"></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-purple-500/20 blur-3xl opacity-20 rounded-3xl -z-10"></div>
               <div className="text-center space-y-4 mb-16">
-                <span className="inline-block px-4 py-1.5 bg-blue-900/30 text-blue-300 font-medium rounded-full text-sm">
+                <span className="inline-block px-4 py-1.5 bg-white text-black font-medium rounded-full text-sm">
                   Features
                 </span>
                 <h2 className="text-4xl md:text-5xl font-bold">
-                  <span className="bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400 text-transparent bg-clip-text">
-                    Why Choose BlogInk?
-                  </span>
+                  <span>Why Choose BlogInk?</span>
                 </h2>
                 <p className="max-w-2xl mx-auto text-gray-500 dark:text-gray-400 text-lg">
                   Discover the powerful features that make BlogInk the perfect
@@ -160,11 +181,7 @@ export const Landing = () => {
               {features.map((feature, index) => (
                 <motion.div
                   key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  viewport={{ once: true }}
-                  className="bg-black backdrop-blur-sm border border-gray-200 dark:border-gray-700/50 rounded-xl shadow-lg overflow-hidden group hover:shadow-xl transition-all duration-300"
+                  className="bg-zinc-950 backdrop-blur-sm border border-gray-200 dark:border-gray-700/50 rounded-xl shadow-lg overflow-hidden group hover:shadow-xl transition-all duration-300"
                 >
                   <div className="p-6">
                     <div className="w-12 h-12 rounded-lg  flex items-center justify-center mb-5 text-blue-600 dark:text-blue-400 group-hover:bg-blue-600 group-hover:text-white transition-colors duration-300">
@@ -186,7 +203,7 @@ export const Landing = () => {
                       {feature.description}
                     </p>
                   </div>
-                  <div className="h-1.5 w-full bg-gradient-to-r from-blue-600 to-purple-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
+                  <div className="h-1.5 w-full bg-gradient-to-r from-blue-600 to-purple-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 "></div>
                 </motion.div>
               ))}
             </div>
@@ -201,27 +218,43 @@ export const Landing = () => {
             }}
             className=" max-w-7xl mx-auto flex flex-col mt-28 md:px-4 px-6 lg:px-8"
           >
-            <div className="relative">
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-purple-500/20 blur-3xl opacity-30 rounded-3xl -z-10"></div>
+            <motion.div
+              initial={{ opacity: 0, y: 50, scale: 0.9 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{
+                duration: 0.5,
+                delay: 0.3,
+                stiffness: 100,
+                damping: 10,
+                ease: "easeOut",
+                type: "spring",
+              }}
+              className="relative"
+            >
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-purple-500/20 blur-3xl opacity-20 rounded-3xl -z-10"></div>
               <div className="text-center space-y-4 mb-16">
-                <span className="inline-block px-4 py-1.5 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-300 font-medium rounded-full text-sm">
+                <span className="inline-block px-4 py-1.5 bg-white text-black font-medium rounded-full text-sm">
                   Testimonials
                 </span>
-                <h2 className="text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400">
-                  Reviews
-                </h2>
+                <h2 className="text-4xl md:text-5xl font-bold">Reviews</h2>
                 <p className="max-w-2xl mx-auto text-gray-500 dark:text-gray-400 text-lg">
                   See what our users are saying about their experience with
                   BlogInk across the internet
                 </p>
               </div>
-            </div>
+            </motion.div>
 
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              viewport={{ once: true }}
+              initial={{ opacity: 0, y: 50, scale: 0.9 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{
+                duration: 0.5,
+                delay: 0.4,
+                stiffness: 100,
+                damping: 10,
+                ease: "easeOut",
+                type: "spring",
+              }}
               className="mt-8 flex justify-center"
             >
               <InfiniteMovingCards
