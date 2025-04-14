@@ -32,10 +32,10 @@ export const Landing = () => {
           animate={{ opacity: 1 }}
           transition={{
             duration: 0.4,
-            delay: 0.2,
-            stiffness: 100,
-            damping: 10,
-            type: "spring",
+            delay: 0.1,
+            stiffness: 50,
+            damping: 8,
+            type: "tween",
             ease: "easeOut",
           }}
           className="absolute -z-20 top-20 left-0 w-full md:h-[910px] h-[650px] bg-dot-pattern"
@@ -111,27 +111,23 @@ export const Landing = () => {
               />
             </motion.div>
             <motion.div
-              initial={{ opacity: 0, y: 50, scale: 0.9 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
+              style={{ willChange: "transform, opacity" }}
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{
-                duration: 0.8,
-                delay: 0.2,
-                type: "spring",
-                stiffness: 100,
-                damping: 10,
+                duration: 0.3,
+                ease: "easeOut",
               }}
             >
               <Signature size={55} />
             </motion.div>
             <motion.div
-              initial={{ opacity: 0, y: 50, scale: 0.9 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{
                 duration: 1,
-                delay: 0.3,
+                delay: 0.5,
                 type: "spring",
-                stiffness: 100,
-                damping: 10,
               }}
               className="text-6xl md:text-7xl text-center tracking-tight"
             >
@@ -205,16 +201,25 @@ export const Landing = () => {
               src={desktopBlogInk}
               className="hidden lg:block object-cover w-full rounded-xl min-h-full"
               alt="BlogInk Desktop preview"
+              loading="eager"
+              width={1200}
+              height={800}
             />
             <img
               src={iPadBlogInk}
               className="md:block hidden object-cover min-w-full rounded-xl min-h-full"
               alt="BlogInk iPad preview"
+              loading="lazy"
+              width={800}
+              height={600}
             />
             <img
               src={iPhoneBlogInk}
-              className="block md:hidden object-cover w-full rounded-xl"
+              className="block md:hidden o  bject-cover w-full rounded-xl"
               alt="BlogInk iPhone preview"
+              loading="lazy"
+              width={400}
+              height={300}
             />
           </ContainerScroll>
           <motion.div
@@ -291,7 +296,8 @@ export const Landing = () => {
                       loop
                       autoPlay
                       muted
-                      preload="auto"
+                      preload="none"
+                      playsInline
                     >
                       <source src={feature.video} type="video/mp4" />
                     </video>
