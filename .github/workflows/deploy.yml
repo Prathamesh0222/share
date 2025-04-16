@@ -19,12 +19,12 @@ jobs:
 
       - name: Deploy
         run: |
-          ssh -o StrictHostKeyChecking=no ubuntu@${{ secrets.EC2_HOST }} << 'EOF'
+          ssh -o StrictHostKeyChecking=no root@${{ secrets.DIGITALOCEAN_HOST }} << 'EOF'
            export NVM_DIR="$HOME/.nvm"
            [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
            [ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"
            cd share/backend/
            git pull origin main
            npm install
-           pm2 restart backend
+           pm2 restart my-app
           EOF
