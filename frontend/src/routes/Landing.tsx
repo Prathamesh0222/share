@@ -73,7 +73,7 @@ export const Landing = () => {
                 type: "spring",
                 ease: "easeOut",
               }}
-              className="absolute right-[5%] md:right-[15%] lg:right-[20%] top-12 p-6 rounded-2xl bg-gradient-to-br from-red-400 to-red-600 shadow-2xl shadow-red-500/90 hover:shadow-red-500 transition-all duration-300 hover:scale-110 hidden md:block"
+              className="absolute right-[5%] md:right-[12%] lg:right-[20%] top-12 p-6 rounded-2xl bg-gradient-to-br from-red-400 to-red-600 shadow-2xl shadow-red-500/90 hover:shadow-red-500 transition-all duration-300 hover:scale-110 hidden md:block"
             >
               <Pencil
                 size={40}
@@ -88,7 +88,7 @@ export const Landing = () => {
                 type: "spring",
                 ease: "easeOut",
               }}
-              className="absolute right-[5%] md:right-[15%] lg:right-[23%] md:top-[8%] lg:top-[9%] p-6 rounded-2xl bg-gradient-to-br from-yellow-400 to-yellow-600 shadow-2xl shadow-yellow-500/90 hover:shadow-yellow-500 transition-all duration-300 hover:scale-110 z-10 hidden md:block"
+              className="absolute right-[5%] md:right-[12%] lg:right-[21%] md:top-[10%] lg:top-[10.5%] p-6 rounded-2xl bg-gradient-to-br from-yellow-400 to-yellow-600 shadow-2xl shadow-yellow-500/90 hover:shadow-yellow-500 transition-all duration-300 hover:scale-110 z-10 hidden md:block"
             >
               <Bookmark
                 size={40}
@@ -103,7 +103,7 @@ export const Landing = () => {
                 type: "spring",
                 ease: "easeOut",
               }}
-              className="absolute left-[5%] md:left-[10%] lg:left-[20%] lg:top-[9%] md:top-[7.7%] p-6 rounded-2xl bg-gradient-to-br from-blue-400 to-blue-600 shadow-2xl shadow-blue-500/90 hover:shadow-blue-500 transition-all duration-300 hover:scale-110 z-10 hidden md:block"
+              className="absolute left-[5%] md:left-[9%] lg:left-[20%] lg:top-[10%] md:top-[9.5%] p-6 rounded-2xl bg-gradient-to-br from-blue-400 to-blue-600 shadow-2xl shadow-blue-500/90 hover:shadow-blue-500 transition-all duration-300 hover:scale-110 z-10 hidden md:block"
             >
               <Tag
                 size={40}
@@ -281,34 +281,27 @@ export const Landing = () => {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-8">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 mt-12">
               {features.map((feature, index) => (
                 <motion.div
                   key={index}
-                  className="bg-zinc-950 backdrop-blur-sm border border-gray-200 dark:border-gray-700/50 rounded-xl shadow-lg overflow-hidden group hover:shadow-xl transition-all duration-300"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  className="bg-gradient-to-br from-zinc-900 to-zinc-950 backdrop-blur-lg border border-gray-800/50 rounded-2xl shadow-2xl overflow-hidden group hover:shadow-3xl hover:shadow-blue-500/10 hover:-translate-y-1 transition-all duration-500"
                 >
-                  <div className="p-6">
-                    <div className="w-12 h-12 rounded-lg flex items-center justify-center mb-5 text-blue-600 dark:text-blue-400 group-hover:bg-blue-600 group-hover:text-white transition-colors duration-300">
+                  <div className="p-8">
+                    <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-blue-500/10 to-purple-500/10 flex items-center justify-center mb-6 group-hover:-rotate-12 text-blue-400 group-hover:scale-110 group-hover:text-blue-300 transition-all duration-300 ease-out">
                       {feature.icon}
                     </div>
-                    <video
-                      className="rounded-xl"
-                      loop
-                      autoPlay
-                      muted
-                      preload="none"
-                      playsInline
-                    >
-                      <source src={feature.video} type="video/mp4" />
-                    </video>
-                    <h3 className="text-xl font-bold mb-3 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300">
+                    <h3 className="text-2xl font-bold mb-4 bg-gradient-to-r from-white to-gray-200 bg-clip-text text-transparent group-hover:from-blue-400 group-hover:to-purple-400 transition-all duration-300">
                       {feature.title}
                     </h3>
-                    <p className="text-gray-600 dark:text-gray-300">
+                    <p className="text-gray-400 leading-relaxed font-medium">
                       {feature.description}
                     </p>
                   </div>
-                  <div className="h-1.5 w-full bg-gradient-to-r from-blue-600 to-purple-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
+                  <div className="h-1 w-full bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500 ease-out"></div>
                 </motion.div>
               ))}
             </div>
