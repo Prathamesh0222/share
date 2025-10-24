@@ -1,92 +1,36 @@
-# Blogink - Your Ultimate Blogging Platform
-
-![BlogInk Sample](https://res.cloudinary.com/ddsyzx9hf/image/upload/v1743520381/BlogInk_Samples/vck1mvlmfcac07uk0hph.png)
-
-Blogink is a modern, feature-rich blogging platform designed for writers, developers, and anyone who loves sharing ideas. With a sleek design, smooth animations, and powerful features, Blogink makes blogging a delightful experience. Whether you're creating, sharing, or exploring blogs, Blogink provides all the tools you need to craft stunning blog posts.
-
-## Features
-
-- **Rich Text Editor**: Create engaging blog posts with a powerful editor that supports bold, italic, headings, lists, and more.
-- **Tagging System**: Organize your blogs with tags for better categorization and discoverability.
-- **Media Upload**: Enhance your posts with high-quality images and videos.
-- **Bookmark Section**: Save your favorite blogs to read later.
-- **Blog Details Page**: View blog posts in detail, including comments and interactions.
-- **User Profiles**: Logged-in users can see all the blogs they’ve created.
-- **Comment Section**: Engage with the community by leaving comments on blog posts.
-- **Responsive Design**: Fully optimized for all devices, ensuring a seamless experience.
-
-## How It Works
-
-### 1. **Create a Blog**
-
-- **Log in** to your account.
-- Use the **Rich Text Editor** to write your blog.
-- Add a **title**, **description**, **tags**, and **images**.
-- **Publish** your blog and share it with the world.
-
-### 2. **Explore Blogs**
-
-- Browse through blogs on the **homepage**.
-- Use **tags** to find blogs on specific topics.
-
-### 3. **Bookmark Blogs**
-
-- Save your favorite blogs to the **bookmark section** for easy access later.
-
-### 4. **Blog Details**
-
-- Click on any blog post to view it in detail.
-- Scroll down to the **comment section** to read or leave comments.
-
-### 5. **User Profile**
-
-- Logged-in users can visit their **profile** to see all the blogs they’ve created.
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
 
-### Prerequisites
+First, run the development server:
 
-- Node.js (v18 or higher)
-- npm or yarn
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
+```
 
-### Installation
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-1. **Clone the repository**:
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-   ```bash
-   git clone https://github.com/your-repo/blogink.git
-   cd blogink
-   ```
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-2. **Install dependencies**:
+## Learn More
 
-   - For the **backend**:
-     ```bash
-     cd backend
-     npm install
-     ```
-   - For the **frontend**:
-     ```bash
-     cd frontend
-     npm install
-     ```
+To learn more about Next.js, take a look at the following resources:
 
-3. **Set up environment variables**:
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-   - Create a `.env` file in the `backend` directory and add the necessary environment variables (e.g., database connection, API keys).
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-4. **Run the application**:
+## Deploy on Vercel
 
-   - Start the **backend**:
-     ```bash
-     cd backend
-     npm run dev
-     ```
-   - Start the **frontend**:
-     ```bash
-     cd frontend
-     npm run dev
-     ```
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-5. **Access the app**:
-   - Open your browser and navigate to `http://localhost:3000`.
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
