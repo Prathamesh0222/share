@@ -77,10 +77,10 @@ model Post {
   title     String
   content   String
   slug      String?    @unique
+  imageUrl  String?
   author    User       @relation(fields: [authorId], references: [id])
   authorId  String
-  Tags      Tags?      @relation(fields: [tagsId], references: [id])
-  tagsId    String?
+  Tags      Tags[]
   Like      Like[]
   Bookmark  Bookmark[]
   Comment   Comment[]
