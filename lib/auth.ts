@@ -12,6 +12,9 @@ export const auth = betterAuth({
   database: prismaAdapter(prisma, {
     provider: "postgresql",
   }),
+  emailAndPassword: {
+    enabled: false,
+  },
   plugins: [
     magicLink({
       sendMagicLink: async ({ email, url }) => {
