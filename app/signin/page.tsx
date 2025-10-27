@@ -10,6 +10,7 @@ import { useState } from "react";
 
 export default function SignInPage() {
   const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
@@ -23,19 +24,17 @@ export default function SignInPage() {
     try {
       const result = await authClient.signIn.magicLink({
         email,
+        name: username,
         callbackURL: "/discover",
       });
-
-      console.log("Magic link result:", result);
 
       if (result.error) {
         setError(result.error.message || "Failed to send magic link");
       } else {
         setMessage("Check your email for the magic link!");
       }
-    } catch (err: any) {
-      console.error("Magic link error:", err);
-      setError(err.message || "Failed to send magic link. Please try again.");
+    } catch (error) {
+      console.error("Magic link error:", error);
     } finally {
       setIsLoading(false);
     }
@@ -50,7 +49,7 @@ export default function SignInPage() {
         provider: "google",
         callbackURL: "/discover",
       });
-    } catch (err) {
+    } catch (error) {
       setError("Failed to sign in with Google. Please try again.");
       setIsLoading(false);
     }
@@ -66,10 +65,22 @@ export default function SignInPage() {
             </div>
             <div className="text-center">
               <h1 className="text-lg font-semibold">Welcome to Typen</h1>
-              <p className="text-xs">Please provide your email address</p>
+              <p className="text-xs">Create your account</p>
             </div>
           </div>
           <form onSubmit={handleMagicLink} className="space-y-5">
+            <div className="space-y-2">
+              <Label className="text-sm font-semibold">Username</Label>
+              <Input
+                className="py-5"
+                placeholder="Choose a username"
+                type="text"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                required
+                disabled={isLoading}
+              />
+            </div>
             <div className="space-y-2">
               <Label className="text-sm font-semibold">Email</Label>
               <Input
@@ -85,7 +96,7 @@ export default function SignInPage() {
             <Button
               type="submit"
               className="w-full font-semibold py-5 cursor-pointer"
-              disabled={isLoading || !email}
+              disabled={isLoading || !email || !username}
             >
               {isLoading ? "Sending..." : "Send Magic Link"}
             </Button>
