@@ -16,3 +16,25 @@ export interface TiptapProps {
   content?: string;
   onChange?: (content: string) => void;
 }
+
+interface Author {
+  id: string;
+  name: string;
+  email: string;
+  image: string | null;
+}
+
+export interface PostCardProps {
+  id: string;
+  title: string;
+  content: string;
+  imageUrl: string;
+  author: Author;
+  Tags: Array<{ id: string; name: string }>;
+  _count: {
+    Like: number;
+    Comment: number;
+    Bookmark: number;
+  };
+  createdAt: Date | string;
+}
