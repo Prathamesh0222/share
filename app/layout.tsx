@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Open_Sans } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
-import { Toaster } from "sonner";
+import { Providers } from "@/components/providers";
 
 const openSans = Open_Sans({
   subsets: ["latin"],
@@ -29,8 +29,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {children}
-          <Toaster />
+          <Providers>{children}</Providers>
         </ThemeProvider>
       </body>
     </html>

@@ -7,9 +7,6 @@ export const PostSchema = z.object({
     .max(200, "Title must be less than 200 characters"),
   content: z.string().min(1, "Content is required"),
   slug: z.string().min(1).max(200).optional(),
-  tags: z
-    .array(z.string().min(1).max(30))
-    .max(10, "Maximum 10 tags allowed")
-    .optional(),
+  tags: z.array(z.string().min(1).max(30)).max(10, "Maximum 10 tags allowed"),
   imageUrl: z.string().url().optional(),
 });
