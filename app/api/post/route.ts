@@ -4,13 +4,6 @@ import { prisma } from "@/lib/prisma";
 import { PostSchema } from "@/lib/validate";
 import { headers } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
-import { v2 as cloudinary } from "cloudinary";
-
-cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_SECRET_KEY,
-});
 
 export async function POST(req: NextRequest) {
   try {
@@ -83,6 +76,67 @@ export async function POST(req: NextRequest) {
     console.error("Failed to create post", error);
     return NextResponse.json(
       { error: "Internal server error" },
+      { status: 500 }
+    );
+  }
+}
+
+export async function GET(req: NextRequest) {
+  try {
+    const { searchParams } = new URL(req.url);
+    const page = Number(searchParams.get("page")) || 1;
+    const limit = Number(searchParams.get("limit")) || 10;
+    const skip = (page - 1) * limit;
+
+    const [posts, total] = await Promise.all([
+      prisma.post.findMany({
+        skip,
+        take: limit,
+        orderBy: {
+          createdAt: "desc",
+        },
+        include: {
+          Tags: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
+          author: {
+            select: {
+              id: true,
+              name: true,
+              email: true,
+              image: true,
+            },
+          },
+          _count: {
+            select: {
+              Like: true,
+              Bookmark: true,
+              Comment: true,
+            },
+          },
+        },
+      }),
+
+      prisma.post.count(),
+    ]);
+
+    const totalPages = Math.ceil(total / limit);
+
+    return NextResponse.json({
+      data: posts,
+      page,
+      limit,
+      total,
+      totalPages,
+      hasMore: page < totalPages,
+    });
+  } catch (error) {
+    console.error("Error while fetching posts");
+    return NextResponse.json(
+      { error: "Error while fetching posts" },
       { status: 500 }
     );
   }
