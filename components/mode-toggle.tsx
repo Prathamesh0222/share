@@ -12,7 +12,7 @@ export const ModeToggle = () => {
   return (
     <Button
       variant={"ghost"}
-      className="cursor-pointer"
+      className="cursor-pointer rounded-full w-10 h-10"
       onClick={() => updateTheme()}
     >
       {theme === "dark" ? (
