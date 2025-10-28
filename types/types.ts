@@ -29,8 +29,24 @@ export interface PostCardProps {
   title: string;
   content: string;
   imageUrl: string;
+  slug?: string;
   author: Author;
   Tags: Array<{ id: string; name: string }>;
+  _count: {
+    Like: number;
+    Comment: number;
+    Bookmark: number;
+  };
+  createdAt: Date | string;
+}
+
+export interface DiscoverMoreProps {
+  id: string;
+  title: string;
+  content: string;
+  imageUrl: string;
+  slug?: string;
+  author: Author;
   _count: {
     Like: number;
     Comment: number;

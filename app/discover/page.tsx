@@ -1,9 +1,8 @@
 "use client";
 
 import { DiscoverHeader } from "@/components/discover-header";
-import { PostCard } from "@/components/post-card";
+import { FeaturedPostCard, PostCard } from "@/components/post-card";
 import { useFetchPost } from "@/hooks/use-fetch-post";
-import { PostCardProps } from "@/types/types";
 import { useEffect, useRef } from "react";
 
 export default function Discover() {
@@ -12,6 +11,11 @@ export default function Discover() {
   const loaderRef = useRef<HTMLDivElement | null>(null);
 
   const posts = data?.pages.flatMap((page) => page.data) ?? [];
+
+  const groupedPosts = [];
+  for (let i = 0; i < posts.length; i += 4) {
+    groupedPosts.push(posts.slice(i, i + 4));
+  }
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -36,19 +40,41 @@ export default function Discover() {
   return (
     <div>
       <DiscoverHeader />
-      <div className="grid grid-cols-3 gap-2 max-w-6xl mx-auto">
-        {posts.map((post: PostCardProps) => (
-          <div key={post.id} className="border rounded-lg">
-            <PostCard
-              id={post.id}
-              title={post.title}
-              content={post.content}
-              imageUrl={post.imageUrl}
-              author={post.author}
-              Tags={post.Tags}
-              _count={post._count}
-              createdAt={post.createdAt}
-            />
+
+      <div className="max-w-6xl mx-auto space-y-8 px-4 py-8">
+        {groupedPosts.map((group, groupIndex) => (
+          <div
+            key={groupIndex}
+            className="grid grid-cols-1 md:grid-cols-12 gap-6"
+          >
+            {group[0] && (
+              <FeaturedPostCard
+                id={group[0].id}
+                slug={group[0].slug}
+                title={group[0].title}
+                content={group[0].content}
+                imageUrl={group[0].imageUrl}
+                author={group[0].author}
+                Tags={group[0].Tags}
+                _count={group[0]._count}
+                createdAt={group[0].createdAt}
+              />
+            )}
+            {group.slice(1, 4).map((post) => (
+              <div key={post.id} className="col-span-12 md:col-span-4">
+                <PostCard
+                  id={post.id}
+                  title={post.title}
+                  slug={post.slug}
+                  content={post.content}
+                  imageUrl={post.imageUrl}
+                  author={post.author}
+                  Tags={post.Tags}
+                  _count={post._count}
+                  createdAt={post.createdAt}
+                />
+              </div>
+            ))}
           </div>
         ))}
       </div>
