@@ -7,10 +7,14 @@ import { Bookmark, Heart, MessageCircle, Clock } from "lucide-react";
 import Image from "next/image";
 import { useParams } from "next/navigation";
 import { RichTextViewer } from "@/components/rich-text-viewer";
+import { formatTimeAgo } from "@/lib/format-time";
+import { CommentSection } from "@/components/comment-section";
+import { useState } from "react";
 
 export default function PostDetails() {
   const { slug } = useParams() as { slug?: string };
   const { data: post, isLoading, error } = usePostBySlug(slug);
+  const [isOpen, setIsOpen] = useState(false);
   console.log(post);
   console.log("Slug", slug);
 
@@ -88,7 +92,7 @@ export default function PostDetails() {
             </div>
             {published && (
               <span className="flex items-center gap-1">
-                <Clock className="h-4 w-4" /> {published.toLocaleDateString()}
+                <Clock className="h-4 w-4" /> {formatTimeAgo(published)}
               </span>
             )}
             <div className="ml-auto flex items-center gap-3">
@@ -98,13 +102,21 @@ export default function PostDetails() {
               <span className="flex items-center gap-1">
                 <Bookmark className="h-4 w-4" /> {bookmarkCount}
               </span>
-              <span className="flex items-center gap-1">
-                <MessageCircle className="h-4 w-4" /> {commentCount}
+              <span
+                onClick={() => setIsOpen(!isOpen)}
+                className="flex items-center gap-1 cursor-pointer hover:text-green-500"
+              >
+                <MessageCircle className="h-4 w-4 " /> {commentCount}
               </span>
             </div>
           </div>
           <RichTextViewer html={post.content} />
         </article>
+        <CommentSection
+          isOpen={isOpen}
+          onOpenChange={setIsOpen}
+          postId={post.id}
+        />
         <div className="my-12">
           <h1 className="text-xl font-bold tracking-tighter">Discover More</h1>
           <DiscoverMore currentSlug={slug as string} />
