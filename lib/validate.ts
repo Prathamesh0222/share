@@ -10,3 +10,10 @@ export const PostSchema = z.object({
   tags: z.array(z.string().min(1).max(30)).max(10, "Maximum 10 tags allowed"),
   imageUrl: z.string().url().optional(),
 });
+
+export const CommentSchema = z.object({
+  comment: z
+    .string()
+    .min(1, "Must be more than 1 character")
+    .max(200, "Comment must be less than 200 characters"),
+});

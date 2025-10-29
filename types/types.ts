@@ -20,7 +20,7 @@ export interface TiptapProps {
 interface Author {
   id: string;
   name: string;
-  email: string;
+  email?: string;
   image: string | null;
 }
 
@@ -53,4 +53,33 @@ export interface DiscoverMoreProps {
     Bookmark: number;
   };
   createdAt: Date | string;
+}
+
+export interface Comments {
+  id: string;
+  comment: string;
+  authorId: string;
+  postId: string;
+  createdAt: string | Date;
+  author: Author;
+}
+
+export interface CommentFormData {
+  comment: string;
+  postId: string;
+}
+
+export interface CommentResponse {
+  comments: Comments[];
+  page: number;
+  totalPages: number;
+  limit: number;
+  total: number;
+  hasMore: boolean;
+}
+
+export interface CommentSectionProps {
+  isOpen: boolean;
+  onOpenChange?: (open: boolean) => void;
+  postId?: string;
 }
