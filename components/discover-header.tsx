@@ -49,7 +49,13 @@ export const DiscoverHeader = () => {
                   <SquarePen className="focus:text-green-500" />
                   Write
                 </DropdownMenuItem>
-                <DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={() => {
+                    if (data.user?.id) {
+                      router.push(`/profile/${data.user.id}`);
+                    }
+                  }}
+                >
                   <User className="focus:text-green-500" />
                   Profile
                 </DropdownMenuItem>
