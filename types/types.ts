@@ -82,4 +82,20 @@ export interface CommentSectionProps {
   isOpen: boolean;
   onOpenChange?: (open: boolean) => void;
   postId?: string;
+  postAuthorId?: string;
+}
+
+export interface UserProfile {
+  id: string;
+  name: string;
+  email: string;
+  image: string | null;
+  createdAt: Date | string;
+  _count: {
+    Post: number;
+    Comment: number;
+    Like: number;
+    Bookmark: number;
+  };
+  Post: PostCardProps[];
 }
