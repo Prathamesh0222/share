@@ -5,6 +5,7 @@ import { DiscoverMore } from "@/components/discover-more";
 import { usePostBySlug } from "@/hooks/use-post-by-slug";
 import { Bookmark, Heart, MessageCircle, Clock } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import { useParams } from "next/navigation";
 import { RichTextViewer } from "@/components/rich-text-viewer";
 import { formatTimeAgo } from "@/lib/format-time";
@@ -15,8 +16,6 @@ export default function PostDetails() {
   const { slug } = useParams() as { slug?: string };
   const { data: post, isLoading, error } = usePostBySlug(slug);
   const [isOpen, setIsOpen] = useState(false);
-  console.log(post);
-  console.log("Slug", slug);
 
   if (isLoading) {
     return (
@@ -76,11 +75,16 @@ export default function PostDetails() {
                 alt={post.title}
                 fill
                 className="object-cover"
+                loading="eager"
+                priority
               />
             </div>
           ) : null}
           <div className="flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
-            <div className="flex items-center gap-2">
+            <Link
+              href={post.author?.id ? `/profile/${post.author.id}` : "#"}
+              className="flex items-center gap-2 hover:opacity-80 transition-opacity"
+            >
               <div className="flex items-center justify-center w-8 h-8 rounded-full border bg-green-500 text-green-200 font-bold text-sm">
                 {post.author?.name
                   ? post.author.name.charAt(0).toUpperCase()
@@ -89,7 +93,7 @@ export default function PostDetails() {
               <span className="font-medium">
                 {post.author?.name || "Unknown"}
               </span>
-            </div>
+            </Link>
             {published && (
               <span className="flex items-center gap-1">
                 <Clock className="h-4 w-4" /> {formatTimeAgo(published)}
@@ -116,10 +120,11 @@ export default function PostDetails() {
           isOpen={isOpen}
           onOpenChange={setIsOpen}
           postId={post.id}
+          postAuthorId={post.author?.id}
         />
         <div className="my-12">
           <h1 className="text-xl font-bold tracking-tighter">Discover More</h1>
-          <DiscoverMore currentSlug={slug as string} />
+          <DiscoverMore currentSlug={slug as string} currentId={post.id} />
         </div>
       </div>
     </div>
