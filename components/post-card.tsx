@@ -27,7 +27,14 @@ export const FeaturedPostCard = ({
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 p-0 lg:p-6 flex-1">
         <div className="relative h-48 lg:h-80 rounded-lg overflow-hidden order-1 lg:order-2">
           {imageUrl ? (
-            <Image src={imageUrl} alt={title} fill className="object-cover" />
+            <Image
+              src={imageUrl}
+              alt={title}
+              fill
+              className="object-cover"
+              loading="eager"
+              priority
+            />
           ) : (
             <div className="w-full h-full bg-muted flex items-center justify-center">
               <Newspaper className="w-16 h-16 text-muted-foreground" />
@@ -58,14 +65,17 @@ export const FeaturedPostCard = ({
             ))}
           </div>
           <div className="mt-auto flex items-center justify-between">
-            <div className="flex items-center gap-2">
+            <Link
+              href={author?.id ? `/profile/${author.id}` : "#"}
+              className="flex items-center gap-2 hover:opacity-80 transition-opacity"
+            >
               <div className="flex items-center justify-center w-8 h-8 rounded-full border bg-green-500 text-green-200 font-bold text-sm">
                 {author?.name ? author.name.charAt(0).toUpperCase() : "?"}
               </div>
               <h3 className="text-muted-foreground text-sm font-semibold">
                 {author?.name || "Unknown"}
               </h3>
-            </div>
+            </Link>
             <div className="flex items-center gap-3 text-sm text-muted-foreground">
               <div className="flex items-center gap-1">
                 <Heart className="h-4 w-4" />
@@ -139,14 +149,17 @@ export const PostCard = ({
           ))}
         </div>
         <div className="mt-auto flex items-center justify-between">
-          <div className="flex items-center gap-2">
+          <Link
+            href={author?.id ? `/profile/${author.id}` : "#"}
+            className="flex items-center gap-2 hover:opacity-80 transition-opacity"
+          >
             <div className="flex items-center justify-center w-8 h-8 rounded-full border bg-green-500 text-green-200 font-bold text-sm">
               {author?.name ? author.name.charAt(0).toUpperCase() : "?"}
             </div>
             <h3 className="text-muted-foreground text-sm font-semibold">
               {author?.name || "Unknown"}
             </h3>
-          </div>
+          </Link>
           <div className="flex items-center gap-3 text-muted-foreground">
             <span className="flex items-center gap-1">
               <Heart className="size-4" />
