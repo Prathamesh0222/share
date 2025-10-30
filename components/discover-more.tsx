@@ -5,18 +5,47 @@ import { formatTimeAgo } from "@/lib/format-time";
 import { Bookmark, Heart, MessageCircle } from "lucide-react";
 import { DiscoverMoreProps } from "@/types/types";
 
-export const DiscoverMore = ({ currentSlug }: { currentSlug: string }) => {
+export const DiscoverMore = ({
+  currentSlug,
+  currentId,
+}: {
+  currentSlug: string;
+  currentId?: string;
+}) => {
   const { data, isFetchingNextPage } = useFetchPost();
-  const posts = data?.pages?.[0]?.data ?? [];
+  const posts = data?.pages?.flatMap((page: any) => page.data) ?? [];
   const related = posts
-    .filter((p: DiscoverMoreProps) => p.slug !== currentSlug)
+    .filter(
+      (p: DiscoverMoreProps) => p.slug !== currentSlug && p.id !== currentId
+    )
     .slice(0, 3);
 
   if (!data) {
     return (
       <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-6">
         {Array.from({ length: 3 }).map((_, i) => (
-          <div key={i} className="h-48 bg-muted rounded" />
+          <div
+            key={i}
+            className="border border-subtlest rounded-lg overflow-hidden h-full flex flex-col bg-background"
+          >
+            <div className="h-48 w-full bg-muted animate-pulse" />
+            <div className="p-4 space-y-3 flex flex-col flex-1">
+              <div className="h-3 w-28 bg-muted rounded animate-pulse" />
+              <div className="h-4 w-5/6 bg-muted rounded animate-pulse" />
+              <div className="h-4 w-2/3 bg-muted rounded animate-pulse" />
+              <div className="mt-auto flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <div className="w-8 h-8 rounded-full bg-muted animate-pulse" />
+                  <div className="h-3 w-16 bg-muted rounded animate-pulse" />
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="h-3 w-6 bg-muted rounded animate-pulse" />
+                  <div className="h-3 w-6 bg-muted rounded animate-pulse" />
+                  <div className="h-3 w-6 bg-muted rounded animate-pulse" />
+                </div>
+              </div>
+            </div>
+          </div>
         ))}
       </div>
     );

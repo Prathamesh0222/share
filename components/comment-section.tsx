@@ -11,11 +11,15 @@ import { formatTimeAgo } from "@/lib/format-time";
 import { useState } from "react";
 import { MessageCircle } from "lucide-react";
 import { CommentSectionProps } from "@/types/types";
+import { Button } from "./ui/button";
+import { Badge } from "./ui/badge";
+import { Skeleton } from "./ui/skeleton";
 
 export const CommentSection = ({
   isOpen,
   onOpenChange,
   postId,
+  postAuthorId,
 }: CommentSectionProps) => {
   const { data, isLoading, error } = useComments(postId || "", 1, 20);
   const { mutate: createComment, isPending } = useCreateComment();
@@ -55,12 +59,26 @@ export const CommentSection = ({
             </SheetDescription>
           </SheetHeader>
           <div
-            className="flex flex-col gap-0 px-4 overflow-y-auto"
+            className="flex flex-col gap-0 px-4 overflow-y-auto minimal-scrollbar"
             style={{ maxHeight: "70vh" }}
           >
             {isLoading ? (
-              <div className="text-sm text-muted-foreground">
-                Loading comments...
+              <div className="flex flex-col gap-0">
+                {Array.from({ length: 6 }).map((_, i) => (
+                  <div key={i} className="flex gap-3 p-2">
+                    <Skeleton className="h-9 w-9 rounded-full" />
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2">
+                        <Skeleton className="h-3 w-32" />
+                        <Skeleton className="h-3 w-16" />
+                      </div>
+                      <div className="mt-2 space-y-2 pr-6">
+                        <Skeleton className="h-3 w-5/6" />
+                        <Skeleton className="h-3 w-3/4" />
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
             ) : data && data.comments.length > 0 ? (
               data.comments.map((c) => (
@@ -73,6 +91,14 @@ export const CommentSection = ({
                       <span className="truncate text-sm font-semibold">
                         {c.author?.name || "Anonymous"}
                       </span>
+                      {postAuthorId && c.authorId === postAuthorId ? (
+                        <Badge
+                          variant="secondary"
+                          className="text-[10px] px-1.5 py-0.1"
+                        >
+                          Author
+                        </Badge>
+                      ) : null}
                       <span className="text-xs text-muted-foreground">
                         • {formatTimeAgo(c.createdAt)}
                       </span>
@@ -90,23 +116,26 @@ export const CommentSection = ({
             )}
           </div>
           <SheetFooter>
-            <div className="flex items-center w-full p-3 gap-2 pt-0">
-              <textarea
-                value={comment}
-                onChange={(e) => setComment(e.target.value)}
-                placeholder="Write a comment..."
-                aria-label="Write a comment"
-                rows={3}
-                className="w-full min-h-24 resize-none rounded-lg border border-border bg-muted/20 px-4 py-3 text-sm placeholder:text-muted-foreground/70 shadow-sm transition-[box-shadow,background-color] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 focus-visible:ring-offset-background"
-              />
-              <div className="mt-2 flex justify-end">
-                <button
-                  onClick={handleSubmit}
-                  disabled={isPending || !comment.trim() || !postId}
-                  className="h-9 rounded-md bg-primary px-3 text-primary-foreground disabled:opacity-50"
-                >
-                  {isPending ? "Posting..." : "Post"}
-                </button>
+            <div className="w-full p-4 pt-0">
+              <div className="relative w-full rounded-2xl border border-border bg-muted/30 p-4 shadow-sm">
+                <textarea
+                  value={comment}
+                  onChange={(e) => setComment(e.target.value)}
+                  placeholder="Add comment..."
+                  aria-label="Add comment"
+                  rows={3}
+                  className="w-full resize-none bg-transparent text-sm placeholder:text-muted-foreground/60 focus:outline-none"
+                />
+
+                <div className="flex items-center justify-end mt-3 pt-3 border-t border-border/50">
+                  <Button
+                    onClick={handleSubmit}
+                    disabled={isPending || !comment.trim() || !postId}
+                    className="h-8 rounded-full bg-orange-600 hover:bg-orange-700 px-3 text-white text-xs disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {isPending ? "Posting..." : "Submit"}
+                  </Button>
+                </div>
               </div>
             </div>
           </SheetFooter>
