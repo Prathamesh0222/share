@@ -17,3 +17,7 @@ export const CommentSchema = z.object({
     .min(1, "Must be more than 1 character")
     .max(200, "Comment must be less than 200 characters"),
 });
+
+export const BookmarkSchema = z.object({
+  postId: z.string().min(1, "Post ID is required"),
+});
