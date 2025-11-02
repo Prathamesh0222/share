@@ -13,6 +13,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import Image from "next/image";
 
 export const DiscoverHeader = () => {
   const router = useRouter();
@@ -30,10 +31,24 @@ export const DiscoverHeader = () => {
           <>
             <DropdownMenu>
               <DropdownMenuTrigger>
-                <div className="flex items-center justify-center w-10 h-10 rounded-full border bg-green-500 text-green-200 font-bold text-lg">
-                  {data.user.email
-                    ? data.user.email.charAt(0).toUpperCase()
-                    : "?"}
+                <div className=" ">
+                  {data.user.image ? (
+                    <div className="relative w-10 h-10 rounded-full overflow-hidden">
+                      <Image
+                        src={data.user.image}
+                        alt={data.user.name}
+                        className="object-cover"
+                        width={40}
+                        height={40}
+                      />
+                    </div>
+                  ) : data.user.email ? (
+                    <div className="flex items-center justify-center w-10 h-10 relative  rounded-full overflow-hidden bg-green-500 text-green-200 font-bold text-lg">
+                      {data.user.email.charAt(0).toUpperCase()}
+                    </div>
+                  ) : (
+                    "?"
+                  )}
                 </div>
               </DropdownMenuTrigger>
               <DropdownMenuContent>

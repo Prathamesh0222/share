@@ -1,7 +1,8 @@
 "use client";
 
 import { DiscoverHeader } from "@/components/discover-header";
-import { FeaturedPostCard, PostCard } from "@/components/post-card";
+import { PostCard } from "@/components/post-card";
+import { FeaturedPostCard } from "@/components/featured-post-card";
 import { useFetchPost } from "@/hooks/use-fetch-post";
 import { useEffect, useRef } from "react";
 
@@ -58,6 +59,7 @@ export default function Discover() {
                 Tags={group[0].Tags}
                 _count={group[0]._count}
                 createdAt={group[0].createdAt}
+                isBookmarked={group[0].isBookmarked ?? false}
               />
             )}
             {group.slice(1, 4).map((post) => (
@@ -72,6 +74,7 @@ export default function Discover() {
                   Tags={post.Tags}
                   _count={post._count}
                   createdAt={post.createdAt}
+                  isBookmarked={post.isBookmarked ?? false}
                 />
               </div>
             ))}
