@@ -4,98 +4,8 @@ import { Bookmark, Clock, Heart, MessageCircle, Newspaper } from "lucide-react";
 import { Badge } from "./ui/badge";
 import Link from "next/link";
 import { formatTimeAgo } from "@/lib/format-time";
-
-export const FeaturedPostCard = ({
-  id,
-  title,
-  content,
-  imageUrl,
-  slug,
-  Tags,
-  author,
-  createdAt,
-  _count,
-}: PostCardProps) => {
-  const timeAgo = formatTimeAgo(createdAt);
-  const likeCount = _count?.Like || 0;
-  const bookmarkCount = _count?.Bookmark || 0;
-  const commentCount = _count?.Comment || 0;
-  const href = slug ? `/post/${slug}` : `/post/${id}`;
-
-  return (
-    <div className="col-span-12 border border-subtlest rounded-lg overflow-hidden flex flex-col">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 p-0 lg:p-6 flex-1">
-        <div className="relative h-48 lg:h-80 rounded-lg overflow-hidden order-1 lg:order-2">
-          {imageUrl ? (
-            <Image
-              src={imageUrl}
-              alt={title}
-              fill
-              className="object-cover"
-              loading="eager"
-              priority
-            />
-          ) : (
-            <div className="w-full h-full bg-muted flex items-center justify-center">
-              <Newspaper className="w-16 h-16 text-muted-foreground" />
-            </div>
-          )}
-        </div>
-        <div className="space-y-4 order-2 lg:order-1 flex flex-col h-full p-4 lg:p-0">
-          <div className="flex items-center gap-2 text-sm text-muted-foreground">
-            <Clock className="h-4 w-4" />
-            <span>Published {timeAgo}</span>
-          </div>
-          <h1 className="text-lg lg:text-3xl font-bold leading-tight text-foreground">
-            <Link
-              href={href}
-              className="hover:underline hover:text-green-500 duration-200 transition-colors"
-            >
-              {title}
-            </Link>
-          </h1>
-          <p className="text-muted-foreground md:text-base text-sm leading-relaxed line-clamp-3">
-            {content.length > 200 ? `${content.substring(0, 200)}...` : content}
-          </p>
-          <div className="flex flex-wrap gap-2">
-            {Tags.map((tag) => (
-              <Badge key={tag.id} className="text-xs">
-                {tag.name}
-              </Badge>
-            ))}
-          </div>
-          <div className="mt-auto flex items-center justify-between">
-            <Link
-              href={author?.id ? `/profile/${author.id}` : "#"}
-              className="flex items-center gap-2 hover:opacity-80 transition-opacity"
-            >
-              <div className="flex items-center justify-center w-8 h-8 rounded-full border bg-green-500 text-green-200 font-bold text-sm">
-                {author?.name ? author.name.charAt(0).toUpperCase() : "?"}
-              </div>
-              <h3 className="text-muted-foreground text-sm font-semibold">
-                {author?.name || "Unknown"}
-              </h3>
-            </Link>
-            <div className="flex items-center gap-3 text-sm text-muted-foreground">
-              <div className="flex items-center gap-1">
-                <Heart className="h-4 w-4" />
-                <span className="text-xs">{likeCount}</span>
-              </div>
-              <div className="flex items-center gap-1">
-                <Bookmark className="h-4 w-4" />
-                <span className="text-xs">{bookmarkCount}</span>
-              </div>
-              <div className="flex items-center gap-1">
-                <MessageCircle className="h-4 w-4" />
-                <span className="text-xs">{commentCount}</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
+import { useState } from "react";
+import { useToggleBookmark } from "@/hooks/toggle-bookmark";
 
 export const PostCard = ({
   id,
@@ -107,12 +17,26 @@ export const PostCard = ({
   author,
   createdAt,
   _count,
+  isBookmarked: initialIsBookmarked = false,
 }: PostCardProps) => {
   const timeAgo = formatTimeAgo(createdAt);
   const likeCount = _count?.Like || 0;
   const bookmarkCount = _count?.Bookmark || 0;
   const commentCount = _count?.Comment || 0;
   const href = slug ? `/post/${slug}` : `/post/${id}`;
+  const [isBookmarked, setIsBookmarked] = useState(initialIsBookmarked);
+  const { mutate: toggleBookmark, isPending } = useToggleBookmark(id);
+
+  const handleBookmarkClick = () => {
+    const previousState = isBookmarked;
+    const newBookmarkState = !isBookmarked;
+    setIsBookmarked(newBookmarkState);
+    toggleBookmark(newBookmarkState, {
+      onError: () => {
+        setIsBookmarked(previousState);
+      },
+    });
+  };
 
   return (
     <div className="border border-subtlest rounded-lg overflow-hidden h-full flex flex-col bg-background">
@@ -153,9 +77,20 @@ export const PostCard = ({
             href={author?.id ? `/profile/${author.id}` : "#"}
             className="flex items-center gap-2 hover:opacity-80 transition-opacity"
           >
-            <div className="flex items-center justify-center w-8 h-8 rounded-full border bg-green-500 text-green-200 font-bold text-sm">
-              {author?.name ? author.name.charAt(0).toUpperCase() : "?"}
-            </div>
+            {author?.image ? (
+              <div className="relative w-8 h-8 rounded-full overflow-hidden">
+                <Image
+                  src={author.image}
+                  alt={author.name}
+                  fill
+                  className="object-cover"
+                />
+              </div>
+            ) : (
+              <div className="flex items-center justify-center w-8 h-8 rounded-full border bg-green-500 text-green-200 font-bold text-sm">
+                {author?.name ? author.name.charAt(0).toUpperCase() : "?"}
+              </div>
+            )}
             <h3 className="text-muted-foreground text-sm font-semibold">
               {author?.name || "Unknown"}
             </h3>
@@ -166,7 +101,14 @@ export const PostCard = ({
               <p className="text-xs">{likeCount}</p>
             </span>
             <span className="flex items-center gap-1">
-              <Bookmark className="size-4" />
+              <Bookmark
+                className={`h-4 w-4 cursor-pointer transition-all ${
+                  isBookmarked
+                    ? "fill-green-500 text-green-500"
+                    : "hover:text-green-500"
+                } ${isPending ? "opacity-50" : ""}`}
+                onClick={handleBookmarkClick}
+              />
               <p className="text-xs">{bookmarkCount}</p>
             </span>
             <span className="flex items-center gap-1">
