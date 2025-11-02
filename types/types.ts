@@ -39,6 +39,7 @@ export interface PostCardProps {
   };
   createdAt: Date | string;
   isBookmarked: boolean;
+  isLiked: boolean;
 }
 
 export interface DiscoverMoreProps {

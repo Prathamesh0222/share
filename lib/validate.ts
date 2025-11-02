@@ -21,3 +21,7 @@ export const CommentSchema = z.object({
 export const BookmarkSchema = z.object({
   postId: z.string().min(1, "Post ID is required"),
 });
+
+export const LikeSchema = z.object({
+  postId: z.string().min(1, "Post ID is required"),
+});
