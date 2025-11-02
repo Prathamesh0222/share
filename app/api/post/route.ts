@@ -130,26 +130,35 @@ export async function GET(req: NextRequest) {
                 id: true,
               },
             },
+            Like: {
+              where: {
+                userId: session.user.id,
+              },
+              select: {
+                id: true,
+              },
+            },
           }),
         },
       }),
       prisma.post.count(),
     ]);
 
-    const postsWithBookmarkStatus = posts.map((post) => {
-      const { Bookmark, ...rest } = post;
+    const postsWithBookmarkAndLikeStatus = posts.map((post) => {
+      const { Bookmark, Like, ...rest } = post;
       return {
         ...rest,
         isBookmarked: session?.user
           ? Array.isArray(Bookmark) && Bookmark.length > 0
           : false,
+        isLiked: session?.user ? Array.isArray(Like) && Like.length > 0 : false,
       };
     });
 
     const totalPages = Math.ceil(total / limit);
 
     return NextResponse.json({
-      data: postsWithBookmarkStatus,
+      data: postsWithBookmarkAndLikeStatus,
       page,
       limit,
       total,

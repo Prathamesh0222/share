@@ -40,13 +40,29 @@ export async function GET(
             id: true,
           },
         },
+        Like: {
+          where: {
+            userId: session.user.id,
+          },
+          select: {
+            id: true,
+          },
+        },
       },
     });
 
     if (!post) {
       return NextResponse.json({ error: "Post not found" }, { status: 404 });
     }
-    return NextResponse.json(post);
+
+    const { Bookmark, Like, ...rest } = post;
+    return NextResponse.json({
+      ...rest,
+      isBookmarked: session?.user
+        ? Array.isArray(Bookmark) && Bookmark.length > 0
+        : false,
+      isLiked: session?.user ? Array.isArray(Like) && Like.length > 0 : false,
+    });
   } catch (e) {
     return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
