@@ -88,6 +88,10 @@ export async function GET(req: NextRequest) {
     const limit = Number(searchParams.get("limit")) || 10;
     const skip = (page - 1) * limit;
 
+    const session = await auth.api.getSession({
+      headers: await headers(),
+    });
+
     const [posts, total] = await Promise.all([
       prisma.post.findMany({
         skip,
@@ -117,16 +121,35 @@ export async function GET(req: NextRequest) {
               Comment: true,
             },
           },
+          ...(session?.user && {
+            Bookmark: {
+              where: {
+                userId: session.user.id,
+              },
+              select: {
+                id: true,
+              },
+            },
+          }),
         },
       }),
-
       prisma.post.count(),
     ]);
+
+    const postsWithBookmarkStatus = posts.map((post) => {
+      const { Bookmark, ...rest } = post;
+      return {
+        ...rest,
+        isBookmarked: session?.user
+          ? Array.isArray(Bookmark) && Bookmark.length > 0
+          : false,
+      };
+    });
 
     const totalPages = Math.ceil(total / limit);
 
     return NextResponse.json({
-      data: posts,
+      data: postsWithBookmarkStatus,
       page,
       limit,
       total,

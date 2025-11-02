@@ -38,6 +38,7 @@ export interface PostCardProps {
     Bookmark: number;
   };
   createdAt: Date | string;
+  isBookmarked: boolean;
 }
 
 export interface DiscoverMoreProps {

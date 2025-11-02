@@ -1,10 +1,23 @@
+import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { headers } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
   _req: NextRequest,
   { params }: { params: Promise<{ slug: string }> }
 ) {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (!session?.user) {
+    return NextResponse.json(
+      { error: "User not authenticated" },
+      { status: 401 }
+    );
+  }
+
   const { slug } = await params;
   if (!slug) {
     return NextResponse.json({ error: "Missing slug" }, { status: 400 });
@@ -19,6 +32,14 @@ export async function GET(
         },
         Tags: true,
         _count: { select: { Like: true, Bookmark: true, Comment: true } },
+        Bookmark: {
+          where: {
+            userId: session.user.id,
+          },
+          select: {
+            id: true,
+          },
+        },
       },
     });
 
