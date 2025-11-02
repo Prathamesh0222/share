@@ -4,8 +4,8 @@ import { Bookmark, Clock, Heart, MessageCircle, Newspaper } from "lucide-react";
 import { Badge } from "./ui/badge";
 import Link from "next/link";
 import { formatTimeAgo } from "@/lib/format-time";
-import { useState } from "react";
 import { useToggleBookmark } from "@/hooks/toggle-bookmark";
+import { useToggleLike } from "@/hooks/toggle-like";
 
 export const PostCard = ({
   id,
@@ -17,25 +17,23 @@ export const PostCard = ({
   author,
   createdAt,
   _count,
-  isBookmarked: initialIsBookmarked = false,
+  isBookmarked = false,
+  isLiked = false,
 }: PostCardProps) => {
   const timeAgo = formatTimeAgo(createdAt);
   const likeCount = _count?.Like || 0;
   const bookmarkCount = _count?.Bookmark || 0;
   const commentCount = _count?.Comment || 0;
   const href = slug ? `/post/${slug}` : `/post/${id}`;
-  const [isBookmarked, setIsBookmarked] = useState(initialIsBookmarked);
   const { mutate: toggleBookmark, isPending } = useToggleBookmark(id);
+  const { mutate: toggleLike, isPending: isLikePending } = useToggleLike(id);
 
   const handleBookmarkClick = () => {
-    const previousState = isBookmarked;
-    const newBookmarkState = !isBookmarked;
-    setIsBookmarked(newBookmarkState);
-    toggleBookmark(newBookmarkState, {
-      onError: () => {
-        setIsBookmarked(previousState);
-      },
-    });
+    toggleBookmark(!isBookmarked);
+  };
+
+  const handleLikeClick = () => {
+    toggleLike(!isLiked);
   };
 
   return (
@@ -96,9 +94,16 @@ export const PostCard = ({
             </h3>
           </Link>
           <div className="flex items-center gap-3 text-muted-foreground">
-            <span className="flex items-center gap-1">
-              <Heart className="size-4" />
-              <p className="text-xs">{likeCount}</p>
+            <span className="flex items-center gap-1 cursor-pointer">
+              <Heart
+                className={`size-4 transition-all ${
+                  isLiked
+                    ? "fill-green-500 text-green-500"
+                    : "hover:fill-green-500 hover:text-green-500"
+                } ${isLikePending ? "opacity-50" : ""}`}
+                onClick={handleLikeClick}
+              />
+              <span className="text-xs">{likeCount}</span>
             </span>
             <span className="flex items-center gap-1">
               <Bookmark

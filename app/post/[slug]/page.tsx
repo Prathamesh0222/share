@@ -11,12 +11,26 @@ import { RichTextViewer } from "@/components/rich-text-viewer";
 import { formatTimeAgo } from "@/lib/format-time";
 import { CommentSection } from "@/components/comment-section";
 import { useState } from "react";
+import { useToggleLike } from "@/hooks/toggle-like";
+import { useToggleBookmark } from "@/hooks/toggle-bookmark";
 
 export default function PostDetails() {
   const { slug } = useParams() as { slug?: string };
   const { data: post, isLoading, error } = usePostBySlug(slug);
   const [isOpen, setIsOpen] = useState(false);
+  const { mutate: toggleBookmark, isPending: isBookmarkPending } =
+    useToggleBookmark(post?.id ?? "");
+  const { mutate: toggleLike, isPending: isLikePending } = useToggleLike(
+    post?.id ?? ""
+  );
 
+  const handleBookmarkClick = () => {
+    toggleBookmark(!(post?.isBookmarked ?? false));
+  };
+
+  const handleLikeClick = () => {
+    toggleLike(!(post?.isLiked ?? false));
+  };
   if (isLoading) {
     return (
       <div>
@@ -101,16 +115,37 @@ export default function PostDetails() {
             )}
             <div className="ml-auto flex items-center gap-3">
               <span className="flex items-center gap-1">
-                <Heart className="h-4 w-4" /> {likeCount}
+                <Heart
+                  className={`h-4 w-4 cursor-pointer transition-all ${
+                    post?.isLiked
+                      ? "fill-green-500 text-green-500"
+                      : "hover:fill-green-500 hover:text-green-500"
+                  } ${isLikePending ? "opacity-50" : ""}`}
+                  onClick={handleLikeClick}
+                />{" "}
+                {likeCount}
               </span>
               <span className="flex items-center gap-1">
-                <Bookmark className="h-4 w-4" /> {bookmarkCount}
+                <Bookmark
+                  className={`h-4 w-4 cursor-pointer transition-all ${
+                    post?.isBookmarked
+                      ? "fill-green-500 text-green-500"
+                      : "hover:fill-green-500 hover:text-green-500"
+                  } ${isBookmarkPending ? "opacity-50" : ""}`}
+                  onClick={handleBookmarkClick}
+                />{" "}
+                {bookmarkCount}
               </span>
-              <span
-                onClick={() => setIsOpen(!isOpen)}
-                className="flex items-center gap-1 cursor-pointer hover:text-green-500"
-              >
-                <MessageCircle className="h-4 w-4 " /> {commentCount}
+              <span className="flex items-center gap-1 cursor-pointer">
+                <MessageCircle
+                  className={`h-4 w-4 cursor-pointer transition-all ${
+                    isOpen
+                      ? "fill-green-500 text-green-500"
+                      : "hover:fill-green-500 hover:text-green-500"
+                  }`}
+                  onClick={() => setIsOpen(!isOpen)}
+                />
+                {commentCount}
               </span>
             </div>
           </div>

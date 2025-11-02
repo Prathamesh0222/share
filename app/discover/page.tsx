@@ -60,6 +60,7 @@ export default function Discover() {
                 _count={group[0]._count}
                 createdAt={group[0].createdAt}
                 isBookmarked={group[0].isBookmarked ?? false}
+                isLiked={group[0].isLiked ?? false}
               />
             )}
             {group.slice(1, 4).map((post) => (
@@ -75,6 +76,7 @@ export default function Discover() {
                   _count={post._count}
                   createdAt={post.createdAt}
                   isBookmarked={post.isBookmarked ?? false}
+                  isLiked={post.isLiked ?? false}
                 />
               </div>
             ))}
