@@ -122,3 +122,106 @@ export async function DELETE(req: NextRequest) {
     );
   }
 }
+
+export async function GET(req: NextRequest) {
+  try {
+    const session = await auth.api.getSession({
+      headers: await headers(),
+    });
+    if (!session?.user) {
+      return NextResponse.json(
+        {
+          error: "User not authenticated",
+        },
+        {
+          status: 401,
+        }
+      );
+    }
+
+    const { searchParams } = new URL(req.url);
+    const page = Number(searchParams.get("page") || 1);
+    const limit = Number(searchParams.get("limit") || 10);
+    const skip = (page - 1) * limit;
+
+    const [bookmarks, total] = await Promise.all([
+      prisma.bookmark.findMany({
+        where: {
+          userId: session.user.id,
+        },
+        skip,
+        take: limit,
+        orderBy: {
+          createdAt: "desc",
+        },
+        include: {
+          post: {
+            include: {
+              Tags: {
+                select: {
+                  id: true,
+                  name: true,
+                },
+              },
+              author: {
+                select: {
+                  id: true,
+                  name: true,
+                  email: true,
+                  image: true,
+                },
+              },
+              _count: {
+                select: {
+                  Like: true,
+                  Bookmark: true,
+                  Comment: true,
+                },
+              },
+              Like: {
+                where: {
+                  userId: session.user.id,
+                },
+                select: {
+                  id: true,
+                },
+              },
+              Bookmark: {
+                where: { userId: session.user.id },
+                select: { id: true },
+              },
+            },
+          },
+        },
+      }),
+      prisma.bookmark.count({ where: { userId: session.user.id } }),
+    ]);
+
+    const data = bookmarks.map((b) => {
+      const p = b.post;
+      const { Bookmark: bookmarkArr, Like: likeArr, ...rest } = p;
+      return {
+        ...rest,
+        isBookmarked: true,
+        isLiked: likeArr.length > 0,
+      };
+    });
+
+    const totalPages = Math.ceil(total / limit);
+
+    return NextResponse.json({
+      data,
+      page,
+      limit,
+      total,
+      totalPages,
+      hasMore: page < totalPages,
+    });
+  } catch (error) {
+    console.error("Error fetching bookmarks:", error);
+    return NextResponse.json(
+      { error: "Failed to fetch bookmarks" },
+      { status: 500 }
+    );
+  }
+}

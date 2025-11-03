@@ -11,7 +11,7 @@ import {
   Heart,
   Bookmark,
   MessageCircle,
-  User as UserIcon,
+  BookmarkCheck,
 } from "lucide-react";
 import Image from "next/image";
 import { useParams } from "next/navigation";
@@ -20,9 +20,9 @@ import { useState } from "react";
 export default function UserProfilePage() {
   const { id } = useParams() as { id?: string };
   const { data: profile, isLoading, error } = useUserProfile(id);
-  const [activeTab, setActiveTab] = useState<"posts" | "goals" | "community">(
-    "posts"
-  );
+  const [activeTab, setActiveTab] = useState<
+    "posts" | "bookmarks" | "community"
+  >("posts");
 
   if (isLoading) {
     return (
@@ -234,15 +234,15 @@ export default function UserProfilePage() {
             )}
           </button>
           <button
-            onClick={() => setActiveTab("goals")}
+            onClick={() => setActiveTab("bookmarks")}
             className={`pb-4 px-2 font-semibold text-sm transition-colors relative ${
-              activeTab === "goals"
+              activeTab === "bookmarks"
                 ? "text-foreground"
                 : "text-muted-foreground hover:text-foreground"
             }`}
           >
-            Goals
-            {activeTab === "goals" && (
+            Bookmarks
+            {activeTab === "bookmarks" && (
               <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-green-500" />
             )}
           </button>
@@ -281,6 +281,8 @@ export default function UserProfilePage() {
                       Tags={post.Tags}
                       _count={post._count}
                       createdAt={post.createdAt}
+                      isBookmarked={post.isBookmarked}
+                      isLiked={post.isLiked}
                     />
                   ))}
                 </div>
@@ -298,14 +300,14 @@ export default function UserProfilePage() {
             </>
           )}
 
-          {activeTab === "goals" && (
+          {activeTab === "bookmarks" && (
             <div className="border border-subtlest rounded-2xl p-12 text-center">
               <div className="w-16 h-16 rounded-full bg-muted flex items-center justify-center mx-auto mb-4">
-                <Heart className="h-8 w-8 text-muted-foreground" />
+                <BookmarkCheck className="h-8 w-8 text-muted-foreground" />
               </div>
-              <h3 className="font-semibold mb-2">Goals Coming Soon</h3>
+              <h3 className="font-semibold mb-2">No bookmarks yet</h3>
               <p className="text-sm text-muted-foreground">
-                Track your writing goals and achievements
+                Bookmarks will appear here once saved
               </p>
             </div>
           )}
