@@ -3,6 +3,7 @@
 import { DiscoverHeader } from "@/components/discover-header";
 import { PostCard } from "@/components/post-card";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useFetchUsersBookmark } from "@/hooks/use-fetch-users-bookmark";
 import { useUserProfile } from "@/hooks/use-user-profile";
 import { formatTimeAgo } from "@/lib/format-time";
 import {
@@ -23,6 +24,12 @@ export default function UserProfilePage() {
   const [activeTab, setActiveTab] = useState<
     "posts" | "bookmarks" | "community"
   >("posts");
+  const {
+    data: bookmarks,
+    isLoading: isBookmarksLoading,
+    error: bookmarksError,
+  } = useFetchUsersBookmark(1, 10);
+  console.log(bookmarks);
 
   if (isLoading) {
     return (
@@ -301,15 +308,56 @@ export default function UserProfilePage() {
           )}
 
           {activeTab === "bookmarks" && (
-            <div className="border border-subtlest rounded-2xl p-12 text-center">
-              <div className="w-16 h-16 rounded-full bg-muted flex items-center justify-center mx-auto mb-4">
-                <BookmarkCheck className="h-8 w-8 text-muted-foreground" />
-              </div>
-              <h3 className="font-semibold mb-2">No bookmarks yet</h3>
-              <p className="text-sm text-muted-foreground">
-                Bookmarks will appear here once saved
-              </p>
-            </div>
+            <>
+              {isBookmarksLoading ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {Array.from({ length: 4 }).map((_, i) => (
+                    <div
+                      key={i}
+                      className="border border-subtlest rounded-xl overflow-hidden"
+                    >
+                      <Skeleton className="h-48 w-full" />
+                      <div className="p-4 space-y-3">
+                        <Skeleton className="h-4 w-3/4" />
+                        <Skeleton className="h-4 w-full" />
+                        <Skeleton className="h-4 w-2/3" />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : bookmarksError ? (
+                <p className="text-destructive">Failed to load bookmarks.</p>
+              ) : bookmarks?.data?.length ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {bookmarks.data.map((post: any) => (
+                    <PostCard
+                      key={post.id}
+                      id={post.id}
+                      title={post.title}
+                      content={post.content}
+                      imageUrl={post.imageUrl}
+                      slug={post.slug}
+                      author={post.author}
+                      Tags={post.Tags}
+                      _count={post._count}
+                      createdAt={post.createdAt}
+                      isBookmarked={true}
+                      isLiked={post.isLiked}
+                    />
+                  ))}
+                </div>
+              ) : (
+                <div className="border border-subtlest rounded-2xl p-12 text-center">
+                  <div className="w-16 h-16 rounded-full bg-muted flex items-center justify-center mx-auto mb-4">
+                    <BookmarkCheck className="h-8 w-8 text-muted-foreground" />
+                  </div>
+                  <h3 className="font-semibold mb-2">No bookmarks yet</h3>
+                  <p className="text-sm text-muted-foreground">
+                    Bookmarks will appear here once saved
+                  </p>
+                </div>
+              )}
+            </>
           )}
 
           {activeTab === "community" && (
