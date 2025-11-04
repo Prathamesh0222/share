@@ -1,14 +1,8 @@
 import type { Metadata } from "next";
-import { Open_Sans } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Providers } from "@/components/providers";
-
-const openSans = Open_Sans({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-open-sans",
-});
+import { openSans, instrumentSerif } from "@/lib/font";
 
 export const metadata: Metadata = {
   title: "Typen",
@@ -22,7 +16,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${openSans.className} antialiased`}>
+      <body
+        className={`${openSans.className} ${instrumentSerif.variable} antialiased`}
+      >
         <ThemeProvider
           attribute="class"
           defaultTheme="light"
