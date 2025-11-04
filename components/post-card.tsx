@@ -7,6 +7,7 @@ import { formatTimeAgo } from "@/lib/format-time";
 import { useToggleBookmark } from "@/hooks/toggle-bookmark";
 import { useToggleLike } from "@/hooks/toggle-like";
 import { generateSummary } from "@/lib/generate-summary";
+import { instrumentSerif } from "@/lib/font";
 
 export const PostCard = ({
   id,
@@ -53,10 +54,10 @@ export const PostCard = ({
           <Clock className="h-3.5 w-3.5" />
           <span>Published {timeAgo}</span>
         </div>
-        <h2>
+        <h2 className={` ${instrumentSerif.className}`}>
           <Link
             href={href}
-            className={`hover:underline tracking-tighter font-bold hover:text-green-500 duration-200 transition-colors `}
+            className={`hover:underline font-bold hover:text-green-500 duration-200 transition-colors text-lg leading-tight`}
           >
             {title}
           </Link>

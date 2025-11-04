@@ -41,8 +41,7 @@ export default function Discover() {
   return (
     <div>
       <DiscoverHeader />
-
-      <div className="max-w-6xl mx-auto space-y-8 px-4 py-8">
+      <div className="max-w-5xl mx-auto space-y-8 px-4 py-8">
         {groupedPosts.map((group, groupIndex) => (
           <div
             key={groupIndex}
@@ -94,7 +93,6 @@ export default function Discover() {
           </div>
         )}
       </div>
-
       {!hasNextPage && posts.length > 0 && (
         <p className="text-center text-muted-foreground mt-8">
           You've reached the end

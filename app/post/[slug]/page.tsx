@@ -160,7 +160,7 @@ export default function PostDetails() {
             postAuthorId={post.author?.id}
           />
         </div>
-        <div className="w-1/3 hidden lg:block">
+        <div className="w-full max-w-1/4 hidden lg:block">
           <TableOfContents content={post.content} />
         </div>
       </div>

@@ -20,7 +20,7 @@ export const DiscoverHeader = () => {
   const { data } = useSession();
 
   return (
-    <header className="flex justify-between p-4 max-w-7xl mx-auto">
+    <header className="flex justify-between p-4 max-w-5xl mx-auto">
       <TypeOutline
         onClick={() => router.push("/discover")}
         className="text-green-500 size-7 cursor-pointer hover:scale-110 duration-300 transition-all"

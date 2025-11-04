@@ -35,7 +35,7 @@ export default function UserProfilePage() {
     return (
       <div className="min-h-screen bg-background">
         <DiscoverHeader />
-        <div className="max-w-6xl mx-auto px-4 py-8">
+        <div className="max-w-5xl mx-auto px-4 py-8">
           <div className="flex flex-col md:flex-row items-start gap-8">
             <div className="flex flex-col items-center md:items-start gap-4">
               <Skeleton className="w-32 h-32 rounded-full" />
@@ -90,7 +90,7 @@ export default function UserProfilePage() {
     return (
       <div>
         <DiscoverHeader />
-        <div className="max-w-6xl mx-auto px-4 py-8">
+        <div className="max-w-5xl mx-auto px-4 py-8">
           <p className="text-destructive">Failed to load profile.</p>
         </div>
       </div>
@@ -101,7 +101,7 @@ export default function UserProfilePage() {
     return (
       <div>
         <DiscoverHeader />
-        <div className="max-w-6xl mx-auto px-4 py-8">
+        <div className="max-w-5xl mx-auto px-4 py-8">
           <p className="text-muted-foreground">Profile not found.</p>
         </div>
       </div>
@@ -113,7 +113,7 @@ export default function UserProfilePage() {
   return (
     <div className="min-h-screen bg-background">
       <DiscoverHeader />
-      <div className="max-w-6xl mx-auto px-4 py-8">
+      <div className="max-w-5xl mx-auto px-4 py-8">
         <div className="relative">
           <div className="absolute -top-4 -left-4 w-72 h-72 bg-green-500/5 dark:bg-green-500/10 rounded-full blur-3xl -z-10 animate-pulse" />
           <div className="absolute -bottom-8 -right-8 w-96 h-96 bg-emerald-500/5 dark:bg-emerald-500/10 rounded-full blur-3xl -z-10" />

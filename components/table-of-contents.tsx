@@ -118,7 +118,7 @@ export function TableOfContents({ content }: { content: string }) {
                     block pl-4 py-1 transition-all
                     ${
                       isActive
-                        ? "text-foreground text-sm font-bold"
+                        ? "text-foreground text-xs font-bold"
                         : "text-muted-foreground text-xs font-semibold"
                     }
                   `}
