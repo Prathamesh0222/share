@@ -101,3 +101,9 @@ export interface UserProfile {
   };
   Post: PostCardProps[];
 }
+
+export interface TocItem {
+  id: string;
+  text: string;
+  level: number;
+}
