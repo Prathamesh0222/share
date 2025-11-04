@@ -5,9 +5,10 @@ import { PostCard } from "@/components/post-card";
 import { FeaturedPostCard } from "@/components/featured-post-card";
 import { useFetchPost } from "@/hooks/use-fetch-post";
 import { useEffect, useRef } from "react";
+import { DiscoverSkeleton } from "@/components/discover-skeleton";
 
 export default function Discover() {
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
     useFetchPost();
   const loaderRef = useRef<HTMLDivElement | null>(null);
 
@@ -37,6 +38,15 @@ export default function Discover() {
       if (loader) observer.unobserve(loader);
     };
   }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
+
+  if (isLoading) {
+    return (
+      <div>
+        <DiscoverHeader />
+        <DiscoverSkeleton />
+      </div>
+    );
+  }
 
   return (
     <div>
