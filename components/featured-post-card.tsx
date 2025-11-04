@@ -6,7 +6,8 @@ import { Badge } from "./ui/badge";
 import Link from "next/link";
 import { useToggleBookmark } from "@/hooks/toggle-bookmark";
 import { useToggleLike } from "@/hooks/toggle-like";
-
+import { generateSummary } from "@/lib/generate-summary";
+import { instrumentSerif } from "@/lib/font";
 export const FeaturedPostCard = ({
   id,
   title,
@@ -59,10 +60,10 @@ export const FeaturedPostCard = ({
             <Clock className="h-4 w-4" />
             <span>Published {timeAgo}</span>
           </div>
-          <h1 className="text-lg lg:text-3xl font-bold leading-tight text-foreground">
+          <h1 className={`text-lg lg:text-3xl ${instrumentSerif.className}`}>
             <Link
               href={href}
-              className="hover:underline hover:text-green-500 duration-200 transition-colors"
+              className={`hover:underline font-bold hover:text-green-500 duration-200 transition-colors `}
             >
               {title}
             </Link>
@@ -72,9 +73,7 @@ export const FeaturedPostCard = ({
             dangerouslySetInnerHTML={{
               __html:
                 typeof content === "string"
-                  ? content.length > 200
-                    ? `${content.substring(0, 200)}...`
-                    : content
+                  ? generateSummary(content, 200)
                   : "",
             }}
           />

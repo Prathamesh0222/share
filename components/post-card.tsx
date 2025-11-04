@@ -6,6 +6,7 @@ import Link from "next/link";
 import { formatTimeAgo } from "@/lib/format-time";
 import { useToggleBookmark } from "@/hooks/toggle-bookmark";
 import { useToggleLike } from "@/hooks/toggle-like";
+import { generateSummary } from "@/lib/generate-summary";
 
 export const PostCard = ({
   id,
@@ -52,23 +53,32 @@ export const PostCard = ({
           <Clock className="h-3.5 w-3.5" />
           <span>Published {timeAgo}</span>
         </div>
-        <h2 className="text-lg font-bold leading-tight text-foreground line-clamp-2">
+        <h2>
           <Link
             href={href}
-            className="hover:underline hover:text-green-500 duration-200 transition-colors"
+            className={`hover:underline tracking-tighter font-bold hover:text-green-500 duration-200 transition-colors `}
           >
             {title}
           </Link>
         </h2>
-        <p className="text-muted-foreground text-sm line-clamp-3">
-          {content.length > 120 ? `${content.slice(0, 120)}...` : content}
-        </p>
+        <p
+          className="text-muted-foreground text-xs line-clamp-3"
+          dangerouslySetInnerHTML={{
+            __html:
+              typeof content === "string" ? generateSummary(content, 200) : "",
+          }}
+        ></p>
         <div className="flex flex-wrap gap-2">
-          {Tags.map((tag) => (
-            <Badge key={tag.id} className="text-xs">
+          {Tags.slice(0, 5).map((tag) => (
+            <Badge key={tag.id} className="text-xs py-0.5 px-1.5 font-semibold">
               {tag.name}
             </Badge>
           ))}
+          {Tags.length > 5 && (
+            <Badge className="text-xs py-0.1 px-1.5 font-semibold bg-muted text-muted-foreground">
+              +{Tags.length - 5}
+            </Badge>
+          )}
         </div>
         <div className="mt-auto flex items-center justify-between">
           <Link
@@ -76,7 +86,7 @@ export const PostCard = ({
             className="flex items-center gap-2 hover:opacity-80 transition-opacity"
           >
             {author?.image ? (
-              <div className="relative w-8 h-8 rounded-full overflow-hidden">
+              <div className="relative w-6 h-6 rounded-full overflow-hidden">
                 <Image
                   src={author.image}
                   alt={author.name}
@@ -89,8 +99,8 @@ export const PostCard = ({
                 {author?.name ? author.name.charAt(0).toUpperCase() : "?"}
               </div>
             )}
-            <h3 className="text-muted-foreground text-sm font-semibold">
-              {author?.name || "Unknown"}
+            <h3 className="text-muted-foreground text-xs font-semibold">
+              {author?.name.split(" ")[0] || "Unknown"}
             </h3>
           </Link>
           <div className="flex items-center gap-3 text-muted-foreground">
