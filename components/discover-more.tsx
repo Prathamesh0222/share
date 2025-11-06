@@ -2,8 +2,10 @@ import { useFetchPost } from "@/hooks/use-fetch-post";
 import Image from "next/image";
 import Link from "next/link";
 import { formatTimeAgo } from "@/lib/format-time";
-import { Bookmark, Heart, MessageCircle } from "lucide-react";
-import { DiscoverMoreProps } from "@/types/types";
+import { Bookmark, Clock, Heart, MessageCircle } from "lucide-react";
+import { DiscoverMoreProps, PostCardProps } from "@/types/types";
+import { generateSummary } from "@/lib/generate-summary";
+import { instrumentSerif } from "@/lib/font";
 
 export const DiscoverMore = ({
   currentSlug,
@@ -13,7 +15,7 @@ export const DiscoverMore = ({
   currentId?: string;
 }) => {
   const { data, isFetchingNextPage } = useFetchPost();
-  const posts = data?.pages?.flatMap((page: any) => page.data) ?? [];
+  const posts = data?.pages?.flatMap((page) => page.data) ?? [];
   const related = posts
     .filter(
       (p: DiscoverMoreProps) => p.slug !== currentSlug && p.id !== currentId
@@ -56,16 +58,10 @@ export const DiscoverMore = ({
   }
 
   return (
-    <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-6">
-      {related.map((p: any) => {
+    <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-6">
+      {related.map((p: PostCardProps) => {
         const timeAgo = formatTimeAgo(p.createdAt);
         const href = p.slug ? `/post/${p.slug}` : `/post/${p.id}`;
-        const excerpt =
-          typeof p.content === "string"
-            ? p.content.length > 120
-              ? `${p.content.slice(0, 120)}...`
-              : p.content
-            : "";
         const likeCount = p?._count?.Like ?? 0;
         const bookmarkCount = p?._count?.Bookmark ?? 0;
         const commentCount = p?._count?.Comment ?? 0;
@@ -89,9 +85,14 @@ export const DiscoverMore = ({
             </div>
             <div className="p-4 space-y-3 flex flex-col flex-1">
               <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                <span>Published {timeAgo}</span>
+                <span>
+                  {" "}
+                  <Clock className="h-4 w-4" /> {formatTimeAgo(p.createdAt)}
+                </span>1
               </div>
-              <h2 className="text-lg font-bold leading-tight text-foreground line-clamp-2">
+              <h2
+                className={`text-lg leading-tight text-foreground line-clamp-2 ${instrumentSerif.className}`}
+              >
                 <Link
                   href={href}
                   className="hover:underline hover:text-green-500 duration-200 transition-colors"
@@ -99,32 +100,49 @@ export const DiscoverMore = ({
                   {p.title}
                 </Link>
               </h2>
-              <p className="text-muted-foreground text-sm line-clamp-3">
-                {excerpt}
-              </p>
+              <p
+                className="text-muted-foreground text-xs line-clamp-3"
+                dangerouslySetInnerHTML={{
+                  __html:
+                    typeof p.content === "string"
+                      ? generateSummary(p.content, 200)
+                      : "",
+                }}
+              ></p>
 
               <div className="mt-auto flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <div className="flex items-center justify-center w-8 h-8 rounded-full border bg-green-500 text-green-200 font-bold text-sm">
-                    {p.author?.name
-                      ? p.author.name.charAt(0).toUpperCase()
-                      : "?"}
-                  </div>
-                  <h3 className="text-muted-foreground text-sm font-semibold">
-                    {p.author?.name || "Unknown"}
+                  {p.author?.image ? (
+                    <div className="relative w-6 h-6 rounded-full overflow-hidden">
+                      <Image
+                        src={p.author.image}
+                        alt={p.author.name}
+                        fill
+                        className="object-cover"
+                      />
+                    </div>
+                  ) : (
+                    <div className="flex items-center justify-center w-8 h-8 rounded-full border bg-green-500 text-green-200 font-bold text-sm">
+                      {p.author?.name
+                        ? p.author.name.charAt(0).toUpperCase()
+                        : "?"}
+                    </div>
+                  )}
+                  <h3 className="text-muted-foreground text-xs font-semibold">
+                    {p.author?.name.split(" ")[0] || "Unknown"}
                   </h3>
                 </div>
-                <div className="flex items-center gap-3 text-muted-foreground">
+                <div className="flex items-center gap-2 text-muted-foreground">
                   <span className="flex items-center gap-1">
-                    <Heart className="size-4" />
+                    <Heart className="size-3" />
                     <p className="text-xs">{likeCount}</p>
                   </span>
                   <span className="flex items-center gap-1">
-                    <Bookmark className="size-4" />
+                    <Bookmark className="size-3" />
                     <p className="text-xs">{bookmarkCount}</p>
                   </span>
                   <span className="flex items-center gap-1">
-                    <MessageCircle className="size-4" />
+                    <MessageCircle className="size-3" />
                     <p className="text-xs">{commentCount}</p>
                   </span>
                 </div>
