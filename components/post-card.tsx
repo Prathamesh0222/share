@@ -71,12 +71,19 @@ export const PostCard = ({
         ></p>
         <div className="flex flex-wrap gap-2">
           {Tags.slice(0, 5).map((tag) => (
-            <Badge key={tag.id} className="text-xs py-0.5 px-1.5 font-semibold">
-              {tag.name}
+            <Badge
+              variant={"outline"}
+              className="text-xs rounded-full border px-1.5 py-0.5 text-muted-foreground border-green-800/20 dark:border-green-500/20"
+              key={tag.id}
+            >
+              #{tag.name}
             </Badge>
           ))}
           {Tags.length > 5 && (
-            <Badge className="text-xs py-0.1 px-1.5 font-semibold bg-muted text-muted-foreground">
+            <Badge
+              variant={"outline"}
+              className="text-xs rounded-full border px-1.5 py-0.5 text-muted-foreground border-green-800/20 dark:border-green-500/20"
+            >
               +{Tags.length - 5}
             </Badge>
           )}

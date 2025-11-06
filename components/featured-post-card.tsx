@@ -60,7 +60,7 @@ export const FeaturedPostCard = ({
             <Clock className="h-4 w-4" />
             <span>Published {timeAgo}</span>
           </div>
-          <h1 className={`text-lg lg:text-3xl ${instrumentSerif.className}`}>
+          <h1 className={`text-xl lg:text-3xl ${instrumentSerif.className}`}>
             <Link
               href={href}
               className={`hover:underline font-bold hover:text-green-500 duration-200 transition-colors `}
@@ -79,8 +79,12 @@ export const FeaturedPostCard = ({
           />
           <div className="flex flex-wrap gap-2">
             {Tags.map((tag) => (
-              <Badge key={tag.id} className="text-xs">
-                {tag.name}
+              <Badge
+                variant={"outline"}
+                className="text-xs rounded-full border px-2 py-0.5 text-muted-foreground border-green-800/20 dark:border-green-500/20"
+                key={tag.id}
+              >
+                #{tag.name}
               </Badge>
             ))}
           </div>
