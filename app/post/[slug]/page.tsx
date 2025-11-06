@@ -3,7 +3,13 @@
 import { DiscoverHeader } from "@/components/discover-header";
 import { DiscoverMore } from "@/components/discover-more";
 import { usePostBySlug } from "@/hooks/use-post-by-slug";
-import { Bookmark, Heart, MessageCircle, Clock } from "lucide-react";
+import {
+  Bookmark,
+  Heart,
+  MessageCircle,
+  Clock,
+  LibraryBig,
+} from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
@@ -14,6 +20,7 @@ import { useState } from "react";
 import { useToggleLike } from "@/hooks/toggle-like";
 import { useToggleBookmark } from "@/hooks/toggle-bookmark";
 import { TableOfContents } from "@/components/table-of-contents";
+import { instrumentSerif } from "@/lib/font";
 
 export default function PostDetails() {
   const { slug } = useParams() as { slug?: string };
@@ -81,7 +88,9 @@ export default function PostDetails() {
       <div className="flex gap-8 max-w-4xl mx-auto">
         <div>
           <article className="mx-auto mt-8 grid gap-6">
-            <h1 className="text-4xl font-bold leading-tight tracking-tighter">
+            <h1
+              className={`text-4xl leading-tight tracking-tight ${instrumentSerif.className}`}
+            >
               {post.title}
             </h1>
             {post.imageUrl ? (
@@ -165,7 +174,12 @@ export default function PostDetails() {
         </div>
       </div>
       <div className="my-12 max-w-4xl mx-auto">
-        <h1 className="text-xl font-bold tracking-tighter">Discover More</h1>
+        <h1
+          className={`flex items-center gap-1 text-2xl font-bold tracking-tighter ${instrumentSerif.className}`}
+        >
+          <LibraryBig className="size-5" />
+          Discover More
+        </h1>
         <DiscoverMore currentSlug={slug as string} currentId={post.id} />
       </div>
     </div>

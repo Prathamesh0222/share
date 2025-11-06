@@ -11,13 +11,6 @@ export async function GET(
     headers: await headers(),
   });
 
-  if (!session?.user) {
-    return NextResponse.json(
-      { error: "User not authenticated" },
-      { status: 401 }
-    );
-  }
-
   const { slug } = await params;
   if (!slug) {
     return NextResponse.json({ error: "Missing slug" }, { status: 400 });
@@ -32,22 +25,24 @@ export async function GET(
         },
         Tags: true,
         _count: { select: { Like: true, Bookmark: true, Comment: true } },
-        Bookmark: {
-          where: {
-            userId: session.user.id,
+        ...(session?.user.id && {
+          Bookmark: {
+            where: {
+              userId: session!.user.id,
+            },
+            select: {
+              id: true,
+            },
           },
-          select: {
-            id: true,
+          Like: {
+            where: {
+              userId: session!.user.id,
+            },
+            select: {
+              id: true,
+            },
           },
-        },
-        Like: {
-          where: {
-            userId: session.user.id,
-          },
-          select: {
-            id: true,
-          },
-        },
+        }),
       },
     });
 
