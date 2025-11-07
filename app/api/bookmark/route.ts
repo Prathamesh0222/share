@@ -199,7 +199,7 @@ export async function GET(req: NextRequest) {
 
     const data = bookmarks.map((b) => {
       const p = b.post;
-      const { Bookmark: bookmarkArr, Like: likeArr, ...rest } = p;
+      const { Like: likeArr, ...rest } = p;
       return {
         ...rest,
         isBookmarked: true,

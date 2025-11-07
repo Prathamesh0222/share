@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { openSans, instrumentSerif } from "@/lib/font";
+import { instrumentSerif } from "@/lib/font";
 
 export const Hero = () => {
   return (

@@ -81,7 +81,8 @@ export const EmailTemplate = ({
               This link will expire in 24 hours.
             </p>
             <p style={{ margin: "5px 0" }}>
-              If you didn't create an account, you can safely ignore this email.
+              If you didn&apos;t create an account, you can safely ignore this
+              email.
             </p>
           </div>
         </div>

@@ -1,5 +1,3 @@
-import Link from "next/link";
-
 export const Footer = () => {
   return (
     <footer className="left-0 right-0 bottom-0 absolute w-full mx-auto p-4">

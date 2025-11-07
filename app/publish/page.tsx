@@ -6,7 +6,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
-import { Image, Trash, X } from "lucide-react";
+import { Image as ImageIcon, Trash, X } from "lucide-react";
+import Image from "next/image";
 import { useCreatePost } from "@/hooks/use-create-post";
 import Tiptap from "@/components/titptap";
 import { toast } from "sonner";
@@ -164,7 +165,7 @@ export default function PublishPage() {
                     htmlFor="file-upload"
                     className="flex flex-col items-center justify-center py-10 cursor-pointer"
                   >
-                    <Image className="w-8 h-8 text-green-500 mb-2" />
+                    <ImageIcon className="w-8 h-8 text-green-500 mb-2" />
                     <span className="text-sm">Click to upload image</span>
                     <span className="text-xs text-muted-foreground mt-1">
                       Max 10MB
@@ -172,10 +173,13 @@ export default function PublishPage() {
                   </label>
                 ) : (
                   <div className="relative group">
-                    <img
+                    <Image
                       src={URL.createObjectURL(file)}
-                      alt="Preview"
+                      alt="Cover image preview"
+                      width={800}
+                      height={192}
                       className="w-full h-48 object-cover"
+                      unoptimized
                     />
                     <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                       <Button

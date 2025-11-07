@@ -7,10 +7,6 @@ export function TableOfContents({ content }: { content: string }) {
   const toc = generateToc(content);
   const [activeId, setActiveId] = useState<string>("");
 
-  if (toc.length === 0) {
-    return null;
-  }
-
   const handleClick = (e: React.MouseEvent, id: string) => {
     e.preventDefault();
 
@@ -102,6 +98,10 @@ export function TableOfContents({ content }: { content: string }) {
       }
     };
   }, [toc]);
+
+  if (toc.length === 0) {
+    return null;
+  }
 
   return (
     <div className="sticky top-8 rounded-lg mb-6 max-h-[calc(100vh-4rem)] overflow-y-auto">

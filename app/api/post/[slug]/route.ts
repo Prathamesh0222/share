@@ -58,7 +58,8 @@ export async function GET(
         : false,
       isLiked: session?.user ? Array.isArray(Like) && Like.length > 0 : false,
     });
-  } catch (e) {
+  } catch (error) {
+    console.error(error);
     return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
 }

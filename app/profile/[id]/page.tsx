@@ -6,6 +6,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useFetchUsersBookmark } from "@/hooks/use-fetch-users-bookmark";
 import { useUserProfile } from "@/hooks/use-user-profile";
 import { formatTimeAgo } from "@/lib/format-time";
+import { PostCardProps } from "@/types/types";
 import {
   Calendar,
   FileText,
@@ -329,7 +330,7 @@ export default function UserProfilePage() {
                 <p className="text-destructive">Failed to load bookmarks.</p>
               ) : bookmarks?.data?.length ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {bookmarks.data.map((post: any) => (
+                  {bookmarks.data.map((post: PostCardProps) => (
                     <PostCard
                       key={post.id}
                       id={post.id}

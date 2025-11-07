@@ -60,7 +60,6 @@ export const DiscoverMore = ({
   return (
     <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-6">
       {related.map((p: PostCardProps) => {
-        const timeAgo = formatTimeAgo(p.createdAt);
         const href = p.slug ? `/post/${p.slug}` : `/post/${p.id}`;
         const likeCount = p?._count?.Like ?? 0;
         const bookmarkCount = p?._count?.Bookmark ?? 0;
@@ -85,10 +84,9 @@ export const DiscoverMore = ({
             </div>
             <div className="p-4 space-y-3 flex flex-col flex-1">
               <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                <span>
-                  {" "}
+                <span className="flex gap-2 items-center">
                   <Clock className="h-4 w-4" /> {formatTimeAgo(p.createdAt)}
-                </span>1
+                </span>
               </div>
               <h2
                 className={`text-lg leading-tight text-foreground line-clamp-2 ${instrumentSerif.className}`}
