@@ -20,12 +20,7 @@ export default function RootLayout({
         className={`${openSans.className} ${instrumentSerif.variable} antialiased`}
         suppressHydrationWarning
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="light"
-          enableSystem
-          disableTransitionOnChange
-        >
+        <ThemeProvider attribute="class" enableSystem disableTransitionOnChange>
           <Providers>{children}</Providers>
         </ThemeProvider>
       </body>
