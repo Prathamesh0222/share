@@ -1,24 +1,58 @@
+"use client";
+
 import Link from "next/link";
 import { instrumentSerif } from "@/lib/font";
+import { Button } from "./ui/button";
+import { ArrowRight } from "lucide-react";
+import Image from "next/image";
+import { useTheme } from "next-themes";
 
 export const Hero = () => {
+  const { theme } = useTheme();
+
+  const imageSrc =
+    theme === "dark" ? "/landing_sample_dark.png" : "/landing_sample_light.png";
+
   return (
-    <section className="flex flex-col flex-1 justify-center items-center text-center px-4">
-      <h1
-        className={`text-5xl font-bold tracking-tight ${instrumentSerif.className}`}
-      >
-        Tech insights and creative stories, all in one place.
-      </h1>
-      <p className="mt-4 text-muted-foreground max-w-2xl mx-auto">
-        Practical guides, deep dives, and notes from building real products.
-      </p>
-      <div className="mt-4">
-        <Link
-          href="/discover"
-          className="inline-flex items-center rounded-md bg-green-600 text-white px-3 py-2 text-sm font-bold hover:bg-green-700 transition"
+    <section className="pt-30 pb-20 px-4">
+      <div className="max-w-4xl mx-auto text-center space-y-4">
+        <h1
+          className={`text-4xl md:text-5xl font-bold tracking-tight ${instrumentSerif.className}`}
         >
-          Start Reading
-        </Link>
+          Write, share, and discover
+          <br />
+          <span className="text-green-600 dark:text-green-500">
+            stories that matter
+          </span>
+        </h1>
+        <p className="text-sm text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+          A modern platform for writers and readers. <br /> Publish your
+          thoughts, engage with community, and explore meaningful content.
+        </p>
+        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-4">
+          <Button asChild className="text-sm rounded-lg font-semibold">
+            <Link href="/signin">
+              Get Started
+              <ArrowRight className="size-4" />
+            </Link>
+          </Button>
+          <Button
+            asChild
+            variant="outline"
+            className="text-sm rounded-lg font-semibold"
+          >
+            <Link href="/discover">Explore Stories</Link>
+          </Button>
+        </div>
+        <div className="p-1.5 border rounded-xl mask-b-from-50% mask-b-to-90% bg-background mt-12">
+          <Image
+            src={imageSrc}
+            alt="Hero"
+            width={1920}
+            height={1080}
+            className="rounded-lg border border-border"
+          />
+        </div>
       </div>
     </section>
   );
