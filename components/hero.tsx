@@ -44,7 +44,7 @@ export const Hero = () => {
             <Link href="/discover">Explore Stories</Link>
           </Button>
         </div>
-        <div className="p-1.5 border rounded-xl mask-b-from-50% mask-b-to-90% bg-background mt-12">
+        <div className="p-1.5 border rounded-xl mask-b-from-50% mask-b-to-90% bg-background mt-12 divide-blue-600">
           <Image
             src={imageSrc}
             alt="Hero"
