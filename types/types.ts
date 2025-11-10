@@ -15,6 +15,7 @@ export interface CreatePostPayload {
 export interface TiptapProps {
   content?: string;
   onChange?: (content: string) => void;
+  className?: string;
 }
 
 interface Author {
@@ -106,4 +107,10 @@ export interface TocItem {
   id: string;
   text: string;
   level: number;
+}
+
+export interface Tags {
+  id: string;
+  name: string;
+  count: number;
 }
