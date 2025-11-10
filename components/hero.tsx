@@ -6,9 +6,16 @@ import { Button } from "./ui/button";
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
+import { Skeleton } from "./ui/skeleton";
 
 export const Hero = () => {
   const { theme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const imageSrc =
     theme === "dark" ? "/landing_sample_dark.png" : "/landing_sample_light.png";
@@ -44,14 +51,18 @@ export const Hero = () => {
             <Link href="/discover">Explore Stories</Link>
           </Button>
         </div>
-        <div className="p-1.5 border rounded-xl mask-b-from-50% mask-b-to-90% bg-background mt-12 divide-blue-600">
-          <Image
-            src={imageSrc}
-            alt="Hero"
-            width={1920}
-            height={1080}
-            className="rounded-lg border border-border"
-          />
+        <div className="p-1.5 border rounded-xl mask-b-from-50% mask-b-to-90% bg-background mt-12">
+          {!mounted ? (
+            <Skeleton className="w-full aspect-video rounded-lg" />
+          ) : (
+            <Image
+              src={imageSrc}
+              alt="Hero"
+              width={1920}
+              height={1080}
+              className="rounded-lg border border-border"
+            />
+          )}
         </div>
       </div>
     </section>

@@ -111,11 +111,6 @@ export function DiscoverContent() {
           </div>
         )}
       </div>
-      {!hasNextPage && posts.length > 0 && (
-        <p className="text-center text-muted-foreground mt-8">
-          You&apos;ve reached the end
-        </p>
-      )}
     </div>
   );
 }
