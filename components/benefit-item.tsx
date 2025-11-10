@@ -19,7 +19,7 @@ export const BenefitItem = ({
       </div>
       <div>
         <h4 className="font-semibold mb-1">{title}</h4>
-        <p className="text-muted-foreground text-sm">{description}</p>
+        <p className="text-muted-foreground text-xs">{description}</p>
       </div>
     </div>
   );

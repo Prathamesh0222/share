@@ -1,12 +1,26 @@
+"use client";
+
 import { instrumentSerif } from "@/lib/font";
-import { MessageCircle, PenTool, Tag } from "lucide-react";
 import { BenefitItem } from "./benefit-item";
+import Image from "next/image";
+import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
+import { Skeleton } from "./ui/skeleton";
 
 export const Benefits = () => {
+  const { theme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const imageSrc = theme === "dark" ? "/slug_dark.png" : "/slug_light.png";
+
   return (
-    <section className="py-24 px-4 border-t border-border bg-muted/30">
-      <div className="max-w-6xl mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+    <section className="relative border-t border-border bg-muted/30 overflow-hidden">
+      <div className="grid grid-cols-1 lg:grid-cols-2 w-full">
+        <div className="gap-16 items-center md:p-24 p-8 py-12">
           <div className="space-y-6">
             <h2
               className={`text-3xl md:text-4xl font-bold tracking-tight ${instrumentSerif.className}`}
@@ -39,45 +53,20 @@ export const Benefits = () => {
               />
             </div>
           </div>
-          <div className="space-y-6">
-            <div className="p-8 rounded-lg border border-border bg-background">
-              <div className="space-y-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-green-500/10 flex items-center justify-center">
-                    <PenTool className="h-5 w-5 text-green-600 dark:text-green-500" />
-                  </div>
-                  <div>
-                    <h4 className="font-semibold">Write with ease</h4>
-                    <p className="text-sm text-muted-foreground">
-                      Rich formatting tools at your fingertips
-                    </p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-green-500/10 flex items-center justify-center">
-                    <Tag className="h-5 w-5 text-green-600 dark:text-green-500" />
-                  </div>
-                  <div>
-                    <h4 className="font-semibold">Organize with tags</h4>
-                    <p className="text-sm text-muted-foreground">
-                      Keep your content organized and discoverable
-                    </p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-green-500/10 flex items-center justify-center">
-                    <MessageCircle className="h-5 w-5 text-green-600 dark:text-green-500" />
-                  </div>
-                  <div>
-                    <h4 className="font-semibold">Engage with readers</h4>
-                    <p className="text-sm text-muted-foreground">
-                      Build a community through comments and interactions
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+        </div>
+
+        <div className="w-full hidden md:block overflow-hidden absolute inset-x-0 translate-x-[45%] p-20 z-20">
+          {!mounted ? (
+            <Skeleton className="w-[65%] aspect-video rounded-2xl" />
+          ) : (
+            <Image
+              src={imageSrc}
+              alt="Benefits"
+              width={1920}
+              height={1080}
+              className="object-cover w-[65%] rounded-2xl border border-border/50 mask-b-from-70% mask-b-to-90% mask-r-from-70% mask-r-to-90%"
+            />
+          )}
         </div>
       </div>
     </section>
