@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { Button } from "./ui/button";
-import { LogOut, SquarePen, TypeOutline, User } from "lucide-react";
+import { LogOut, SquarePen, User } from "lucide-react";
 import { ModeToggle } from "./mode-toggle";
 import { signOut, useSession } from "@/lib/auth-client";
 import {
@@ -14,17 +14,23 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import Image from "next/image";
+import { AlphaLogo } from "./alpha-logo";
+import Link from "next/link";
 
 export const DiscoverHeader = () => {
   const router = useRouter();
   const { data } = useSession();
 
   return (
-    <header className="flex justify-between p-4 max-w-5xl mx-auto">
-      <TypeOutline
-        onClick={() => router.push("/discover")}
-        className="text-green-500 size-7 cursor-pointer hover:scale-110 duration-300 transition-all"
-      />
+    <header className="flex justify-between p-4 max-w-5xl mx-auto sticky top-0 z-20 bg-background/95 backdrop-blur-sm supports-backdrop-filter:bg-background/60">
+      <Link href="/" className="flex items-center gap-1">
+        <AlphaLogo />
+        <span
+          className={`text-lg font-semibold dark:text-white text-black transition-colors italic`}
+        >
+          Typen
+        </span>
+      </Link>
       <div className="flex gap-4 items-center">
         <ModeToggle />
         {data?.user ? (

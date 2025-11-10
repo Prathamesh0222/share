@@ -6,8 +6,9 @@ import { useEffect } from "react";
 import { Separator } from "./ui/separator";
 import { TipTapButtons } from "./tiptap-buttons";
 import { TiptapProps } from "@/types/types";
+import { cn } from "@/lib/utils";
 
-export const Tiptap = ({ content = "", onChange }: TiptapProps) => {
+export const Tiptap = ({ content = "", onChange, className }: TiptapProps) => {
   const editor = useEditor({
     extensions: [StarterKit],
     content,
@@ -30,12 +31,12 @@ export const Tiptap = ({ content = "", onChange }: TiptapProps) => {
 
   return (
     <>
-      <div className="border rounded-xl">
+      <div className="border rounded-xl h-full">
         <div className="p-3">
           <TipTapButtons editor={editor} />
         </div>
         <Separator />
-        <div className="px-3 dark:bg-input/30 h-90 overflow-auto minimal-scrollbar">
+        <div className={cn("px-3 overflow-auto minimal-scrollbar", className)}>
           <EditorContent editor={editor} />
         </div>
       </div>

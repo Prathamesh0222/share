@@ -208,6 +208,7 @@ export default function PublishPage() {
               onChange={(newContent) => {
                 setContent(newContent);
               }}
+              className="bg-input/30 h-95 rounded-b-xl"
             />
           </div>
 
