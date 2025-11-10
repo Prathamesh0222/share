@@ -19,7 +19,6 @@ import { CommentSection } from "@/components/comment-section";
 import { useState } from "react";
 import { useToggleLike } from "@/hooks/toggle-like";
 import { useToggleBookmark } from "@/hooks/toggle-bookmark";
-import { TableOfContents } from "@/components/table-of-contents";
 import { instrumentSerif } from "@/lib/font";
 
 export default function PostDetails() {
@@ -85,7 +84,7 @@ export default function PostDetails() {
   return (
     <div>
       <DiscoverHeader />
-      <div className="flex gap-8 max-w-4xl mx-auto">
+      <div className="gap-8 max-w-4xl mx-auto">
         <div>
           <article className="mx-auto mt-8 grid gap-6">
             <h1
@@ -134,7 +133,7 @@ export default function PostDetails() {
                     } ${isLikePending ? "opacity-50" : ""}`}
                     onClick={handleLikeClick}
                   />{" "}
-                  {likeCount}
+                  {+99}
                 </span>
                 <span className="flex items-center gap-1">
                   <Bookmark
@@ -145,7 +144,7 @@ export default function PostDetails() {
                     } ${isBookmarkPending ? "opacity-50" : ""}`}
                     onClick={handleBookmarkClick}
                   />{" "}
-                  {bookmarkCount}
+                  {+99}
                 </span>
                 <span className="flex items-center gap-1 cursor-pointer">
                   <MessageCircle
@@ -156,11 +155,10 @@ export default function PostDetails() {
                     }`}
                     onClick={() => setIsOpen(!isOpen)}
                   />
-                  {commentCount}
+                  {+99}
                 </span>
               </div>
             </div>
-            <RichTextViewer html={post.content} />
           </article>
           <CommentSection
             isOpen={isOpen}
@@ -168,9 +166,9 @@ export default function PostDetails() {
             postId={post.id}
             postAuthorId={post.author?.id}
           />
-        </div>
-        <div className="w-full max-w-1/4 hidden lg:block">
-          <TableOfContents content={post.content} />
+          <div className="flex gap-2">
+            <RichTextViewer html={post.content} />
+          </div>
         </div>
       </div>
       <div className="my-12 max-w-4xl mx-auto">

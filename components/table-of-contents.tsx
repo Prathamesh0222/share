@@ -19,83 +19,50 @@ export function TableOfContents({ content }: { content: string }) {
 
   useEffect(() => {
     let observer: IntersectionObserver | null = null;
-    let timeoutId: NodeJS.Timeout | null = null;
 
-    const setupObserver = () => {
+    const timer = setTimeout(() => {
       const headingElements = toc
-        .map((item) => {
-          const element = document.getElementById(item.id);
-          return element ? { element, id: item.id } : null;
-        })
-        .filter(
-          (item): item is { element: HTMLElement; id: string } => item !== null
-        );
+        .map((item) => document.getElementById(item.id))
+        .filter((el): el is HTMLElement => el !== null);
 
-      if (headingElements.length === 0) {
-        timeoutId = setTimeout(setupObserver, 200);
-        return;
-      }
+      if (headingElements.length === 0) return;
 
-      const observerOptions = {
-        root: null,
-        rootMargin: "-100px 0px -66% 0px",
-        threshold: [0, 0.25, 0.5, 0.75, 1],
-      };
-
-      const observerCallback = (entries: IntersectionObserverEntry[]) => {
-        const visibleEntries = entries.filter((entry) => entry.isIntersecting);
-
-        if (visibleEntries.length === 0) {
-          const scrolledEntries = entries.filter(
-            (entry) => entry.boundingClientRect.top < 150
+      observer = new IntersectionObserver(
+        (entries) => {
+          const visibleEntries = entries.filter(
+            (entry) => entry.isIntersecting
           );
-          if (scrolledEntries.length > 0) {
-            const closest = scrolledEntries.reduce((prev, curr) => {
-              return curr.boundingClientRect.top > prev.boundingClientRect.top
-                ? curr
-                : prev;
-            });
-            setActiveId(closest.target.id);
+
+          if (visibleEntries.length > 0) {
+            const sorted = visibleEntries.sort(
+              (a, b) => a.boundingClientRect.top - b.boundingClientRect.top
+            );
+            setActiveId(sorted[0].target.id);
+          } else {
+            const aboveTop = entries
+              .filter((entry) => entry.boundingClientRect.top < 0)
+              .sort(
+                (a, b) => b.boundingClientRect.top - a.boundingClientRect.top
+              );
+
+            if (aboveTop.length > 0) {
+              setActiveId(aboveTop[0].target.id);
+            }
           }
-          return;
+        },
+        {
+          root: null,
+          rootMargin: "-80px 0px -70% 0px",
+          threshold: [0, 0.25, 0.5, 0.75, 1],
         }
+      );
 
-        const bestEntry = visibleEntries.reduce((prev, curr) => {
-          if (curr.intersectionRatio > prev.intersectionRatio) {
-            return curr;
-          }
-          if (
-            curr.intersectionRatio === prev.intersectionRatio &&
-            curr.boundingClientRect.top < prev.boundingClientRect.top
-          ) {
-            return curr;
-          }
-          return prev;
-        });
-
-        setActiveId(bestEntry.target.id);
-      };
-
-      observer = new IntersectionObserver(observerCallback, observerOptions);
-
-      headingElements.forEach(({ element }) => {
-        observer!.observe(element);
-      });
-
-      if (toc.length > 0) {
-        setActiveId((prev) => prev || toc[0].id);
-      }
-    };
-
-    setupObserver();
+      headingElements.forEach((el) => observer!.observe(el));
+    }, 300);
 
     return () => {
-      if (observer) {
-        observer.disconnect();
-      }
-      if (timeoutId) {
-        clearTimeout(timeoutId);
-      }
+      clearTimeout(timer);
+      if (observer) observer.disconnect();
     };
   }, [toc]);
 
@@ -104,7 +71,7 @@ export function TableOfContents({ content }: { content: string }) {
   }
 
   return (
-    <div className="sticky top-8 rounded-lg mb-6 max-h-[calc(100vh-4rem)] overflow-y-auto">
+    <div className="sticky top-8 rounded-lg mb-6 mt-12  overflow-y-auto">
       <nav>
         <ul className="space-y-3">
           {toc.map((item, index) => {

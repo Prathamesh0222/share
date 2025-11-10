@@ -24,8 +24,14 @@ export function RichTextViewer({ html }: { html: string }) {
           "h1, h2, h3, h4, h5, h6"
         );
 
-        headings.forEach((heading, index) => {
-          const tocItem = toc[index];
+        headings.forEach((heading) => {
+          const text = heading.textContent?.trim() || "";
+          const level = parseInt(heading.tagName.charAt(1));
+
+          const tocItem = toc.find(
+            (item) => item.text.trim() === text && item.level === level
+          );
+
           if (tocItem) {
             heading.id = tocItem.id;
           }
