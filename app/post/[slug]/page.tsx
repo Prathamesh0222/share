@@ -9,6 +9,7 @@ import {
   MessageCircle,
   Clock,
   LibraryBig,
+  ScrollText,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -84,7 +85,7 @@ export default function PostDetails() {
   return (
     <div>
       <DiscoverHeader />
-      <div className="gap-8 max-w-4xl mx-auto">
+      <div className="gap-8 max-w-4xl md:mx-auto mx-5">
         <div>
           <article className="mx-auto mt-8 grid gap-6">
             <h1
@@ -133,7 +134,7 @@ export default function PostDetails() {
                     } ${isLikePending ? "opacity-50" : ""}`}
                     onClick={handleLikeClick}
                   />{" "}
-                  {+99}
+                  {likeCount}
                 </span>
                 <span className="flex items-center gap-1">
                   <Bookmark
@@ -144,7 +145,7 @@ export default function PostDetails() {
                     } ${isBookmarkPending ? "opacity-50" : ""}`}
                     onClick={handleBookmarkClick}
                   />{" "}
-                  {+99}
+                  {bookmarkCount}
                 </span>
                 <span className="flex items-center gap-1 cursor-pointer">
                   <MessageCircle
@@ -155,7 +156,7 @@ export default function PostDetails() {
                     }`}
                     onClick={() => setIsOpen(!isOpen)}
                   />
-                  {+99}
+                  {commentCount}
                 </span>
               </div>
             </div>
@@ -166,12 +167,30 @@ export default function PostDetails() {
             postId={post.id}
             postAuthorId={post.author?.id}
           />
+          <div className="mt-8 mb-6">
+            <div className="relative overflow-hidden rounded-2xl border bg-linear-to-br from-green-100 to-emerald-100 dark:from-green-950/20 dark:to-emerald-950/20 dark:border-green-800/30 border-green-200/50">
+              <div className="absolute inset-0 bg-[linear-gradient(to_right,#22c55e12_1px,transparent_1px),linear-gradient(to_bottom,#22c55e12_1px,transparent_1px)] bg-size-[24px_24px] mask-[radial-gradient(ellipse_80%_50%_at_50%_0%,#000_70%,transparent_110%)]"></div>
+              <div className="relative p-6">
+                <div className="flex items-center gap-2 mb-3">
+                  <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-green-500/10 dark:bg-green-500/20">
+                    <ScrollText className="h-4 w-4 text-green-600 dark:text-green-400" />
+                  </div>
+                  <h3 className="text-sm font-bold text-green-700 dark:text-green-400 uppercase tracking-wide">
+                    TL;DR
+                  </h3>
+                </div>
+                <p className="text-xs leading-relaxed text-green-900/90 dark:text-green-100/90 font-medium">
+                  {post.summary || "No summary available"}
+                </p>
+              </div>
+            </div>
+          </div>
           <div className="flex gap-2">
             <RichTextViewer html={post.content} />
           </div>
         </div>
       </div>
-      <div className="my-12 max-w-4xl mx-auto">
+      <div className="my-12 max-w-4xl md:mx-auto mx-5">
         <h1
           className={`flex items-center gap-1 text-2xl font-bold tracking-tighter ${instrumentSerif.className}`}
         >
