@@ -22,7 +22,7 @@ export const Hero = () => {
     theme === "dark" ? "/landing_sample_dark.png" : "/landing_sample_light.png";
 
   return (
-    <section className="pt-30 pb-20 px-4 border-x border-dotted border-black/20 dark:border-white/10 bg-linear-to-b from-green-500/20 dark:from-green-900/15 to-transparent">
+    <section className="pt-30 pb-20 px-4 md:border-x border-dotted border-black/20 dark:border-white/10 bg-linear-to-b from-green-500/20 dark:from-green-900/15 to-transparent">
       <div className="max-w-4xl mx-auto text-center">
         <motion.div
           initial={{ opacity: 0, y: 10 }}

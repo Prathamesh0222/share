@@ -19,7 +19,7 @@ export const Benefits = () => {
   const imageSrc = theme === "dark" ? "/slug_dark.png" : "/slug_light.png";
 
   return (
-    <section className="relative border-t border-x border-dotted border-black/20 dark:border-white/10 bg-muted/30 overflow-hidden">
+    <section className="relative border-t md:border-x border-dotted border-black/20 dark:border-white/10 bg-muted/30 overflow-hidden">
       <div className="grid grid-cols-1 lg:grid-cols-2 w-full">
         <div className="gap-16 items-center md:p-24 p-8 py-12">
           <motion.div

@@ -1,7 +1,7 @@
 "use client";
 
 import { instrumentSerif } from "@/lib/font";
-import { Heart, ImageIcon, Search, Tag, Users } from "lucide-react";
+import { Heart, ImageIcon, Search, ScrollText, Users } from "lucide-react";
 import { Badge } from "./ui/badge";
 import { FeaturesCard } from "./features-card";
 import Tiptap from "./titptap";
@@ -9,7 +9,7 @@ import { motion } from "motion/react";
 
 export const Features = () => {
   return (
-    <section className="py-15 px-4 border-x border-t border-dotted border-black/20 dark:border-white/10">
+    <section className="py-15 px-4 md:border-x border-t border-dotted border-black/20 dark:border-white/10">
       <div className="max-w-6xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: -10 }}
@@ -41,9 +41,9 @@ export const Features = () => {
           <div className="grid md:grid-cols-12 gap-2">
             <div className="flex flex-col gap-2 col-span-4 w-full">
               <FeaturesCard
-                title="Smart Tagging"
-                description="Organize your content with tags. Discover trending topics and find exactly what you're looking for."
-                icon={Tag}
+                title="TL;DR"
+                description="Get instant AI-powered summaries of your posts. Save time with concise overviews that capture the essence of your content."
+                icon={ScrollText}
               />
             </div>
             <div className="flex flex-col gap-2 col-span-4 w-full">
@@ -64,7 +64,7 @@ export const Features = () => {
             </div>
           </div>
           <div className="grid md:grid-cols-12 mt-2 gap-2">
-            <div className="flex flex-col gap-2 col-span-4 w-full">
+            <div className="flex flex-col gap-2 md:col-span-4 col-span-12 w-full">
               <FeaturesCard
                 title="Discover Content"
                 description="Explore trending posts, popular tags, and curated content. Find inspiration and discover new perspectives."
@@ -76,7 +76,7 @@ export const Features = () => {
                 icon={Users}
               />
             </div>
-            <div className="w-full col-span-8">
+            <div className="w-full md:col-span-8 col-span-12">
               <Tiptap className="bg-input/30 h-93 rounded-b-xl" />
             </div>
           </div>

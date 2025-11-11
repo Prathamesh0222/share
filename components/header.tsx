@@ -14,7 +14,7 @@ export const Header = () => {
 
   return (
     <header className="sticky top-0 z-50 w-full bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
-      <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8 border-b border-x border-dotted border-black/20 dark:border-white/10">
+      <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8 border-b md:border-x border-dotted border-black/20 dark:border-white/10">
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}

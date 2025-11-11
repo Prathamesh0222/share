@@ -23,7 +23,7 @@ export const DiscoverHeader = () => {
 
   return (
     <header className="flex justify-between p-4 max-w-5xl mx-auto sticky top-0 z-20 bg-background/95 backdrop-blur-sm supports-backdrop-filter:bg-background/60">
-      <Link href="/" className="flex items-center gap-1">
+      <Link href="/discover" className="flex items-center gap-1">
         <AlphaLogo />
         <span
           className={`text-lg font-semibold dark:text-white text-black transition-colors italic`}

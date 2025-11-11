@@ -8,7 +8,7 @@ import { motion } from "motion/react";
 
 export const CTAFooter = () => {
   return (
-    <section className="py-24 px-4 border-t border-x border-dotted border-black/20 dark:border-white/10">
+    <section className="py-24 px-4 border-t md:border-x border-dotted border-black/20 dark:border-white/10">
       <motion.div
         initial={{ opacity: 0, y: -10 }}
         whileInView={{ opacity: 1, y: 0 }}
