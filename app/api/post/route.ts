@@ -1,6 +1,7 @@
 import { auth } from "@/lib/auth";
 import { generateSlug } from "@/lib/generateSlug";
 import { prisma } from "@/lib/prisma";
+import { generateTLDR } from "@/lib/services/generate-tldr";
 import { PostSchema } from "@/lib/validate";
 import { headers } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
@@ -58,6 +59,7 @@ export async function POST(req: NextRequest) {
         content,
         slug: finalSlug,
         imageUrl,
+        summary: await generateTLDR(content),
         authorId: session.user.id,
         Tags: tagsOperations?.length
           ? { connectOrCreate: tagsOperations }
@@ -166,7 +168,7 @@ export async function GET(req: NextRequest) {
       hasMore: page < totalPages,
     });
   } catch (error) {
-    console.error("Error while fetching posts");
+    console.error("Error while fetching posts", error);
     return NextResponse.json(
       { error: "Error while fetching posts" },
       { status: 500 }
