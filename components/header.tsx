@@ -6,6 +6,7 @@ import { Button } from "./ui/button";
 import { useSession } from "@/lib/auth-client";
 import { ModeToggle } from "./mode-toggle";
 import { AlphaLogo } from "./alpha-logo";
+import { motion } from "motion/react";
 
 export const Header = () => {
   const router = useRouter();
@@ -13,8 +14,13 @@ export const Header = () => {
 
   return (
     <header className="sticky top-0 z-50 w-full bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
-      <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
-        <div className="flex h-16 items-center justify-between">
+      <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8 border-b border-x border-dotted border-black/20 dark:border-white/10">
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.2, ease: "easeInOut" }}
+          className="flex h-16 items-center justify-between"
+        >
           <Link href="/" className="flex items-center gap-1">
             <AlphaLogo />
             <span
@@ -28,9 +34,9 @@ export const Header = () => {
             {data?.user ? (
               <>
                 <Button
-                  variant="ghost"
+                  variant="outline"
                   onClick={() => router.push("/discover")}
-                  className="font-medium"
+                  className="font-semibold"
                 >
                   Discover
                 </Button>
@@ -59,7 +65,7 @@ export const Header = () => {
               </>
             )}
           </div>
-        </div>
+        </motion.div>
       </div>
     </header>
   );

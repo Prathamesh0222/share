@@ -1,12 +1,20 @@
+"use client";
+
 import { instrumentSerif } from "@/lib/font";
 import { Button } from "./ui/button";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import { motion } from "motion/react";
 
 export const CTAFooter = () => {
   return (
-    <section className="py-24 px-4 border-t border-border">
-      <div className="max-w-4xl mx-auto text-center space-y-2">
+    <section className="py-24 px-4 border-t border-x border-dotted border-black/20 dark:border-white/10">
+      <motion.div
+        initial={{ opacity: 0, y: -10 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3, ease: "easeInOut" }}
+        className="max-w-4xl mx-auto text-center space-y-2"
+      >
         <h2
           className={`text-3xl md:text-4xl font-bold tracking-tight ${instrumentSerif.className}`}
         >
@@ -27,7 +35,7 @@ export const CTAFooter = () => {
         <p className="text-xs text-muted-foreground pt-4">
           No credit card required • Free forever • Start writing in seconds
         </p>
-      </div>
+      </motion.div>
     </section>
   );
 };

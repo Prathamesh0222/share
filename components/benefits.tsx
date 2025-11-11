@@ -6,6 +6,7 @@ import Image from "next/image";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 import { Skeleton } from "./ui/skeleton";
+import { motion } from "motion/react";
 
 export const Benefits = () => {
   const { theme } = useTheme();
@@ -18,10 +19,15 @@ export const Benefits = () => {
   const imageSrc = theme === "dark" ? "/slug_dark.png" : "/slug_light.png";
 
   return (
-    <section className="relative border-t border-border bg-muted/30 overflow-hidden">
+    <section className="relative border-t border-x border-dotted border-black/20 dark:border-white/10 bg-muted/30 overflow-hidden">
       <div className="grid grid-cols-1 lg:grid-cols-2 w-full">
         <div className="gap-16 items-center md:p-24 p-8 py-12">
-          <div className="space-y-6">
+          <motion.div
+            initial={{ opacity: 0, x: -10 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+            className="space-y-6"
+          >
             <h2
               className={`text-3xl md:text-4xl font-bold tracking-tight ${instrumentSerif.className}`}
             >
@@ -52,10 +58,15 @@ export const Benefits = () => {
                 description="Your content is yours. We use industry-standard security to protect your data and privacy."
               />
             </div>
-          </div>
+          </motion.div>
         </div>
 
-        <div className="w-full hidden md:block overflow-hidden absolute inset-x-0 translate-x-[45%] p-20 z-20">
+        <motion.div
+          initial={{ opacity: 0, x: 10 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.3, ease: "easeInOut", delay: 0.1 }}
+          className="w-full hidden md:block overflow-hidden absolute inset-x-0 translate-x-[45%] p-20 z-20"
+        >
           {!mounted ? (
             <Skeleton className="w-[65%] aspect-video rounded-2xl" />
           ) : (
@@ -67,7 +78,7 @@ export const Benefits = () => {
               className="object-cover w-[65%] rounded-2xl border border-border/50 mask-b-from-70% mask-b-to-90% mask-r-from-70% mask-r-to-90%"
             />
           )}
-        </div>
+        </motion.div>
       </div>
     </section>
   );
