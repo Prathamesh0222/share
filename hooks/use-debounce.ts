@@ -8,7 +8,7 @@ export const useDebounce = (search: string, delay: number) => {
       setDebouncedSearch(search);
     }, delay);
     return () => clearTimeout(timer);
-  }, [search]);
+  }, [search, delay]);
 
   return debouncedSearch;
 };

@@ -14,7 +14,7 @@ export const DiscoverMore = ({
   currentSlug: string;
   currentId?: string;
 }) => {
-  const { data, isFetchingNextPage } = useFetchPost();
+  const { data, isFetchingNextPage } = useFetchPost({});
   const posts = data?.pages?.flatMap((page) => page.data) ?? [];
   const related = posts
     .filter(
