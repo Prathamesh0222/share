@@ -1,4 +1,5 @@
 import { auth } from "@/lib/auth";
+import { Prisma } from "@/lib/generated/prisma/client";
 import { generateSlug } from "@/lib/generateSlug";
 import { prisma } from "@/lib/prisma";
 import { generateTLDR } from "@/lib/services/generate-tldr";
@@ -88,7 +89,27 @@ export async function GET(req: NextRequest) {
     const { searchParams } = new URL(req.url);
     const page = Number(searchParams.get("page")) || 1;
     const limit = Number(searchParams.get("limit")) || 10;
+    const search = searchParams.get("search");
     const skip = (page - 1) * limit;
+
+    const where: Prisma.PostWhereInput = {};
+
+    if (search) {
+      where.OR = [
+        {
+          title: {
+            contains: search,
+            mode: "insensitive",
+          },
+        },
+        {
+          content: {
+            contains: search,
+            mode: "insensitive",
+          },
+        },
+      ];
+    }
 
     const session = await auth.api.getSession({
       headers: await headers(),
@@ -98,6 +119,7 @@ export async function GET(req: NextRequest) {
       prisma.post.findMany({
         skip,
         take: limit,
+        where,
         orderBy: {
           createdAt: "desc",
         },
@@ -143,7 +165,7 @@ export async function GET(req: NextRequest) {
           }),
         },
       }),
-      prisma.post.count(),
+      prisma.post.count({ where }),
     ]);
 
     const postsWithBookmarkAndLikeStatus = posts.map((post) => {
