@@ -10,7 +10,9 @@ export const ModeToggle = () => {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setMounted(true);
+    queueMicrotask(() => {
+      setMounted(true);
+    });
   }, []);
 
   const updateTheme = () => {

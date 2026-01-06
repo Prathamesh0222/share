@@ -13,7 +13,9 @@ export const Benefits = () => {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setMounted(true);
+    queueMicrotask(() => {
+      setMounted(true);
+    });
   }, []);
 
   const imageSrc = theme === "dark" ? "/slug_dark.png" : "/slug_light.png";
